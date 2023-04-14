@@ -15,9 +15,6 @@ public abstract class Item {
     private boolean premiumStat;
     private int id;
 
-
-
-
     private static int currentID = 0;
 
     /**
@@ -81,7 +78,6 @@ public abstract class Item {
         this.previousOwners = oneItem.getPreviousOwners();
         this.premiumStat = oneItem.isPremium();
         this.id = oneItem.getID();
-        currentID++; // Acho que isto está a mais
     }
 
     /**
