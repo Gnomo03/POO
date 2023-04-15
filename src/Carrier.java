@@ -5,7 +5,7 @@
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Carrier {
+public class Carrier implements Comparable<Carrier> {
     private String name;
     private double taxSmall;
     private double taxMedium;
