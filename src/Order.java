@@ -1,8 +1,9 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private List<Item> collection;
+    private List<Item> itemList;
     private TypeOfSize dimension;
     private double finalPrice;
     private OrderState state;
@@ -20,7 +21,7 @@ public class Order {
     }
     
     public Order(){
-        this.collection = null;
+        this.itemList = new ArrayList<Item>();
         this.dimension = null;
         this.finalPrice = 0;
         this.state = OrderState.Pending;
@@ -30,7 +31,7 @@ public class Order {
     }
 
     public Order(List<Item> collection, TypeOfSize dimension, double finalPrice, OrderState state, LocalDate date){
-        this.collection = collection;
+        this.itemList = collection;
         this.dimension = dimension;
         this.finalPrice = finalPrice;
         this.state = state;
@@ -40,7 +41,7 @@ public class Order {
     }
 
     public Order(Order oneOrder){
-        this.collection = oneOrder.getCollection();
+        this.itemList = oneOrder.getCollection();
         this.dimension = oneOrder.getDimension();
         this.finalPrice = oneOrder.getFinalPrice();
         this.state = oneOrder.getState();
@@ -50,7 +51,7 @@ public class Order {
     }
 
     public List<Item> getCollection(){
-        return this.collection;
+        return this.itemList;
     }
 
     public TypeOfSize getDimension(){
@@ -74,7 +75,7 @@ public class Order {
     }
 
     public void setCollection(List<Item> collection){
-        this.collection = collection;
+        this.itemList = collection;
     }
 
     public void setDimension(TypeOfSize dimension){
@@ -95,11 +96,11 @@ public class Order {
 
     public String toString(){
         return "Order{" +
-               "collection='" +this.collection.toString()+ "\'" +
-               "dimension='" +this.dimension+
-               "Final Price='" +this.finalPrice+
-               "State='" +this.state+
-               "Date='" +this.date.toString()+ "\'" +
+               "collection='" +this.itemList.toString()+ "\'\n" +
+               "dimension='" +this.dimension+ "\'\n" +
+               "Final Price='" +this.finalPrice+ "\'\n" +
+               "State='" +this.state+ "\'\n" +
+               "Date='" +this.date.toString()+ "\'\n" +
                "ID='" +this.id+ "}";
     }
     
@@ -121,12 +122,12 @@ public class Order {
     }
 
     public void addItem(Item oneItem){
-        this.collection.add(oneItem);
+        this.itemList.add(oneItem);
         this.finalPrice += oneItem.getPrice();
     }
 
     public void removeItem(Item oneItem){
-        this.collection.remove(oneItem);
+        this.itemList.remove(oneItem);
         this.finalPrice -= oneItem.getPrice();
     }
 
