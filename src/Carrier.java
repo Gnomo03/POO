@@ -145,6 +145,15 @@ public class Carrier {
     }
 
     /**
+     * Compares carriers based on the total earning.
+     * 
+     * @return Result of the comparison
+     */
+    public int compareTo(Carrier anotherCarrier) {
+        return Double.compare(this.totalEarning, anotherCarrier.getTotalEarning());
+    }
+
+    /**
      * Returns a string representation of the Carrier.
      *
      * @return a string representation of the Carrier
