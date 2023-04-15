@@ -211,7 +211,7 @@ public class Module {
      * @param id of the carrier
      * @return copy of the carrier
      */
-    public Carrier searchCarrier(int id) {
+    public Carrier searchCarrier(String id) {
 
         return this.carrierMap.get(id).clone();
 
