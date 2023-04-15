@@ -122,10 +122,12 @@ public class Order {
 
     public void addItem(Item oneItem){
         this.collection.add(oneItem);
+        this.finalPrice += oneItem.getPrice();
     }
 
     public void removeItem(Item oneItem){
         this.collection.remove(oneItem);
+        this.finalPrice -= oneItem.getPrice();
     }
 
 }
