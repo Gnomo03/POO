@@ -67,6 +67,29 @@ public class User implements Comparable<User>{
 
     }
     /**
+     * Constructs a new user with the specified values for a few fields
+     *
+     * @param email         the user's email address
+     * @param name          the user's name
+     * @param address       the user's address
+     * @param nif           the user's tax identification number
+     * @param password      the user's password
+     */
+    public User(String email, String name, String address,int nif,String password) {
+
+        this.id = currentID++;
+        this.email = email;
+        this.name = name;
+        this.address = address;
+        this.nif = nif;
+        this.soldItemsValue = 0.0;
+        this.password = password;
+        this.acquiredOrder =new ArrayList<>();
+        this.emittedOrder = new ArrayList<>();
+        this.sellingItems = new ArrayList<>();
+
+    }
+    /**
      * Constructs a new user that is a copy of the specified user.
      *
      * @param oneUser the user to copy
@@ -167,54 +190,63 @@ public class User implements Comparable<User>{
         return new ArrayList<>(this.sellingItems);
     }
     /**
+     * @param email
      * Set the user's email.
      */
     public void setEmail(String email) {
         this.email = email;
     }
     /**
+     * @param name
      * Set the user's name.
      */
     public void setName(String name) {
         this.name = name;
     }
     /**
+     * @param address
      * Set the user's address.
      */
     public void setAddress(String address) {
         this.address = address;
     }
     /**
+     * @param nif
      * Set the user's nif.
      */
     public void setNif(int nif) {
         this.nif = nif;
     }
     /**
+     * @param soldItemsValue
      * Set the user's total sold items value.
      */
     public void setSoldItemsValue(double soldItemsValue) {
         this.soldItemsValue = soldItemsValue;
     }
      /**
+     * @param password
      * Set the user's password.
      */
     public void setPassword(String password) {
         this.password = password;
     }
     /**
+     * @param acquiredOrder
      * Set the user's acquired orders.
      */
     public void setAcquiredOrder(List<Order> acquiredOrder) {
         this.acquiredOrder = new ArrayList<>(acquiredOrder);
     }
     /**
+     * @param emittedOrder
      * Set the user's emitted orders.
      */
     public void setEmittedOrder(List<Order> emittedOrder) {
         this.emittedOrder = new ArrayList<>(emittedOrder);
     }
     /**
+     * @param sellingItems
      * Set the user's selling items.
      */
     public void setSellingItems(List<Item> sellingItems) {
@@ -223,6 +255,7 @@ public class User implements Comparable<User>{
     /**
      * Compares user´s by the total amount of sales.
      * 
+     * @param otherUser
      * @return result of comparation
      */
     @Override
@@ -240,7 +273,7 @@ public class User implements Comparable<User>{
     }
     /**
      * See´s if two users are equal
-     * 
+     * @param o
      * @return return result of comparation
      */
     @Override
@@ -279,36 +312,42 @@ public class User implements Comparable<User>{
             '}';
     }
     /**
+    * @param oneItem
     * Add an item to the user
     */
     public void addItem(Item oneItem ) {
         this.sellingItems.add(oneItem);
     }
     /**
+    * @param oneAcquiredOrder
     * Adds an acquired order to the user
     */
     public void addAcquireOrder(Order oneAcquireOrder) {
         this.acquiredOrder.add(oneAcquireOrder);
     }
     /**
+    * @param oneEmittedOrder
     * Add an emitted order to the user
     */
     public void addEmittedOrder(Order oneEmittedOrder) {
         this.acquiredOrder.add(oneEmittedOrder);
     }
     /**
+    * @param oneItem
     * Removes an item order to the user
     */
     public void removeItem(Item oneItem ) {
         this.sellingItems.remove(oneItem);
     }
     /**
+    * @param oneAcquiredOrder
     * Removes an acquired order to the user
     */
     public void removeAcquireOrder(Order oneAcquireOrder) {
         this.acquiredOrder.remove(oneAcquireOrder);
     }
     /**
+    * @param oneEmittedOrder
     * Removes an emitted order to the user
     */
     public void removeEmittedOrder(Order oneEmittedOrder) {
@@ -316,6 +355,7 @@ public class User implements Comparable<User>{
     }
     /**
     * Check´s if user has the item
+    * @param oneItem
     * @return returns true if it has the item
     */
     public boolean containsItem(Item oneItem ) {
@@ -334,5 +374,22 @@ public class User implements Comparable<User>{
     */
     public boolean containsEmittedOrder(Order oneEmittedOrder) {
        return this.acquiredOrder.contains(oneEmittedOrder);
+    }
+    public Item searchItem(int item_id) {
+        for(Item i : this.sellingItems){
+            if (i.getID() == item_id)
+                return i;
+        }
+        return null;
+    }
+    public void itemUpdate(int item_id){
+
+        Item i = searchItem(item_id);
+            if (i!= null) {
+
+                this.soldItemsValue += i.getPrice()*0.92;
+                removeItem(i);
+            }
+
     }
 }

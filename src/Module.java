@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -14,7 +15,7 @@ public class Module {
     private TreeMap<Integer, User> userMap;
     private HashMap<Integer, Order> orderMap;
     private TreeMap<String, Carrier> carrierMap;
-    private Date date;
+    private LocalDate date;
     private double vintageProfit;
 
  /**
@@ -27,8 +28,9 @@ public class Module {
         this.userMap = new TreeMap<Integer,User>();
         this.orderMap = new HashMap<Integer,Order>();
         this.carrierMap = new TreeMap<String, Carrier>();
-        this.date = new Date();
+        this.date = LocalDate.now();
         this.vintageProfit = 0;
+        this.registerUser("admin", "admin", "admin",0, "admin");
 
     }
     /**
@@ -104,7 +106,7 @@ public class Module {
         if (this.listedItemsMap.containsKey(id)) {
             
             Item item = this.removeListedItem(id);
-            this.vintageProfit += item.getPrice();
+            this.vintageProfit += item.getPrice()*0.08;
             this.addSoldItem(item);
             // updateCarrierProfit
         }
@@ -227,5 +229,83 @@ public class Module {
     public void updateCarrierProfit(String name) {
         //to be defined
     }
+    public void addNewItemToUsers(int id_user,int id_item) {
 
+        this.userMap.get(id_user).addItem(this.listedItemsMap.get(id_item));
+
+    }
+    public void addNewEmittedOrderToUsers(int id_user,int id_order) {
+
+        this.userMap.get(id_user).addEmittedOrder(this.orderMap.get(id_order));
+
+    }
+    public void addNewAquiredOrderToUsers(int id_user,int id_order) {
+
+        this.userMap.get(id_user).addAcquireOrder(this.orderMap.get(id_order));
+
+    }
+    public void updateOrders(){
+
+        //to be defined
+        this.vintageProfit = 0;
+
+    }
+    public void makeOrder(int id_user,List<Integer> items_keys){
+
+        Order order = new Order();
+        for(Integer current_key : items_keys){
+            Item i = this.listedItemsMap.get(current_key);
+            order.addItem(i);
+            this.updateItem(i.getID());
+            User u = this.userMap.get(i.getUserId());
+            u.itemUpdate(current_key);
+        }
+        this.addOrder(order);
+    }
+    private boolean reviewCredentials(String email){ 
+
+        boolean ret = true;
+        for (Integer user_id : this.userMap.keySet()){
+
+            User u = this.userMap.get(user_id);
+            if (u.getEmail().equals(email))
+                ret = false;
+
+        } 
+        return ret;
+    }
+    public boolean registerUser(String email, String name, String address,int nif,String password){ 
+
+        if (this.reviewCredentials(email)){
+            User u = new User(email,name,address,nif,password);
+            this.addUser(u);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    public User findUserByEmail(String email){
+
+        for (Integer user_id : this.userMap.keySet()){
+
+            User temp = this.userMap.get(user_id);
+            if (temp.getEmail().equals(email))
+                return temp;
+
+        } 
+        return null;
+    }
+    public boolean userRegistsItem(String email, Item item){
+
+        User u = this.findUserByEmail(email);
+        if (u == null) return false;
+        else{  
+            this.addListedItem(item);
+            Item i = searchItem(item.getID());
+            u.addItem(i);
+            return true;
+        }
+
+    }
 }
