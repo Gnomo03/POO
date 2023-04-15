@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -296,11 +295,13 @@ public class Module {
         } 
         return null;
     }
-    public boolean userRegistsItem(String email, Item item){
+    public boolean userRegistsItem(String email, Item item,String carrierName){
 
         User u = this.findUserByEmail(email);
-        if (u == null) return false;
-        else{  
+        if (u == null)return false;
+        else{
+            item.setUserId(u.getId());
+            item.setCarrier(this.carrierMap.get(carrierName));
             this.addListedItem(item);
             Item i = searchItem(item.getID());
             u.addItem(i);
@@ -308,4 +309,17 @@ public class Module {
         }
 
     }
+    @Override
+    public String toString() {
+        return "Module{" +
+                "soldItemsMap=" + soldItemsMap +
+                ", listedItemsMap=" + listedItemsMap +
+                ", userMap=" + userMap +
+                ", orderMap=" + orderMap +
+                ", carrierMap=" + carrierMap +
+                ", date=" + date +
+                ", vintageProfit=" + vintageProfit +
+                '}';
+    }
 }
+    
