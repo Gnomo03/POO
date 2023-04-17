@@ -1,6 +1,6 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 
 public class Order {
     private List<Item> itemList;
@@ -21,8 +21,8 @@ public class Order {
     }
     
     public Order(){
-        this.itemList = new ArrayList<Item>();
-        this.dimension = null;
+        this.itemList = new LinkedList<Item>();
+        this.dimension = TypeOfSize.Little;
         this.finalPrice = 0;
         this.state = OrderState.Pending;
         this.date = LocalDate.now();
@@ -122,11 +122,21 @@ public class Order {
     }
 
     public void addItem(Item oneItem){
+        int nmbr = this.itemList.size();
+            if(nmbr ==1)
+                this.dimension = TypeOfSize.Medium;
+            if(nmbr ==5)
+                this.dimension = TypeOfSize.Big;
         this.itemList.add(oneItem);
         this.finalPrice += oneItem.getPrice();
     }
 
     public void removeItem(Item oneItem){
+        int nmbr = this.itemList.size();
+            if(nmbr ==2)
+                this.dimension = TypeOfSize.Little;
+            if(nmbr ==6)
+                this.dimension = TypeOfSize.Medium;
         this.itemList.remove(oneItem);
         this.finalPrice -= oneItem.getPrice();
     }
