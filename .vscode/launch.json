@@ -10,12 +10,6 @@
             "request": "launch",
             "mainClass": "Main",
             "projectName": "Projeto_439146c8"
-        },
-        {
-            "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "Main.java"
         }
     ]
 }
