@@ -1,11 +1,14 @@
 import java.time.LocalDate;
 import java.util.List;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Order {
-    private List<Item> itemList;
+    private List<Item> collection;
+    private HashMap<String,Integer> carrierHelper;
     private TypeOfSize dimension;
-    private double finalPrice;
+    private double itemPrice;
+    private double satisfactionPrice;
     private OrderState state;
     private LocalDate date;
     private int id;
@@ -21,19 +24,23 @@ public class Order {
     }
     
     public Order(){
-        this.itemList = new LinkedList<Item>();
+        this.collection = new LinkedList<Item>();
+        this.carrierHelper = new HashMap<String,Integer>();
         this.dimension = TypeOfSize.Little;
-        this.finalPrice = 0;
+        this.itemPrice = 0;
+        this.satisfactionPrice = 0;
         this.state = OrderState.Pending;
         this.date = LocalDate.now();
         this.id = currentID;
         currentID++;
     }
 
-    public Order(List<Item> collection, TypeOfSize dimension, double finalPrice, OrderState state, LocalDate date){
-        this.itemList = collection;
+    public Order(List<Item> collection,HashMap<String,Integer> carrierHelper,TypeOfSize dimension,double satisfactionPrice,double itemPrice, OrderState state, LocalDate date){
+        this.collection = collection;
         this.dimension = dimension;
-        this.finalPrice = finalPrice;
+        this.carrierHelper = carrierHelper;
+        this.itemPrice = itemPrice;
+        this.satisfactionPrice = satisfactionPrice;
         this.state = state;
         this.date = date;
         this.id = currentID;
@@ -41,25 +48,32 @@ public class Order {
     }
 
     public Order(Order oneOrder){
-        this.itemList = oneOrder.getCollection();
+        this.collection = oneOrder.getCollection();
         this.dimension = oneOrder.getDimension();
-        this.finalPrice = oneOrder.getFinalPrice();
+        this.itemPrice = oneOrder.getItemPrice();
+        this.carrierHelper = oneOrder.getCarrierHelper();
+        this.satisfactionPrice = oneOrder.getSatisfactionPrice();
         this.state = oneOrder.getState();
         this.date = oneOrder.getDate();
         this.id = oneOrder.getID();
-        currentID++;
+    }
+    public double getSatisfactionPrice(){
+        return this.satisfactionPrice;
+    }
+    public HashMap<String,Integer> getCarrierHelper(){
+        return this.carrierHelper;
     }
 
     public List<Item> getCollection(){
-        return this.itemList;
+        return this.collection;
     }
 
     public TypeOfSize getDimension(){
         return this.dimension;
     }
 
-    public double getFinalPrice(){
-        return this.finalPrice;
+    public double getItemPrice(){
+        return this.itemPrice;
     }
 
     public OrderState getState(){
@@ -75,15 +89,18 @@ public class Order {
     }
 
     public void setCollection(List<Item> collection){
-        this.itemList = collection;
+        this.collection = collection;
     }
 
     public void setDimension(TypeOfSize dimension){
         this.dimension = dimension;
     }
 
-    public void setFinalPrice(double finalPrice){
-        this.finalPrice = finalPrice;
+    public void setItemPrice(double itemPrice){
+        this.itemPrice = itemPrice;
+    }
+    public void setSatisfactionPrice(double Price){
+        this.satisfactionPrice = Price;
     }
 
     public void setState(OrderState state){
@@ -96,9 +113,10 @@ public class Order {
 
     public String toString(){
         return "Order{" +
-               "collection='" +this.itemList.toString()+ "\'\n" +
+               "collection='" +this.collection.toString()+ "\'\n" +
                "dimension='" +this.dimension+ "\'\n" +
-               "Final Price='" +this.finalPrice+ "\'\n" +
+               "Final Price='" +this.itemPrice+ "\'\n" +
+               "Satisfaction Price='" +this.satisfactionPrice+ "\'\n" +
                "State='" +this.state+ "\'\n" +
                "Date='" +this.date.toString()+ "\'\n" +
                "ID='" +this.id+ "}";
@@ -112,7 +130,8 @@ public class Order {
         Order e = (Order) o;
         return this.getCollection().equals(e.getCollection()) &&
                this.getDimension().equals(e.getDimension()) &&
-               this.getFinalPrice() == e.getFinalPrice() &&
+               this.getItemPrice() == e.getItemPrice() &&
+               this.getSatisfactionPrice() == e.getSatisfactionPrice() &&
                this.getState().equals(e.getState()) &&
                this.getID() == e.getID();
     }
@@ -122,23 +141,54 @@ public class Order {
     }
 
     public void addItem(Item oneItem){
-        int nmbr = this.itemList.size();
+        int nmbr = this.collection.size();
             if(nmbr ==1)
                 this.dimension = TypeOfSize.Medium;
             if(nmbr ==5)
                 this.dimension = TypeOfSize.Big;
-        this.itemList.add(oneItem);
-        this.finalPrice += oneItem.getPrice();
+        this.collection.add(oneItem);
+        this.itemPrice += oneItem.getPrice(); // Adicionar valor do pedido
+
+        if(this.carrierHelper.containsKey(oneItem.getCarrier().getName()))
+        this.carrierHelper.put(oneItem.getCarrier().getName(), this.carrierHelper.get(oneItem.getCarrier().getName()) + 1);
+        else 
+        this.carrierHelper.put(oneItem.getCarrier().getName(), 1);
+    
+        if(oneItem.getConditionScore()==1) 
+            this.satisfactionPrice+=0.5;
+        else {
+            this.satisfactionPrice+=0.25;
+        }
     }
 
     public void removeItem(Item oneItem){
-        int nmbr = this.itemList.size();
+        int nmbr = this.collection.size();
             if(nmbr ==2)
                 this.dimension = TypeOfSize.Little;
             if(nmbr ==6)
                 this.dimension = TypeOfSize.Medium;
-        this.itemList.remove(oneItem);
-        this.finalPrice -= oneItem.getPrice();
+        this.collection.remove(oneItem);
+        this.itemPrice -= oneItem.getPrice();
+
+        this.carrierHelper.put(oneItem.getCarrier().getName(), this.carrierHelper.get(oneItem.getCarrier().getName()) - 1);
+    }
+
+    public double calculateFinalPrice(){
+        double tax = 0;
+        for(Item i : this.collection){
+
+            int many = this.carrierHelper.get(i.getCarrier().getName());
+
+                if (many == 1)
+                    tax += i.getPrice()*i.getCarrier().getTaxSmall();
+                if (many >= 2 && many <= 5)
+                    tax += i.getPrice()*i.getCarrier().getTaxMedium();
+                if (many >5)
+                    tax += i.getPrice()*i.getCarrier().getTaxBig();
+
+        }
+        
+        return this.itemPrice+this.satisfactionPrice+tax;
     }
 
 }
