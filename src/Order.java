@@ -25,6 +25,7 @@ public class Order {
     
     public Order(){
         this.collection = new LinkedList<Item>();
+        this.carrierHelper = new HashMap<String,Integer>();
         this.dimension = TypeOfSize.Little;
         this.itemPrice = 0;
         this.satisfactionPrice = 0;
@@ -34,9 +35,10 @@ public class Order {
         currentID++;
     }
 
-    public Order(List<Item> collection, TypeOfSize dimension,double satisfactionPrice,double itemPrice, OrderState state, LocalDate date){
+    public Order(List<Item> collection,HashMap<String,Integer> carrierHelper,TypeOfSize dimension,double satisfactionPrice,double itemPrice, OrderState state, LocalDate date){
         this.collection = collection;
         this.dimension = dimension;
+        this.carrierHelper = carrierHelper;
         this.itemPrice = itemPrice;
         this.satisfactionPrice = satisfactionPrice;
         this.state = state;
@@ -49,6 +51,7 @@ public class Order {
         this.collection = oneOrder.getCollection();
         this.dimension = oneOrder.getDimension();
         this.itemPrice = oneOrder.getItemPrice();
+        this.carrierHelper = oneOrder.getCarrierHelper();
         this.satisfactionPrice = oneOrder.getSatisfactionPrice();
         this.state = oneOrder.getState();
         this.date = oneOrder.getDate();
@@ -56,6 +59,9 @@ public class Order {
     }
     public double getSatisfactionPrice(){
         return this.satisfactionPrice;
+    }
+    public HashMap<String,Integer> getCarrierHelper(){
+        return this.carrierHelper;
     }
 
     public List<Item> getCollection(){
@@ -142,6 +148,7 @@ public class Order {
                 this.dimension = TypeOfSize.Big;
         this.collection.add(oneItem);
         this.itemPrice += oneItem.getPrice(); // Adicionar valor do pedido
+
         if(this.carrierHelper.containsKey(oneItem.getCarrier().getName()))
         this.carrierHelper.put(oneItem.getCarrier().getName(), this.carrierHelper.get(oneItem.getCarrier().getName()) + 1);
         else 
@@ -162,6 +169,8 @@ public class Order {
                 this.dimension = TypeOfSize.Medium;
         this.collection.remove(oneItem);
         this.itemPrice -= oneItem.getPrice();
+
+        this.carrierHelper.put(oneItem.getCarrier().getName(), this.carrierHelper.get(oneItem.getCarrier().getName()) - 1);
     }
 
     public double calculateFinalPrice(){
