@@ -1,30 +1,20 @@
-//import Tshirt.TshirtPattern;;
+import java.util.List;
+import java.util.LinkedList;
 
 public class Main {
     public static void main(String[] args){
-        Item bag = new Bag("Saco Berlin", "Urso", "B0001", 5.0, 
-                            0, null, 5, 0, false,
-                            12.0, "Cotton", 2014);
-
-        Item tshirt = new Tshirt("Tshirt Berlin", "Urso", "B0002", 10.0, 
-                            0, null, 4, 0, false, 
-                            Tshirt.TshirtSize.M, Tshirt.TshirtPattern.Smooth);
-                    
-        Item sneaker = new Sneaker("Sneaker Berlin", "Urso", "B0002", 12.0, 
-                            0, null, 7, 2, false, 
-                            42, Sneaker.SneakerType.LACES, "Red", 2022);
-
-        Order order = new Order();
-        order.addItem(bag);
-        order.addItem(tshirt);
-
-        System.out.format(order.toString());
-
-        System.out.format("\n");
-
-        order.removeItem(bag);
-        order.addItem(sneaker);
-
-        System.out.format(order.toString());
+        Module m = new Module();
+        Carrier c = new Carrier("UPS",0.01,0.02,0.03,0);
+        m.registerUser("mail@gmail.com", "Joe Doe", "Ny", 12345678, "qwerty1234");
+        m.registerUser("mail2@gmail.com", "Marry Jane", "Ny", 12345678, "qwerty1234");
+        m.addCarrier(c);
+        Item i = new Tshirt();
+        Item i2 = new Sneaker();
+        Item i3 = new Bag();
+        Boolean b = m.userRegistsItem("mail@gmail.com",i,"UPS");
+        List<Integer> l = new LinkedList<Integer>();
+        l.add(i.getID());
+        m.makeOrder(m.findUserByEmail("mail2@gmail.com").getId(),l);
+        System.out.println(m);
     }
 }
