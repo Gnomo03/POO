@@ -113,12 +113,12 @@ public class Order {
 
     public String toString(){
         return "Order{" +
-               "collection='" +this.collection.toString()+ "\'\n" +
-               "dimension='" +this.dimension+ "\'\n" +
-               "Final Price='" +this.itemPrice+ "\'\n" +
-               "Satisfaction Price='" +this.satisfactionPrice+ "\'\n" +
-               "State='" +this.state+ "\'\n" +
-               "Date='" +this.date.toString()+ "\'\n" +
+               "collection='" +this.collection.toString()+ "\'" +
+               "dimension='" +this.dimension+
+               "Final Price='" +this.itemPrice+
+               "Satisfaction Price='" +this.satisfactionPrice+
+               "State='" +this.state+
+               "Date='" +this.date.toString()+ "\'" +
                "ID='" +this.id+ "}";
     }
     

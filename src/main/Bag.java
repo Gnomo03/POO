@@ -37,9 +37,9 @@ public class Bag extends Item {
      */
     public Bag(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
-            String material, int releaseDate) {
+            String material, int releaseDate,int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat);
+                premiumStat,userId);
         this.dimension = dimension;
         this.material = material;
         this.releaseDate = releaseDate;

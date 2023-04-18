@@ -55,9 +55,9 @@ public class Tshirt extends Item {
      */
     public Tshirt(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, TshirtSize size,
-            TshirtPattern pattern) {
+            TshirtPattern pattern,int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat);
+                premiumStat,userId);
         this.size = size;
         this.pattern = pattern;
     }
