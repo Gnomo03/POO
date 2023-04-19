@@ -1,3 +1,5 @@
+package main;
+
 /**
  * Represents a Carrier class.
  * It has instance variables such as name, type, taxSmall, taxMedium, taxBig and

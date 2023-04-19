@@ -1,3 +1,5 @@
+package main;
+
 /**
  * Represents a Sneaker item that extends the Item class.
  * It has instance variables such as size, type, color, and releaseDate.
