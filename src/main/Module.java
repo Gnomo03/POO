@@ -12,10 +12,12 @@ public class Module {
     private HashMap<Integer, Item> soldItemsMap;
     private HashMap<Integer, Item> listedItemsMap;
     private TreeMap<Integer, User> userMap;
-    private HashMap<Integer, Order> orderMap;
+    private HashMap<Integer, Order> orderMap; // deve ter de passar a treemap por questões de eficiencia
     private TreeMap<String, Carrier> carrierMap;
     private LocalDate date;
     private double vintageProfit;
+
+    private User currentUser;
 
  /**
   * Constructs a new Module object with empty maps and a current date.
@@ -29,7 +31,21 @@ public class Module {
         this.carrierMap = new TreeMap<String, Carrier>();
         this.date = LocalDate.now();
         this.vintageProfit = 0;
-        this.registerUser("admin", "admin", "admin",0, "admin");
+        User u = new User("admin", "admin", "admin",0, "admin");
+        this.addUser(u);
+
+    }
+    /**
+     * Searches for an item with the specified ID.
+     *
+     */
+    public User getCurrentUser(){
+
+        return this.currentUser.clone();
+    }
+    public void setCurrentUser(int id){
+
+        this.currentUser = this.userMap.get(id);
 
     }
     /**
@@ -261,7 +277,7 @@ public class Module {
         }
         this.addOrder(order);
     }
-    private boolean reviewCredentials(String email){ 
+    public boolean reviewCredentials(String email){ 
 
         boolean ret = true;
         for (Integer user_id : this.userMap.keySet()){
@@ -273,24 +289,14 @@ public class Module {
         } 
         return ret;
     }
-    public boolean registerUser(String email, String name, String address,int nif,String password){ 
-
-        if (this.reviewCredentials(email)){
-            User u = new User(email,name,address,nif,password);
-            this.addUser(u);
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    
     public User findUserByEmail(String email){
 
         for (Integer user_id : this.userMap.keySet()){
 
             User temp = this.userMap.get(user_id);
             if (temp.getEmail().equals(email))
-                return temp;
+                return temp.clone();
 
         } 
         return null;
