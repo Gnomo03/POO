@@ -1,5 +1,3 @@
-package main;
-
 /**
  * Represents an item with a description, brand, reference, base price,
  * price correction, carrier, condition score, previous owners,

@@ -1,5 +1,3 @@
-package main;
-
 /**
  * Represents a Tshirt item that extends the Item class.
  * It has instance variables such as size and pattern.

@@ -1,5 +1,3 @@
-package main;
-
 /**
  * Represents a Bag item that extends the Item class.
  * It has instance variables such as dimension, material and releaseDate.
