@@ -194,7 +194,9 @@ public class Order {
 
     public static Comparator<Order> priceComparator = new Comparator<Order>() {
         public int compare(Order e1, Order e2){
-            return Double.compare(e1.getItemPrice(), e2.getItemPrice());
+            LocalDate date1 = e1.getDate();
+            LocalDate date2 = e2.getDate();
+            return date1.compareTo(date2);
         }
     };
 
