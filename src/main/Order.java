@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -190,5 +191,11 @@ public class Order {
         
         return this.itemPrice+this.satisfactionPrice+tax;
     }
+
+    public static Comparator<Order> priceComparator = new Comparator<Order>() {
+        public int compare(Order e1, Order e2){
+            return Double.compare(e1.getItemPrice(), e2.getItemPrice());
+        }
+    };
 
 }
