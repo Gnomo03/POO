@@ -11,9 +11,18 @@ public class Main {
         m.registerUser("mail@gmail.com", "Joe Doe", "Ny", 12345678, "qwerty1234");
         m.registerUser("mail2@gmail.com", "Marry Jane", "Ny", 12345678, "qwerty1234");
         m.addCarrier(c);
+
         Item i = new Tshirt();
+
         Item i2 = new Sneaker();
-        Item i3 = new Bag();
+
+        Item i3 = new Bag("mochila de merda", "nike", "as", 15, 5, 
+                        c, 7, 0, false, 10, "seilá", 
+                        2015, 1);
+
+        Order o = new Order();
+        o.addItem(i3);
+        
         Boolean b = m.userRegistsItem("mail@gmail.com",i,"UPS");
         List<Integer> l = new LinkedList<Integer>();
         l.add(i.getID());
