@@ -1,6 +1,4 @@
-import java.util.LinkedList;
 import java.util.Scanner;
-
 import javax.sound.midi.ControllerEventListener;
 public class main {
     
