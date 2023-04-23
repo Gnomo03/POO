@@ -1,11 +1,24 @@
 import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 public class Controller {
+
+    private static String USER_DATA_FILE = "user.data";
+    private static String ITEM_DATA_FILE = "item.data";
 
     private Module m;
 
     public Controller(Module m) {
         this.m = m;
+    }
+
+    public User getCurrentUser(){
+        return this.m.getCurrentUser();
     }
 
     public boolean login(String email, String password) {
@@ -32,7 +45,8 @@ public class Controller {
  */
 
     public boolean registItemBag(String description, String brand, String reference, double basePrice, double priceCorrection,
-    Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, double dimension, String material, int date){
+                                 Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,
+                                 int userId, double dimension, String material, int date){
         Item b = new Bag(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners, 
                         premiumStat, dimension, material, date, userId);
         this.m.addListedItem(b);
@@ -40,7 +54,8 @@ public class Controller {
     }
 
     public boolean registItemTshirt(String description, String brand, String reference, double basePrice, double priceCorrection,
-    Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern){
+                                    Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, 
+                                    Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern){
         Item t = new Tshirt(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
                             premiumStat, size, pattern, userId);
         this.m.addListedItem(t);
@@ -48,8 +63,9 @@ public class Controller {
     }
 
     public boolean registItemSneaker(String description, String brand, String reference, double basePrice, double priceCorrection,
-    Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, double size, Sneaker.SneakerType type,
-    String color, int date){
+                                     Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, 
+                                     double size, Sneaker.SneakerType type,
+                                     String color, int date){
         Item s = new Sneaker(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
                     premiumStat, size, type, color, date, userId);
         this.m.addListedItem(s);
@@ -68,4 +84,36 @@ public class Controller {
         }
     }
 
+    
+    public boolean saveData(){        
+        boolean result = false;
+        try{
+            FileWriter fw = new FileWriter(USER_DATA_FILE);
+            fw.write( this.m.SerializeUsers() );
+            //fw.write(m.toJson());
+            fw.close();
+            result = true;
+        }
+        catch( Exception ex ){
+            // Avisar o utilizador
+
+        }
+        
+        return result;
+    }
+
+    public boolean loadData(){ 
+        boolean result = false;
+        try{
+            //Users
+            List<String>  lines = Files.readAllLines( Path.of(USER_DATA_FILE ) );
+            m.DeSerializeUsers(lines);
+            //
+            // Others...
+            result = true;
+        }
+        catch( Exception ex){
+        }
+        return result;
+    }
 }

@@ -40,8 +40,12 @@ public class Module {
      *
      */
     public User getCurrentUser(){
-
-        return this.currentUser.clone();
+        if(this.currentUser != null){
+            return this.currentUser.clone();
+        }
+        else{
+            return null;
+        }
     }
     public void setCurrentUser(int id){
 
@@ -326,6 +330,28 @@ public class Module {
                 ", date=" + date +
                 ", vintageProfit=" + vintageProfit +
                 '}';
+    }
+
+
+
+    public String SerializeUsers(){
+        String result = "";
+        for ( User u : userMap.values()) {
+            result += u.Serialize()+"\n";
+        }
+        return result;
+    }
+
+    public String DeSerializeUsers( List<String> Lines ){
+        String result = "";
+
+        this.userMap.clear();
+        for (String line : Lines) {
+            User u = new User();
+            u.DeSerialize(line);
+            this.addUser(u);
+        }
+        return result;
     }
 }
     
