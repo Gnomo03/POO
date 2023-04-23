@@ -9,14 +9,14 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "main.Main",
-            "projectName": "Projeto_439146c8"
+            "projectName": "Vintage"
         },
         {
             "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
-            "projectName": "Projeto_439146c8"
+            "projectName": "Vintage"
         }
     ]
 }
