@@ -11,9 +11,9 @@ public class CarrierManager {
 
     public Carrier getCarrier(String carrierName) {
         if (this.carrierMap.containsKey(carrierName)) {
-            return this.carrierMap.get(carrierName).clone();
+            return this.carrierMap.get(carrierName);
         } else if (this.carrierMap.containsKey(carrierName)) {
-            return this.carrierMap.get(carrierName).clone();
+            return this.carrierMap.get(carrierName);
         } else {
             return null;
         }
@@ -26,7 +26,7 @@ public class CarrierManager {
      * @return copy of the carrier
      */
     public Carrier searchCarrier(String id) {
-        return this.carrierMap.get(id).clone();
+        return this.carrierMap.get(id);
     }
 
     /**

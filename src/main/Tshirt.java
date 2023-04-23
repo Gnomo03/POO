@@ -10,7 +10,7 @@
  * variables.
  */
 
-public class Tshirt extends Item {
+ public class Tshirt extends Item {
     private TshirtSize size;
     private TshirtPattern pattern;
 

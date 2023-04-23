@@ -36,7 +36,6 @@ public class Menu {
             System.out.print("\n");
             System.out.print("Press 'l' to Login:\n");
             System.out.print("Press 'r' to Register a new User:\n");
-
             String login_options2 = scanner.nextLine();
             if(login_options2.equals("l")){
                 break;
@@ -147,9 +146,7 @@ public class Menu {
             System.out.print("Press 'o' to Make a order:\n");
             System.out.print("Press 'r' to Register a Item:\n");
             System.out.print("Press 'q' to Quit\n");
-
             String regist_options = scanner.nextLine();
-
             switch(regist_options){
                 case "r":
                     registerItem(scanner);

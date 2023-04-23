@@ -12,28 +12,24 @@ public class Controller {
     private static String ITEM_DATA_FILE = "item.data";
 
     private Module m;
-    private UserManager uM;
-    private ItemManager iM;
 
-    public Controller(Module m, UserManager u, ItemManager i) {
+    public Controller(Module m) {
         this.m = m;
-        this.uM = u;
-        this.iM = i;
     }
 
     public User getCurrentUser() {
-        return this.uM.getCurrentUser();
+        return this.m.getCurrentUser();
     }
 
     public boolean login(String email, String password) {
 
-        User u = uM.findUserByEmail(email);
+        User u = m.lookupUser(email);
         if (u == null) {
             return false;
         }
 
         if (u.getPassword().equals(password)) {
-            uM.setCurrentUser(u.getId());
+            m.setCurrentUser(u.getId());
             return true;
         }
 
@@ -41,7 +37,7 @@ public class Controller {
     }
 
     public void logout() {
-        uM.setCurrentUser(-1);
+        m.setCurrentUser(-1);
     }
 
     /*
@@ -50,26 +46,19 @@ public class Controller {
      * }
      */
 
-    public boolean registItemBag(String description, String brand, String reference, double basePrice,
-            double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,
-            int userId, double dimension, String material, int date) {
-        Item b = new Bag(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore,
-                previousOwners,
-                premiumStat, dimension, material, date, userId);
-        this.iM.addListedItem(b);
-        return true;
+    public boolean registItemBag(String description, String brand, String reference, double basePrice, double priceCorrection,
+    String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
+    String material, int releaseDate){
+        
+        return m.registBag(description, brand, reference, basePrice, priceCorrection,
+        carrier,conditionScore, previousOwners, premiumStat, dimension,material,releaseDate,this.m.getCurrentUser().getId());
     }
 
     public boolean registItemTshirt(String description, String brand, String reference, double basePrice,
             double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId,
+            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,
             Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
-        Item t = new Tshirt(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore,
-                previousOwners,
-                premiumStat, size, pattern, userId);
-        this.iM.addListedItem(t);
-        return true;
+       return false; // to be defined
     }
 
     public boolean registItemSneaker(String description, String brand, String reference, double basePrice,
@@ -77,18 +66,14 @@ public class Controller {
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId,
             double size, Sneaker.SneakerType type,
             String color, int date) {
-        Item s = new Sneaker(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore,
-                previousOwners,
-                premiumStat, size, type, color, date, userId);
-        this.iM.addListedItem(s);
-        return true;
+            return false; // to be defined
     }
 
     public boolean registerUser(String email, String name, String address, int nif, String password) {
 
-        if (this.uM.reviewCredentials(email)) {
+        if (this.m.reviewCredentials(email)) {
             User u = new User(email, name, address, nif, password);
-            this.uM.addUser(u);
+            this.m.registsUser(u);
             return true;
         } else {
             return false;
