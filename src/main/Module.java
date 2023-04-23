@@ -77,7 +77,7 @@ public class Module {
         this.userManager.addUser(u);
         
     }
-    
+
     public boolean registBag(String description, String brand, String reference, double basePrice, double priceCorrection,
     String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
     String material, int releaseDate,int userId){
@@ -126,11 +126,11 @@ public class Module {
     public User lookupUser( String email){
 
         User u = userManager.findUserByEmail(email);
+        if (u == null )return null;
         return u.clone();
     }
     public boolean reviewCredentials(String email) {
         User u = this.userManager.findUserByEmail(email);
-        
-        return u!=null;
+        return u==null;
     }
 }
