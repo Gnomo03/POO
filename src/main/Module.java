@@ -13,7 +13,7 @@ public class Module {
     private CarrierManager carrierManager;
     private LocalDate date;
     private double vintageProfit;
-    private  User currentUser;
+    private User currentUser;
 
     /**
      * Constructs a new Module object with Managers.
@@ -26,6 +26,7 @@ public class Module {
         this.date = LocalDate.now();
         this.vintageProfit = 0;
     }
+
     public User getCurrentUser() {
         if (this.currentUser != null) {
             return this.currentUser.clone();
@@ -33,9 +34,11 @@ public class Module {
             return null;
         }
     }
+
     public void setCurrentUser(int id) {
         this.currentUser = this.userManager.getUser(id);
     }
+
     public void addNewItemToUsers(int id_user, int id_item) {
         this.userManager.getUser(id_user).addItem(this.itemManager.getListedItems().get(id_item));
     }
@@ -62,34 +65,63 @@ public class Module {
         return order.clone();
     }
 
-    private boolean registsItem(Item item,int id_user) {
+    private boolean registsItem(Item item, int id_user) {
         User u = this.userManager.getUser(id_user);
-        if (currentUser == null) {return false;}
-    
-            this.itemManager.addListedItem(item);
-            Item i = this.itemManager.searchItem(item.getID());
-            u.addItem(i);
-            return true;
-        
+        if (currentUser == null) {
+            return false;
+        }
+
+        this.itemManager.addListedItem(item);
+        Item i = this.itemManager.searchItem(item.getID());
+        u.addItem(i);
+        return true;
+
     }
+
     public void registsUser(User u) {
 
         this.userManager.addUser(u);
-        
+
     }
 
-    public boolean registBag(String description, String brand, String reference, double basePrice, double priceCorrection,
-    String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
-    String material, int releaseDate,int userId){
+    public boolean registBag(String description, String brand, String reference, double basePrice,
+            double priceCorrection,
+            String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
+            String material, int releaseDate, int userId) {
 
-
-        Bag bag = new Bag(description, brand, reference, basePrice, priceCorrection,this.carrierManager.getCarrier(carrier),
-        conditionScore,previousOwners,premiumStat,dimension,material,releaseDate,userId);
+        Bag bag = new Bag(description, brand, reference, basePrice, priceCorrection,
+                this.carrierManager.getCarrier(carrier),
+                conditionScore, previousOwners, premiumStat, dimension, material, releaseDate, userId);
         registsItem(bag, userId);
 
-
         return registsItem(bag, userId);
-    }   
+    }
+
+    public boolean registTshirt(String description, String brand, String reference, double basePrice,
+            double priceCorrection,
+            String carrier, double conditionScore, int previousOwners, boolean premiumStat, Tshirt.TshirtSize size,
+            Tshirt.TshirtPattern pattern, int userId) {
+
+        Tshirt tshirt = new Tshirt(description, brand, reference, basePrice, priceCorrection,
+                this.carrierManager.getCarrier(carrier),
+                conditionScore, previousOwners, premiumStat, size, pattern, userId);
+        registsItem(tshirt, userId);
+
+        return registsItem(tshirt, userId);
+    }
+
+    public boolean registSneaker(String description, String brand, String reference, double basePrice,
+            double priceCorrection,
+            String carrier, double conditionScore, int previousOwners, boolean premiumStat, double size,
+            Sneaker.SneakerType type, String color, int releaseDate, int userId) {
+
+        Sneaker sneaker = new Sneaker(description, brand, reference, basePrice, priceCorrection,
+                this.carrierManager.getCarrier(carrier),
+                conditionScore, previousOwners, premiumStat, size, type, color, releaseDate, userId);
+        registsItem(sneaker, userId);
+
+        return registsItem(sneaker, userId);
+    }
 
     @Override
     public String toString() {
@@ -123,14 +155,17 @@ public class Module {
         }
         return result;
     }
-    public User lookupUser( String email){
+
+    public User lookupUser(String email) {
 
         User u = userManager.findUserByEmail(email);
-        if (u == null )return null;
+        if (u == null)
+            return null;
         return u.clone();
     }
+
     public boolean reviewCredentials(String email) {
         User u = this.userManager.findUserByEmail(email);
-        return u==null;
+        return u == null;
     }
 }

@@ -46,27 +46,32 @@ public class Controller {
      * }
      */
 
-    public boolean registItemBag(String description, String brand, String reference, double basePrice, double priceCorrection,
-    String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
-    String material, int releaseDate){
-        
+    public boolean registItemBag(String description, String brand, String reference, double basePrice,
+            double priceCorrection,
+            String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
+            String material, int releaseDate) {
+
         return m.registBag(description, brand, reference, basePrice, priceCorrection,
-        carrier,conditionScore, previousOwners, premiumStat, dimension,material,releaseDate,this.m.getCurrentUser().getId());
+                carrier, conditionScore, previousOwners, premiumStat, dimension, material, releaseDate,
+                this.m.getCurrentUser().getId());
     }
 
     public boolean registItemTshirt(String description, String brand, String reference, double basePrice,
             double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,
+            String carrier, double conditionScore, int previousOwners, boolean premiumStat,
             Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
-       return false; // to be defined
+        return m.registTshirt(description, brand, reference, basePrice, priceCorrection,
+                reference, conditionScore, previousOwners, premiumStat, size, pattern,
+                this.m.getCurrentUser().getId());
     }
 
     public boolean registItemSneaker(String description, String brand, String reference, double basePrice,
             double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId,
-            double size, Sneaker.SneakerType type,
-            String color, int date) {
-            return false; // to be defined
+            String carrier, double conditionScore, int previousOwners, boolean premiumStat,
+            double size, Sneaker.SneakerType type, String color, int releaseDate) {
+        return m.registSneaker(description, brand, reference, basePrice, priceCorrection,
+                carrier, conditionScore, previousOwners, premiumStat, size, type, color, releaseDate,
+                this.m.getCurrentUser().getId());
     }
 
     public boolean registerUser(String email, String name, String address, int nif, String password) {
