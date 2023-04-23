@@ -1,6 +1,3 @@
-import java.util.Scanner;
-import javax.sound.midi.ControllerEventListener;
-
 public class Main {
     public static void main(String[] args) {
         
@@ -10,5 +7,6 @@ public class Main {
 
         Menu menu = new Menu(c);
         menu.mainMenu();
+        
     }
 }

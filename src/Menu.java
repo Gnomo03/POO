@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import javax.sound.midi.ControllerEventListener;
 
 public class Menu {
     private Controller _cont = null;
@@ -75,7 +74,46 @@ public class Menu {
         }
         else{
             //....
-            System.out.print("Not implemented... Yet!\n");
+            System.out.flush();
+            System.out.print("Select the Item you wish to register\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("b: Bag:\n");
+            System.out.print("t: Tshirt:\n");
+            System.out.print("s: Sneaker:\n");
+            String item_regist = scanner.nextLine();
+            switch(item_regist){
+                case "b":
+                System.out.print("Enter Bag description:");
+                String des = scanner.nextLine();
+                System.out.print("Enter Bag brand:");
+                String brand = scanner.nextLine();
+                System.out.print("Enter Bag refrence:");
+                String ref = scanner.nextLine();
+                System.out.print("Enter Bag Base Price:");
+                String price = scanner.nextLine();
+                System.out.print("Enter Bag Price Correction:");
+                String correc = scanner.nextLine();
+                /*
+                 * Carrier
+                 */
+                System.out.print("Enter Bag Condition Score:");
+                String score = scanner.nextLine();
+                System.out.print("Enter Bag Previous Owners:");
+                String prevO = scanner.nextLine();
+                System.out.print("Enter Bag Premium Stat:");
+                String premium = scanner.nextLine();
+                System.out.print("Enter Bag dimension:");
+                String dimension = scanner.nextLine();
+                System.out.print("Enter Bag material:");
+                String material = scanner.nextLine();
+                System.out.print("Enter Bag Release Date:");
+                String date = scanner.nextLine();
+                _cont.registItemBag(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
+                                    null, Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
+                                    0, Util.ToInteger(dimension), material, Util.ToInteger(date));
+            }
         }
     }
 

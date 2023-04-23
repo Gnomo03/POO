@@ -1,6 +1,3 @@
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,7 +6,7 @@ import java.util.List;
 public class Controller {
 
     private static String USER_DATA_FILE = "user.data";
-    private static String ITEM_DATA_FILE = "item.data";
+    //private static String ITEM_DATA_FILE = "item.data";
 
     private Module m;
 

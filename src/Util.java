@@ -20,4 +20,18 @@ public class Util {
         }
         return result;
     }
+
+    public static boolean ToBoolean(String Value){
+        boolean result = false;
+        try{
+            result = Boolean.parseBoolean(Value);
+        }
+        catch(Exception ex){
+            result = false;
+        }
+        return result;
+    }
+
+
+
 }

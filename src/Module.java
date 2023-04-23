@@ -332,8 +332,6 @@ public class Module {
                 '}';
     }
 
-
-
     public String SerializeUsers(){
         String result = "";
         for ( User u : userMap.values()) {
