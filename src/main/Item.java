@@ -16,6 +16,8 @@ public abstract class Item {
     private int id;
     private int userId;
 
+
+
     private static int currentID = 0;
 
     /**
@@ -50,7 +52,7 @@ public abstract class Item {
      * @param premiumStat     whether or not the item has premium status
      */
     public Item(String description, String brand, String reference, double basePrice, double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId) {
+            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId) {
         this.description = description;
         this.brand = brand;
         this.reference = reference;
@@ -84,7 +86,6 @@ public abstract class Item {
         currentID++; // Acho que isto está a mais
         this.userId = oneItem.getUserId();
     }
-
     /**
      * Returns the id of the user listing the item.
      *
@@ -93,7 +94,6 @@ public abstract class Item {
     public int getUserId() {
         return this.userId;
     }
-
     /**
      * Returns the description of the item.
      *
@@ -199,8 +199,7 @@ public abstract class Item {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /**
+     /**
      * Sets the description of the item.
      *
      * @param description the new description of the item
