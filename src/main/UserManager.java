@@ -61,7 +61,7 @@ public class UserManager {
     }
 
     public TreeMap<Integer, User> getUserMap() {
-        return this.userMap;
+        return this.userMap.clone();
     }
 
 
