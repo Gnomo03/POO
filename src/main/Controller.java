@@ -22,11 +22,38 @@ public class Controller {
     }
 
     public void logout() {
-
+        m.setCurrentUser(-1);
     }
 
+    /*
     public void userRegistsItems(Item oneItem) {
       
+    }
+ */
+
+    public boolean registItemBag(String description, String brand, String reference, double basePrice, double priceCorrection,
+    Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, double dimension, String material, int date){
+        Item b = new Bag(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners, 
+                        premiumStat, dimension, material, date, userId);
+        this.m.addListedItem(b);
+        return true;   
+    }
+
+    public boolean registItemTshirt(String description, String brand, String reference, double basePrice, double priceCorrection,
+    Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern){
+        Item t = new Tshirt(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
+                            premiumStat, size, pattern, userId);
+        this.m.addListedItem(t);
+        return true;
+    }
+
+    public boolean registItemSneaker(String description, String brand, String reference, double basePrice, double priceCorrection,
+    Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, double size, Sneaker.SneakerType type,
+    String color, int date){
+        Item s = new Sneaker(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
+                    premiumStat, size, type, color, date, userId);
+        this.m.addListedItem(s);
+        return true;
     }
 
     public boolean registerUser(String email, String name, String address,int nif,String password){ 
