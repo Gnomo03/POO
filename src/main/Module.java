@@ -13,6 +13,7 @@ public class Module {
     private CarrierManager carrierManager;
     private LocalDate date;
     private double vintageProfit;
+    private  User currentUser;
 
     /**
      * Constructs a new Module object with Managers.
@@ -25,7 +26,16 @@ public class Module {
         this.date = LocalDate.now();
         this.vintageProfit = 0;
     }
-
+    public User getCurrentUser() {
+        if (this.currentUser != null) {
+            return this.currentUser.clone();
+        } else {
+            return null;
+        }
+    }
+    public void setCurrentUser(int id) {
+        this.currentUser = this.userManager.getUser(id);
+    }
     public void addNewItemToUsers(int id_user, int id_item) {
         this.userManager.getUser(id_user).addItem(this.itemManager.getListedItems().get(id_item));
     }
@@ -38,7 +48,7 @@ public class Module {
         this.userManager.getUser(id_user).addAcquireOrder(this.orderManager.getOrder(id_order));
     }
 
-    public void makeOrder(int id_user, List<Integer> items_keys) {
+    public Order makeOrder(int id_user, List<Integer> items_keys) {
 
         Order order = new Order();
         for (Integer current_key : items_keys) {
@@ -49,21 +59,19 @@ public class Module {
             u.itemUpdate(current_key);
         }
         this.orderManager.addOrder(order);
+        return order.clone();
     }
 
-    public boolean userRegistsItem(String email, Item item, String carrierName) {
+    public boolean registsItem(Item item) {
 
-        User u = this.userManager.findUserByEmail(email);
-        if (u == null)
-            return false;
-        else {
+        if (currentUser == null) {return false;}
+            User u = this.currentUser;
             item.setUserId(u.getId());
-            item.setCarrier(this.carrierManager.getCarrier(carrierName));
             this.itemManager.addListedItem(item);
             Item i = this.itemManager.searchItem(item.getID());
             u.addItem(i);
             return true;
-        }
+        
     }
 
     @Override

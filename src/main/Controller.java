@@ -12,13 +12,9 @@ public class Controller {
     private static String ITEM_DATA_FILE = "item.data";
 
     private Module m;
-    private UserManager uM;
-    private ItemManager iM;
 
-    public Controller(Module m, UserManager u, ItemManager i) {
+    public Controller(Module m) {
         this.m = m;
-        this.uM = u;
-        this.iM = i;
     }
 
     public User getCurrentUser() {
@@ -52,22 +48,22 @@ public class Controller {
 
     public boolean registItemBag(String description, String brand, String reference, double basePrice,
             double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,
+            String carrier, double conditionScore, int previousOwners, boolean premiumStat,
             int userId, double dimension, String material, int date) {
         Item b = new Bag(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore,
                 previousOwners,
                 premiumStat, dimension, material, date, userId);
-        this.iM.addListedItem(b);
-        return true;
+        
+        return this.m.userRegistsItem(b);
     }
 
     public boolean registItemTshirt(String description, String brand, String reference, double basePrice,
             double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId,
+            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,
             Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
         Item t = new Tshirt(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore,
                 previousOwners,
-                premiumStat, size, pattern, userId);
+                premiumStat, size, pattern,m.getCurrentUser().getId());
         this.iM.addListedItem(t);
         return true;
     }

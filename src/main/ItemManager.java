@@ -42,7 +42,6 @@ public class ItemManager {
     public void updateItem(int id) {
         if (this.listedItemsMap.containsKey(id)) {
             Item item = removeListedItem(id);
-            this.vintageProfit += item.getPrice() * 0.08;
             addSoldItem(item);
         }
     }
@@ -65,10 +64,6 @@ public class ItemManager {
         return items;
     }
 
-    public double getVintageProfit() {
-        return this.vintageProfit;
-    }
-
     /**
      * Searches for an item with the specified ID.
      *
@@ -78,7 +73,7 @@ public class ItemManager {
     public Item searchItem(int id) {
         Item item = this.getItem(id);
         if (item != null) {
-            return item.clone();
+            return item;
         }
         return null;
     }

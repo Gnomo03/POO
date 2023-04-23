@@ -4,7 +4,7 @@ import java.util.List;
 
 public class UserManager {
     private TreeMap<Integer, User> userMap;
-    private User currentUser;
+    
 
     public UserManager() {
         this.userMap = new TreeMap<Integer, User>();
@@ -14,20 +14,8 @@ public class UserManager {
 
     public User getUser(int id) {
         if (this.userMap.containsKey(id))
-            return this.userMap.get(id).clone();
+            return this.userMap.get(id);
         return null;
-    }
-
-    public User getCurrentUser() {
-        if (this.currentUser != null) {
-            return this.currentUser.clone();
-        } else {
-            return null;
-        }
-    }
-
-    public void setCurrentUser(int id) {
-        this.currentUser = this.userMap.get(id);
     }
 
     /**
@@ -73,7 +61,7 @@ public class UserManager {
     }
 
     public TreeMap<Integer, User> getUserMap() {
-        return this.userMap;
+        return this.userMap.clone();
     }
 
     public boolean reviewCredentials(String email) {
@@ -92,7 +80,7 @@ public class UserManager {
 
             User temp = this.userMap.get(user_id);
             if (temp.getEmail().equals(email))
-                return temp.clone();
+                return temp;
         }
         return null;
     }

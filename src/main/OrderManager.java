@@ -4,7 +4,7 @@ import java.util.List;
 
 public class OrderManager {
     private HashMap<Integer, Order> orderMap; // deve ter de passar a treemap por questões de eficiencia
-    private double vintageProfit;
+    
 
     public OrderManager() {
         this.orderMap = new HashMap<Integer, Order>();
@@ -12,7 +12,7 @@ public class OrderManager {
 
     public Order getOrder(int id) {
         if (this.orderMap.containsKey(id))
-            return this.orderMap.get(id).clone();
+            return this.orderMap.get(id);
         return null;
     }
 
@@ -23,7 +23,7 @@ public class OrderManager {
      * @return copy of the order
      */
     public Order searchOrder(int id) {
-        return this.orderMap.get(id).clone();
+        return this.orderMap.get(id);
     }
 
     /**
@@ -47,11 +47,7 @@ public class OrderManager {
 
     public void updateOrders() {
         // to be defined
-        this.vintageProfit = 0;
-    }
-
-    public double getVintageProfit() {
-        return this.vintageProfit;
+        
     }
 
     public List<Order> getOrders() {
