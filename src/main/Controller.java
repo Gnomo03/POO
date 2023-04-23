@@ -12,107 +12,115 @@ public class Controller {
     private static String ITEM_DATA_FILE = "item.data";
 
     private Module m;
+    private UserManager uM;
+    private ItemManager iM;
 
-    public Controller(Module m) {
+    public Controller(Module m, UserManager u, ItemManager i) {
         this.m = m;
+        this.uM = u;
+        this.iM = i;
     }
 
-    public User getCurrentUser(){
-        return this.m.getCurrentUser();
+    public User getCurrentUser() {
+        return this.uM.getCurrentUser();
     }
 
     public boolean login(String email, String password) {
 
-        User u = m.findUserByEmail(email);
-        if ( u == null ) {return false;}
+        User u = uM.findUserByEmail(email);
+        if (u == null) {
+            return false;
+        }
 
         if (u.getPassword().equals(password)) {
-            m.setCurrentUser(u.getId());
+            uM.setCurrentUser(u.getId());
             return true;
         }
-      
+
         return false;
     }
 
     public void logout() {
-        m.setCurrentUser(-1);
+        uM.setCurrentUser(-1);
     }
 
     /*
-    public void userRegistsItems(Item oneItem) {
-      
-    }
- */
+     * public void userRegistsItems(Item oneItem) {
+     * 
+     * }
+     */
 
-    public boolean registItemBag(String description, String brand, String reference, double basePrice, double priceCorrection,
-                                 Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,
-                                 int userId, double dimension, String material, int date){
-        Item b = new Bag(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners, 
-                        premiumStat, dimension, material, date, userId);
-        this.m.addListedItem(b);
-        return true;   
-    }
-
-    public boolean registItemTshirt(String description, String brand, String reference, double basePrice, double priceCorrection,
-                                    Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, 
-                                    Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern){
-        Item t = new Tshirt(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                            premiumStat, size, pattern, userId);
-        this.m.addListedItem(t);
+    public boolean registItemBag(String description, String brand, String reference, double basePrice,
+            double priceCorrection,
+            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,
+            int userId, double dimension, String material, int date) {
+        Item b = new Bag(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore,
+                previousOwners,
+                premiumStat, dimension, material, date, userId);
+        this.iM.addListedItem(b);
         return true;
     }
 
-    public boolean registItemSneaker(String description, String brand, String reference, double basePrice, double priceCorrection,
-                                     Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId, 
-                                     double size, Sneaker.SneakerType type,
-                                     String color, int date){
-        Item s = new Sneaker(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                    premiumStat, size, type, color, date, userId);
-        this.m.addListedItem(s);
+    public boolean registItemTshirt(String description, String brand, String reference, double basePrice,
+            double priceCorrection,
+            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId,
+            Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
+        Item t = new Tshirt(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore,
+                previousOwners,
+                premiumStat, size, pattern, userId);
+        this.iM.addListedItem(t);
         return true;
     }
 
-    public boolean registerUser(String email, String name, String address,int nif,String password){ 
+    public boolean registItemSneaker(String description, String brand, String reference, double basePrice,
+            double priceCorrection,
+            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId,
+            double size, Sneaker.SneakerType type,
+            String color, int date) {
+        Item s = new Sneaker(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore,
+                previousOwners,
+                premiumStat, size, type, color, date, userId);
+        this.iM.addListedItem(s);
+        return true;
+    }
 
-        if (this.m.reviewCredentials(email)){
-            User u = new User(email,name,address,nif,password);
-            this.m.addUser(u);
+    public boolean registerUser(String email, String name, String address, int nif, String password) {
+
+        if (this.uM.reviewCredentials(email)) {
+            User u = new User(email, name, address, nif, password);
+            this.uM.addUser(u);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    
-    public boolean saveData(){        
+    public boolean saveData() {
         boolean result = false;
-        try{
+        try {
             FileWriter fw = new FileWriter(USER_DATA_FILE);
-            fw.write( this.m.SerializeUsers() );
-            //fw.write(m.toJson());
+            fw.write(this.m.SerializeUsers());
+            // fw.write(m.toJson());
             fw.close();
             result = true;
-        }
-        catch( Exception ex ){
+        } catch (Exception ex) {
             // Avisar o utilizador
 
         }
-        
+
         return result;
     }
 
-    public boolean loadData(){ 
+    public boolean loadData() {
         boolean result = false;
-        try{
-            //Users
-            List<String>  lines = Files.readAllLines( Path.of(USER_DATA_FILE ) );
+        try {
+            // Users
+            List<String> lines = Files.readAllLines(Path.of(USER_DATA_FILE));
             m.DeSerializeUsers(lines);
             //
             // Others...
             result = true;
-        }
-        catch( Exception ex){
+        } catch (Exception ex) {
         }
         return result;
     }

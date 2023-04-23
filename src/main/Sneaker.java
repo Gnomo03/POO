@@ -114,10 +114,7 @@ public class Sneaker extends Item {
      * @return The price of the sneaker.
      */
     public double getPrice() {
-        if (this.getPreviousOwners() > 0)
-            return this.getBasePrice() - (this.getBasePrice() / this.getPreviousOwners() * this.getConditionScore());
-        else
-            return this.getBasePrice() * this.getPriceCorrection();
+        return (this.getBasePrice() - (this.getBasePrice() / this.getPreviousOwners() * this.getConditionScore()));
     }
 
     /**
