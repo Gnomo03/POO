@@ -1,9 +1,10 @@
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Order {
+public class Order implements Comparable<Order>{
     private List<Item> collection;
     private HashMap<String,Integer> carrierHelper;
     private TypeOfSize dimension;
@@ -189,6 +190,13 @@ public class Order {
         }
         
         return this.itemPrice+this.satisfactionPrice+tax;
+    }
+
+    @Override
+    public int compareTo(Order o) {
+        LocalDate date1 = this.getDate();
+        LocalDate date2 = o.getDate();
+        return date1.compareTo(date2);
     }
 
 }

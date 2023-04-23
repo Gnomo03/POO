@@ -49,9 +49,9 @@ public class Sneaker extends Item {
      */
     public Sneaker(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double size,
-            SneakerType type, String color, int releaseDate,int userId) {
+            SneakerType type, String color, int releaseDate, int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat,userId);
+                premiumStat, userId);
         this.size = size;
         this.type = type;
         this.color = color;
