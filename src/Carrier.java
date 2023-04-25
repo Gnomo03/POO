@@ -211,24 +211,16 @@ public class Carrier implements Comparable<Carrier> {
         return result;
     }
 
-    public String deserialize( String delimiter, String line ){
-        String remainder = "";
-
+    public void deserialize( String delimiter, String line ){
         if(delimiter == null){
             delimiter= Consts.DELIM_1;
         }
 
-        String[] fields = line.split(delimiter);
+        String[] fields = Util.Split(delimiter, line);
         this.name = fields[0];
         this.taxSmall = Util.ToDouble(fields[1]);
         this.taxMedium = Util.ToDouble(fields[2]);
         this.taxBig = Util.ToDouble(fields[3]);
         this.totalEarning = Util.ToDouble(fields[4]);
-
-        for (int i=5; i<fields.length; i++) {
-            remainder += String.join(delimiter, fields[i]);
-        }
-
-        return remainder;
     }
 }

@@ -393,21 +393,21 @@ public class User implements Comparable<User>{
 
     }
 
-    public String Serialize(){
-        String result = 
-            this.name +"\t" 
-            + this.id + "\t"
-            + this.email + "\t" 
-            + this.nif + "\t"
-            + this.address + "\t"
-            + this.password + "\t"
-            + this.soldItemsValue;
+    public String serialize(String delimiter){
+        String result = String.join(delimiter,
+                                    this.name,
+                                    String.valueOf(this.id),
+                                    this.email, 
+                                    String.valueOf(this.nif),
+                                    this.address,
+                                    this.password,
+                                    String.valueOf(this.soldItemsValue));
 
         return result;
     }
 
-    public void DeSerialize( String Line){
-        String[] fields = Line.split("\t");
+    public void deserialize( String delimiter, String line){
+        String[] fields = Util.Split(delimiter, line);
 
         this.name = fields[0];
         this.id = Util.ToInteger(fields[1]);

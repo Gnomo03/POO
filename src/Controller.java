@@ -94,13 +94,13 @@ public class Controller {
         try{
             //Users
             FileWriter fw = new FileWriter(USER_DATA_FILE);
-            fw.write( this.m.SerializeUsers() );
+            fw.write( this.m.serializeUsers() );
             //fw.write(m.toJson());
             fw.close();
             
             //Items
             fw = new FileWriter(ITEM_DATA_FILE);
-            fw.write( this.m.SerializeItems() );
+            fw.write( this.m.serializeItems() );
             fw.close();
 
             result = true;
@@ -120,13 +120,13 @@ public class Controller {
             File f = new File(USER_DATA_FILE);
             if( f.exists() ){
                 List<String>  lines = Files.readAllLines( Path.of(USER_DATA_FILE ) );
-                m.DeSerializeUsers(lines);
+                m.deserializeUsers(lines);
             }
             //
             f = new File(ITEM_DATA_FILE);
             if( f.exists() ){
                 List<String> lines = Files.readAllLines( Path.of(ITEM_DATA_FILE ) );
-                m.DeSerializeItems(lines);
+                m.deserializeItems(lines);
             }
 
             // Others...

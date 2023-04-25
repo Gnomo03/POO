@@ -332,36 +332,36 @@ public class Module {
                 '}';
     }
 
-    public String SerializeUsers(){
+    public String serializeUsers(){
         String result = "";
         for ( User u : userMap.values()) {
-            result += u.Serialize()+"\n";
+            result += u.serialize( Consts.DELIM_1 )+"\n";
         }
         return result;
     }
 
-    public String SerializeItems(){
+    public String serializeItems(){
         String result = "";
         for ( Item i : listedItemsMap.values()) {
-            result += String.join("\n", i.serialize(Consts.DELIM_1));
+            result += i.serialize(Consts.DELIM_1) + "\n";
         }
         return result;
     }
 
 
-    public String DeSerializeUsers( List<String> Lines ){
+    public String deserializeUsers( List<String> Lines ){
         String result = "";
 
         this.userMap.clear();
         for (String line : Lines) {
             User u = new User();
-            u.DeSerialize(line);
+            u.deserialize( Consts.DELIM_1, line);
             this.addUser(u);
         }
         return result;
     }
 
-    public String DeSerializeItems( List<String> Lines ){
+    public String deserializeItems( List<String> Lines ){
         String result = "";
 
         this.listedItemsMap.clear();
@@ -372,4 +372,3 @@ public class Module {
         return result;
     }
 }
-    

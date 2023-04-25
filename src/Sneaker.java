@@ -220,7 +220,7 @@ public class Sneaker extends Item {
         String[] fields = line.split(delimiter);
 
         String type = fields[0];
-        if( type == "s" ){
+        if( type.equals("s")){
             String[] sneaker = deserializeItem( fields, 1 );
             
             this.size = Util.ToDouble(sneaker[0]);

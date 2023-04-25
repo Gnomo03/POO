@@ -189,7 +189,7 @@ public class Tshirt extends Item {
         String[] fields = line.split(delimiter);
 
         String type = fields[0];
-        if( type == "t" ){
+        if( type.equals("t") ){
             String[] tshirt = deserializeItem( fields, 1 );
             
             this.size = Util.toTshirtSize(tshirt[0]);

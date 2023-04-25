@@ -187,10 +187,10 @@ public class Bag extends Item {
     }
 
     public void deserialize(String delimiter, String line){
-        String[] fields = line.split(delimiter);
+        String[] fields = Util.Split(delimiter, line);
 
         String type = fields[0];
-        if( type == "s" ){
+        if( type.equals("b") ){
             String[] bag = deserializeItem( fields, 1 );
             
             this.dimension = Util.ToDouble(bag[0]);

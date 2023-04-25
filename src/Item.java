@@ -1,3 +1,4 @@
+
 /**
  * Represents an item with a description, brand, reference, base price,
  * price correction, carrier, condition score, previous owners,
@@ -308,7 +309,7 @@ public abstract class Item {
                                     String.valueOf(this.premiumStat),
                                     String.valueOf(this.id),
                                     String.valueOf(this.userId),        
-                                    carrier.serialize(Consts.DELIM_2));
+                                    carrier.serialize(Consts.DELIM_2)) + "\t";
         return result;
     }
 
@@ -324,11 +325,12 @@ public abstract class Item {
         this.id = Util.ToInteger(fields[startIndex+8]);
         this.userId = Util.ToInteger(fields[startIndex+9]);
         //Carrier
+        carrier = new Carrier();
         carrier.deserialize( Consts.DELIM_2, fields[startIndex+10] );
         //
-        int arraySz = fields.length - startIndex+11;
+        int arraySz = fields.length - (startIndex+11);
         String [] remainder = new String[ arraySz ];
-        System.arraycopy(fields, arraySz, remainder, startIndex+11, arraySz);
+        System.arraycopy(fields, startIndex+11, remainder, 0, arraySz);
 
         return remainder;
     }
@@ -337,7 +339,7 @@ public abstract class Item {
     public static Item deserializeItem(String delimiter, String line){
         Item item = null;
 
-        String [] fields = line.split("\t");
+        String [] fields = Util.Split(delimiter, line);
         String type = fields[0];
         switch(type){
             case "b":   
@@ -345,8 +347,7 @@ public abstract class Item {
                 b.deserialize(delimiter, line);
                 item = b;
                 break;
-            
-                /* 
+
             case "t":
                 Tshirt t = new Tshirt();
                 t.deserialize(delimiter, line);
@@ -358,7 +359,6 @@ public abstract class Item {
                 s.deserialize(delimiter, line);
                 item = s;
                 break;
-                */
         }
 
         return item;

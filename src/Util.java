@@ -1,3 +1,5 @@
+import java.util.regex.Pattern;
+
 public class Util {
     public static Integer ToInteger(String Value){
         Integer result = 0;
@@ -66,4 +68,9 @@ public class Util {
         return result;        
     } 
 
+    public static String[] Split(String delimiter, String Text){
+        String safeDelim = Pattern.quote(delimiter);
+        String [] result = Text.split(safeDelim);
+        return result;
+    }
 }
