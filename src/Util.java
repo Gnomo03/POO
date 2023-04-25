@@ -32,6 +32,38 @@ public class Util {
         return result;
     }
 
+    public static Tshirt.TshirtSize toTshirtSize(String Value){
+        Tshirt.TshirtSize result = null;
+        try{
+            result = Tshirt.TshirtSize.valueOf(Value);
+        }
+        catch(Exception ex){
+            result = null;
+        }
+        return result;        
+    }
 
+
+    public static Tshirt.TshirtPattern toTshirtPattern(String Value){
+        Tshirt.TshirtPattern result = null;
+        try{
+            result = Tshirt.TshirtPattern.valueOf(Value);
+        }
+        catch(Exception ex){
+            result = null;
+        }
+        return result;        
+    } 
+
+    public static Sneaker.SneakerType toSneakerType(String Value){
+        Sneaker.SneakerType result = null;
+        try{
+            result = Sneaker.SneakerType.valueOf(Value);
+        }
+        catch(Exception ex){
+            result = null;
+        }
+        return result;        
+    } 
 
 }

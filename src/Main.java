@@ -4,7 +4,6 @@ public class Main {
         Module m = new Module();
         Controller c = new Controller(m);
         c.loadData();
-
         Menu menu = new Menu(c);
         menu.mainMenu();
         

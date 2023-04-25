@@ -69,6 +69,9 @@ public class Menu {
     }
 
     private void registerItem(){
+        String des, brand, ref, price, correc, score, prevO, premium, date, size;
+        User cUser = _cont.getCurrentUser();
+        int cID = cUser.getId();
         if( _cont.getCurrentUser() == null ){
             System.out.print("You're not logged in. Pls log in first.\n");    
         }
@@ -86,33 +89,95 @@ public class Menu {
             switch(item_regist){
                 case "b":
                 System.out.print("Enter Bag description:");
-                String des = scanner.nextLine();
+                des = scanner.nextLine();
                 System.out.print("Enter Bag brand:");
-                String brand = scanner.nextLine();
+                brand = scanner.nextLine();
                 System.out.print("Enter Bag refrence:");
-                String ref = scanner.nextLine();
+                ref = scanner.nextLine();
                 System.out.print("Enter Bag Base Price:");
-                String price = scanner.nextLine();
+                price = scanner.nextLine();
                 System.out.print("Enter Bag Price Correction:");
-                String correc = scanner.nextLine();
+                correc = scanner.nextLine();
                 /*
                  * Carrier
                  */
                 System.out.print("Enter Bag Condition Score:");
-                String score = scanner.nextLine();
+                score = scanner.nextLine();
                 System.out.print("Enter Bag Previous Owners:");
-                String prevO = scanner.nextLine();
+                prevO = scanner.nextLine();
                 System.out.print("Enter Bag Premium Stat:");
-                String premium = scanner.nextLine();
+                premium = scanner.nextLine();
                 System.out.print("Enter Bag dimension:");
                 String dimension = scanner.nextLine();
                 System.out.print("Enter Bag material:");
                 String material = scanner.nextLine();
                 System.out.print("Enter Bag Release Date:");
-                String date = scanner.nextLine();
+                date = scanner.nextLine();
                 _cont.registItemBag(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
                                     null, Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
-                                    0, Util.ToInteger(dimension), material, Util.ToInteger(date));
+                                    cID, Util.ToInteger(dimension), material, Util.ToInteger(date));
+                break;
+                //------------------------------------------------------------------------------------------
+                case "t":
+                System.out.print("Enter Tshirt description:");
+                des = scanner.nextLine();
+                System.out.print("Enter Tshirt brand:");
+                brand = scanner.nextLine();
+                System.out.print("Enter Tshirt refrence:");
+                ref = scanner.nextLine();
+                System.out.print("Enter Tshirt Base Price:");
+                price = scanner.nextLine();
+                System.out.print("Enter Tshirt Price Correction:");
+                correc = scanner.nextLine();
+                /*
+                 * Carrier
+                 */
+                System.out.print("Enter Tshirt Condition Score:");
+                score = scanner.nextLine();
+                System.out.print("Enter Tshirt Previous Owners:");
+                prevO = scanner.nextLine();
+                System.out.print("Enter Tshirt Premium Stat:");
+                premium = scanner.nextLine();
+                System.out.print("Enter Tshirt Size:");
+                size = scanner.nextLine();                
+                System.out.print("Enter Tshirt Pattern:");
+                String pattern = scanner.nextLine();
+                _cont.registItemTshirt(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
+                                    null, Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
+                                    cID, Util.toTshirtSize(size), Util.toTshirtPattern(pattern));
+                break;
+                //------------------------------------------------------------------------------------------
+                case "s":
+                des = scanner.nextLine();
+                System.out.print("Enter Sneaker brand:");
+                brand = scanner.nextLine();
+                System.out.print("Enter Sneaker refrence:");
+                ref = scanner.nextLine();
+                System.out.print("Enter Sneaker Base Price:");
+                price = scanner.nextLine();
+                System.out.print("Enter Sneaker Price Correction:");
+                correc = scanner.nextLine();
+                /*
+                 * Carrier
+                 */
+                System.out.print("Enter Sneaker Condition Score:");
+                score = scanner.nextLine();
+                System.out.print("Enter Sneaker Previous Owners:");
+                prevO = scanner.nextLine();
+                System.out.print("Enter Sneaker Premium Stat:");
+                premium = scanner.nextLine();
+                System.out.print("Enter Sneaker Size:");
+                size = scanner.nextLine();                
+                System.out.print("Enter Sneaker Type:");
+                String type = scanner.nextLine();
+                System.out.print("Enter Sneaker Color:");
+                String color = scanner.nextLine(); 
+                System.out.print("Enter Sneaker Release Date:");
+                date = scanner.nextLine();
+                _cont.registItemSneaker(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
+                                null, Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
+                                        cID, Util.ToDouble(size), Util.toSneakerType(type), color, Util.ToInteger(date));
+                break;                             
             }
         }
     }
