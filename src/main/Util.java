@@ -74,14 +74,3 @@ public class Util {
         return result;
     }
 }
-
-    public static Double ToDouble(String Value) {
-        Double result = 0.0;
-        try {
-            result = Double.parseDouble(Value);
-        } catch (Exception ex) {
-            result = 0.0;
-        }
-        return result;
-    }
-}

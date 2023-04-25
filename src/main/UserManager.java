@@ -74,4 +74,25 @@ public class UserManager {
         }
         return null;
     }
+
+    public String serialize(){
+        String result = "";
+        for ( User u :  userMap.values()) {
+            result += u.serialize( Consts.DELIM_1 )+"\n";
+        }
+        return result;
+    }
+
+    public String deserialize( List<String> Lines ){
+        String result = "";
+
+        this.userMap.clear();
+        for (String line : Lines) {
+            User u = new User();
+            u.deserialize( Consts.DELIM_1, line);
+            this.addUser(u);
+        }
+        return result;
+    }
+
 }

@@ -77,4 +77,23 @@ public class ItemManager {
         }
         return null;
     }
+
+    public String serialize(){
+        String result = "";
+        for ( Item i : listedItemsMap.values()) {
+            result += i.serialize(Consts.DELIM_1) + "\n";
+        }
+        return result;
+    }
+
+    public String deserialize( List<String> Lines ){
+        String result = "";
+
+        this.listedItemsMap.clear();
+        for (String line : Lines) {
+            Item u = Item.deserializeItem(Consts.DELIM_1, line);
+            this.addListedItem(u);
+        }
+        return result;
+    }
 }
