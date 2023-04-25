@@ -192,4 +192,43 @@ public class Carrier implements Comparable<Carrier> {
     public Carrier clone() {
         return new Carrier(this);
     }
+
+    public String serialize(){
+        return serialize(null);
+    }
+
+    public String serialize( String delimiter ){
+        if(delimiter == null){
+            delimiter="\t";
+        }
+        String result = String.join( delimiter,
+                                     this.name, 
+                                     String.valueOf(this.taxSmall), 
+                                     String.valueOf(this.taxMedium), 
+                                     String.valueOf(this.taxBig), 
+                                     String.valueOf(this.totalEarning));
+
+        return result;
+    }
+
+    public String deserialize( String delimiter, String line ){
+        String remainder = "";
+
+        if(delimiter == null){
+            delimiter= Consts.DELIM_1;
+        }
+
+        String[] fields = line.split(delimiter);
+        this.name = fields[0];
+        this.taxSmall = Util.ToDouble(fields[1]);
+        this.taxMedium = Util.ToDouble(fields[2]);
+        this.taxBig = Util.ToDouble(fields[3]);
+        this.totalEarning = Util.ToDouble(fields[4]);
+
+        for (int i=5; i<fields.length; i++) {
+            remainder += String.join(delimiter, fields[i]);
+        }
+
+        return remainder;
+    }
 }

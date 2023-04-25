@@ -205,4 +205,33 @@ public class Sneaker extends Item {
     public Sneaker clone() {
         return new Sneaker(this);
     }
+
+    public String serialize( String delimiter ){
+        String result = String.join(delimiter, "s", serializeItem( delimiter));
+        result += String.join(delimiter, String.valueOf(this.size), 
+                                         String.valueOf(this.type),
+                                         this.color, 
+                                         String.valueOf(this.releaseDate));
+        
+        return result;
+    }
+
+    public void deserialize(String delimiter, String line){
+        String[] fields = line.split(delimiter);
+
+        String type = fields[0];
+        if( type == "s" ){
+            String[] sneaker = deserializeItem( fields, 1 );
+            
+            this.size = Util.ToDouble(sneaker[0]);
+            this.type = Util.toSneakerType(sneaker[1]);
+            this.color = sneaker[2];
+            this.releaseDate = Util.ToInteger(sneaker[3]);
+        }
+        else{
+            // tipo errado!!!!!!
+        }
+    }
+
+    
 }

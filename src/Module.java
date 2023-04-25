@@ -340,6 +340,15 @@ public class Module {
         return result;
     }
 
+    public String SerializeItems(){
+        String result = "";
+        for ( Item i : listedItemsMap.values()) {
+            result += String.join("\n", i.serialize(Consts.DELIM_1));
+        }
+        return result;
+    }
+
+
     public String DeSerializeUsers( List<String> Lines ){
         String result = "";
 
@@ -348,6 +357,17 @@ public class Module {
             User u = new User();
             u.DeSerialize(line);
             this.addUser(u);
+        }
+        return result;
+    }
+
+    public String DeSerializeItems( List<String> Lines ){
+        String result = "";
+
+        this.listedItemsMap.clear();
+        for (String line : Lines) {
+            Item u = Item.deserializeItem(Consts.DELIM_1, line);
+            this.addListedItem(u);
         }
         return result;
     }

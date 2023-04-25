@@ -293,4 +293,74 @@ public abstract class Item {
      */
     public abstract Item clone();
 
+    public abstract String serialize( String delimiter );
+    public abstract void deserialize( String delimiter, String line);
+
+    protected String serializeItem( String delimiter ){
+        String result = String.join(delimiter,
+                                    this.description, 
+                                    this.brand,
+                                    this.reference,
+                                    String.valueOf(this.basePrice),
+                                    String.valueOf(this.priceCorrection),
+                                    String.valueOf(this.conditionScore),
+                                    String.valueOf(this.previousOwners),
+                                    String.valueOf(this.premiumStat),
+                                    String.valueOf(this.id),
+                                    String.valueOf(this.userId),        
+                                    carrier.serialize(Consts.DELIM_2));
+        return result;
+    }
+
+    protected String[] deserializeItem( String[] fields, int startIndex ){        
+        this.description = fields[startIndex];
+        this.brand = fields[startIndex+1];
+        this.reference = fields[startIndex+2];
+        this.basePrice = Util.ToDouble(fields[startIndex+3]);
+        this.priceCorrection = Util.ToDouble(fields[startIndex+4]);
+        this.conditionScore = Util.ToDouble(fields[startIndex+5]);
+        this.previousOwners = Util.ToInteger(fields[startIndex+6]);
+        this.premiumStat = Util.ToBoolean(fields[startIndex+7]);
+        this.id = Util.ToInteger(fields[startIndex+8]);
+        this.userId = Util.ToInteger(fields[startIndex+9]);
+        //Carrier
+        carrier.deserialize( Consts.DELIM_2, fields[startIndex+10] );
+        //
+        int arraySz = fields.length - startIndex+11;
+        String [] remainder = new String[ arraySz ];
+        System.arraycopy(fields, arraySz, remainder, startIndex+11, arraySz);
+
+        return remainder;
+    }
+
+    //Deserialize any kind of item
+    public static Item deserializeItem(String delimiter, String line){
+        Item item = null;
+
+        String [] fields = line.split("\t");
+        String type = fields[0];
+        switch(type){
+            case "b":   
+                Bag b = new Bag();
+                b.deserialize(delimiter, line);
+                item = b;
+                break;
+            
+                /* 
+            case "t":
+                Tshirt t = new Tshirt();
+                t.deserialize(delimiter, line);
+                item = t;
+                break;
+
+            case "s":
+                Sneaker s = new Sneaker();
+                s.deserialize(delimiter, line);
+                item = s;
+                break;
+                */
+        }
+
+        return item;
+    }
 }

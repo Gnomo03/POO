@@ -98,9 +98,6 @@ public class Menu {
                 price = scanner.nextLine();
                 System.out.print("Enter Bag Price Correction:");
                 correc = scanner.nextLine();
-                /*
-                 * Carrier
-                 */
                 System.out.print("Enter Bag Condition Score:");
                 score = scanner.nextLine();
                 System.out.print("Enter Bag Previous Owners:");
@@ -114,7 +111,7 @@ public class Menu {
                 System.out.print("Enter Bag Release Date:");
                 date = scanner.nextLine();
                 _cont.registItemBag(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
-                                    null, Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
+                                    _cont.getCarrier("forBag"), Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
                                     cID, Util.ToInteger(dimension), material, Util.ToInteger(date));
                 break;
                 //------------------------------------------------------------------------------------------
@@ -129,9 +126,6 @@ public class Menu {
                 price = scanner.nextLine();
                 System.out.print("Enter Tshirt Price Correction:");
                 correc = scanner.nextLine();
-                /*
-                 * Carrier
-                 */
                 System.out.print("Enter Tshirt Condition Score:");
                 score = scanner.nextLine();
                 System.out.print("Enter Tshirt Previous Owners:");
@@ -143,11 +137,12 @@ public class Menu {
                 System.out.print("Enter Tshirt Pattern:");
                 String pattern = scanner.nextLine();
                 _cont.registItemTshirt(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
-                                    null, Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
+                                    _cont.getCarrier("forTS"), Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
                                     cID, Util.toTshirtSize(size), Util.toTshirtPattern(pattern));
                 break;
                 //------------------------------------------------------------------------------------------
                 case "s":
+                System.out.print("Enter Sneaker description:");
                 des = scanner.nextLine();
                 System.out.print("Enter Sneaker brand:");
                 brand = scanner.nextLine();
@@ -157,9 +152,6 @@ public class Menu {
                 price = scanner.nextLine();
                 System.out.print("Enter Sneaker Price Correction:");
                 correc = scanner.nextLine();
-                /*
-                 * Carrier
-                 */
                 System.out.print("Enter Sneaker Condition Score:");
                 score = scanner.nextLine();
                 System.out.print("Enter Sneaker Previous Owners:");
@@ -175,7 +167,7 @@ public class Menu {
                 System.out.print("Enter Sneaker Release Date:");
                 date = scanner.nextLine();
                 _cont.registItemSneaker(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
-                                null, Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
+                                _cont.getCarrier("forSneak"), Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
                                         cID, Util.ToDouble(size), Util.toSneakerType(type), color, Util.ToInteger(date));
                 break;                             
             }

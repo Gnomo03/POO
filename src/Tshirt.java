@@ -176,4 +176,28 @@ public class Tshirt extends Item {
     public Tshirt clone() {
         return new Tshirt(this);
     }
+
+    public String serialize( String delimiter ){
+        String result = String.join(delimiter, "t", serializeItem( delimiter));
+        result += String.join(delimiter, String.valueOf(this.size), 
+                                         String.valueOf(this.pattern));
+        
+        return result;
+    }
+
+    public void deserialize(String delimiter, String line){
+        String[] fields = line.split(delimiter);
+
+        String type = fields[0];
+        if( type == "t" ){
+            String[] tshirt = deserializeItem( fields, 1 );
+            
+            this.size = Util.toTshirtSize(tshirt[0]);
+            this.pattern = Util.toTshirtPattern(tshirt[1]);
+        }
+        else{
+            // tipo errado!!!!!!
+        }
+    }
+
 }

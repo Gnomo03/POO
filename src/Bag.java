@@ -176,4 +176,29 @@ public class Bag extends Item {
     public Bag clone() {
         return new Bag(this);
     }
+
+    public String serialize( String delimiter ){
+        String result = String.join(delimiter, "b", serializeItem( delimiter));
+        result += String.join(delimiter, String.valueOf(this.dimension), 
+                                         this.material,
+                                         String.valueOf(this.releaseDate));
+        
+        return result;
+    }
+
+    public void deserialize(String delimiter, String line){
+        String[] fields = line.split(delimiter);
+
+        String type = fields[0];
+        if( type == "s" ){
+            String[] bag = deserializeItem( fields, 1 );
+            
+            this.dimension = Util.ToDouble(bag[0]);
+            this.material = bag[1];
+            this.releaseDate = Util.ToInteger(bag[2]);
+        }
+        else{
+            // tipo errado!!!!!!
+        }
+    }
 }
