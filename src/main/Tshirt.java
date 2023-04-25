@@ -10,7 +10,7 @@
  * variables.
  */
 
-public class Tshirt extends Item {
+ public class Tshirt extends Item {
     private TshirtSize size;
     private TshirtPattern pattern;
 
@@ -56,7 +56,9 @@ public class Tshirt extends Item {
     public Tshirt(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, TshirtSize size,
             TshirtPattern pattern,int userId) {
+            TshirtPattern pattern,int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
+                premiumStat,userId);
                 premiumStat,userId);
         this.size = size;
         this.pattern = pattern;
@@ -176,28 +178,4 @@ public class Tshirt extends Item {
     public Tshirt clone() {
         return new Tshirt(this);
     }
-
-    public String serialize( String delimiter ){
-        String result = String.join(delimiter, "t", serializeItem( delimiter));
-        result += String.join(delimiter, String.valueOf(this.size), 
-                                         String.valueOf(this.pattern));
-        
-        return result;
-    }
-
-    public void deserialize(String delimiter, String line){
-        String[] fields = line.split(delimiter);
-
-        String type = fields[0];
-        if( type.equals("t") ){
-            String[] tshirt = deserializeItem( fields, 1 );
-            
-            this.size = Util.toTshirtSize(tshirt[0]);
-            this.pattern = Util.toTshirtPattern(tshirt[1]);
-        }
-        else{
-            // tipo errado!!!!!!
-        }
-    }
-
 }
