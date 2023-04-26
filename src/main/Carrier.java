@@ -159,13 +159,12 @@ public class Carrier implements Comparable<Carrier> {
      * @return a string representation of the Carrier
      */
     public String toString() {
-        return "Carrier{" +
+        return "Carrier |" +
                 "name='" + getName() + '\'' +
                 ", Small tax value='" + getTaxSmall() + '\'' +
                 ", Medium tax value='" + getTaxMedium() + '\'' +
                 ", Big tax value=" + getTaxBig() +
-                ", Total Earning=" + getTotalEarning() +
-                '}';
+                " |";
     }
 
     /**

@@ -134,6 +134,7 @@
      */
     public String toString() {
         return "Tshirt{" +
+                "id=" + getID() + '\'' +
                 "description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +

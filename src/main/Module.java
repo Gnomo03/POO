@@ -39,6 +39,14 @@ public class Module {
     public CarrierManager getCarrierManager(){
         return carrierManager;
     }
+    public List<Carrier> getCarrierManagerList(){
+        return carrierManager.getCarriers();
+    }
+    public List <Item> getListedItemsManagerList(){
+
+        return itemManager.getListedItems();
+
+    }
     /// -------------------
 
 
@@ -78,6 +86,7 @@ public class Module {
             u.itemUpdate(current_key);
         }
         this.orderManager.addOrder(order);
+        this.currentUser.addAcquireOrder(order);
         return order.clone();
     }
 
@@ -103,7 +112,7 @@ public class Module {
     public boolean registBag(String description, String brand, String reference, double basePrice,
             double priceCorrection,
             String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
-            String material, int releaseDate, int userId) {
+            String material,LocalDate releaseDate, int userId) {
 
         Bag bag = new Bag(description, brand, reference, basePrice, priceCorrection,
                 this.carrierManager.getCarrier(carrier),
@@ -129,7 +138,7 @@ public class Module {
     public boolean registSneaker(String description, String brand, String reference, double basePrice,
             double priceCorrection,
             String carrier, double conditionScore, int previousOwners, boolean premiumStat, double size,
-            Sneaker.SneakerType type, String color, int releaseDate, int userId) {
+            Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId) {
 
         Sneaker sneaker = new Sneaker(description, brand, reference, basePrice, priceCorrection,
                 this.carrierManager.getCarrier(carrier),

@@ -69,7 +69,7 @@ public class Menu {
     }
 
     private void registerItem(){
-        String des, brand, ref, price, correc, score, prevO, premium, date, size;
+        String des, brand, ref, price, correc, score, prevO, premium, date, size,carrier;
         //User cUser = _cont.getCurrentUser();
         //int cID = cUser.getId();
         if( _cont.getCurrentUser() == null ){
@@ -96,7 +96,7 @@ public class Menu {
                 ref = scanner.nextLine();
                 System.out.print("Enter Bag Base Price:");
                 price = scanner.nextLine();
-                System.out.print("Enter Bag Price Correction:");
+                System.out.print("Enter Bag Price Correction:"); //
                 correc = scanner.nextLine();
                 System.out.print("Enter Bag Condition Score:");
                 score = scanner.nextLine();
@@ -110,11 +110,17 @@ public class Menu {
                 String material = scanner.nextLine();
                 System.out.print("Enter Bag Release Date:");
                 date = scanner.nextLine();
+                System.out.print("Choose one of the following Carrier's:");
+                System.out.print(_cont.displayCarriers());
+                carrier = scanner.nextLine();
+                System.out.print("\n");
+                System.out.print("\n");
+                System.out.print("\n");
                 _cont.registItemBag(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
-                                    _cont.getCarrier("forBag").getName(), Util.ToDouble(score),
+                                    carrier, Util.ToDouble(score),
                                     Util.ToInteger(prevO), Util.ToBoolean(premium),
                                     //cID, 
-                                    Util.ToInteger(dimension), material, Util.ToInteger(date));
+                                    Util.ToInteger(dimension), material, Util.ToDate(date));
                 break;
                 //------------------------------------------------------------------------------------------
                 case "t":
@@ -138,8 +144,14 @@ public class Menu {
                 size = scanner.nextLine();                
                 System.out.print("Enter Tshirt Pattern:");
                 String pattern = scanner.nextLine();
+                System.out.print("Choose one of the following Carrier's:");
+                System.out.print(_cont.displayCarriers());
+                System.out.print("\n");
+                System.out.print("\n");
+                System.out.print("\n");
+                carrier = scanner.nextLine();
                 _cont.registItemTshirt(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
-                               "forTS", Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
+                               carrier, Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
                                         //cID, 
                                         Util.toTshirtSize(size), Util.toTshirtPattern(pattern));
                 break;
@@ -169,20 +181,44 @@ public class Menu {
                 String color = scanner.nextLine(); 
                 System.out.print("Enter Sneaker Release Date:");
                 date = scanner.nextLine();
+                System.out.print("Choose one of the following Carrier's:");
+                System.out.print(_cont.displayCarriers());
+                System.out.print("\n");
+                System.out.print("\n");
+                System.out.print("\n");
+                carrier = scanner.nextLine();
                 _cont.registItemSneaker(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc), 
-                                        "forSneak", Util.ToDouble(score), Util.ToInteger(prevO), 
+                                        carrier, Util.ToDouble(score), Util.ToInteger(prevO), 
                                         Util.ToBoolean(premium),
                                         //cID, 
-                                        Util.ToDouble(size), Util.toSneakerType(type), color, Util.ToInteger(date));
+                                        Util.ToDouble(size), Util.toSneakerType(type), color, Util.ToDate(date));
                 break;                             
             }
         }
     }
 
     private void registerOrder(){
-        System.out.print("Not implemented... Yet!\n");
+        System.out.print("Select the Item you wish to register\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print(this._cont.displayListedItems());
+            System.out.print("\n");
+            System.out.print("Type the id´s of the item you wish to order seperated by a ','\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            String items_list = scanner.nextLine();
+            this._cont.placeOrder(Util.toLinkedList(items_list));
     }
+    private void checkOrder() {
 
+        System.out.print( _cont.getCurrentUser().getName() + "current Orders");
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.print(this._cont.getCurrentUser().getAcquiredOrder());
+        System.out.print("\n");
+        System.out.print("\n");
+    }
 
     public void mainMenu() {
         boolean quit = false;
@@ -198,6 +234,7 @@ public class Menu {
             System.out.print("u: Register a User:\n");
             System.out.print("o: Make a order:\n");
             System.out.print("i: Register a Item:\n");
+            System.out.print("c: To check orders:\n");
             System.out.print("\n");
             if(_cont.getCurrentUser() != null ){
                 System.out.print("User: " + _cont.getCurrentUser().getName());
@@ -232,30 +269,12 @@ public class Menu {
                 case "o":
                     registerOrder();
                     break;
+
+                case "c":
+                    checkOrder();
+                    break;
             }
         }
 
-        /*
-        // após login, deve ser um menu
-        while(true) {
-            System.out.flush();
-            System.out.print("Welcome! " +  m.getCurrentUser().getName() + "\n");
-            System.out.print("\n");
-            System.out.print("\n");
-            System.out.print("\n");
-            System.out.print("\n");
-            System.out.print("Press 'o' to Make a order:\n");
-            System.out.print("Press 'r' to Register a Item:\n");
-            System.out.print("Press 'q' to Quit\n");
-
-            String regist_options = scanner.nextLine();
-
-            switch(regist_options){
-                case "r":
-                    registerItem(scanner);
-                
-            }
-        }
-        */
     }
 }

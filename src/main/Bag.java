@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 /**
  * Represents a Bag item that extends the Item class.
  * It has instance variables such as dimension, material and releaseDate.
@@ -7,7 +9,7 @@
 public class Bag extends Item {
     private double dimension;
     private String material;
-    private int releaseDate;
+    private LocalDate releaseDate;
 
     /**
      * Default constructor for the Bag class.
@@ -16,7 +18,7 @@ public class Bag extends Item {
         super();
         this.dimension = 0;
         this.material = "n/d";
-        this.releaseDate = 0;
+        this.releaseDate = null;
     }
 
     /**
@@ -37,7 +39,7 @@ public class Bag extends Item {
      */
     public Bag(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
-            String material, int releaseDate,int userId) {
+            String material, LocalDate releaseDate,int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
                 premiumStat,userId);
         this.dimension = dimension;
@@ -80,7 +82,7 @@ public class Bag extends Item {
      * 
      * @return The release date of the bag.
      */
-    public int getReleaseDate() {
+    public  LocalDate getReleaseDate() {
         return this.releaseDate;
     }
 
@@ -92,7 +94,7 @@ public class Bag extends Item {
      */
     public double getPrice() {
         if (this.isPremium())
-            return (10 + (2023 - this.releaseDate)) / 10 * this.getBasePrice();
+            return (10 + (2023 - this.releaseDate.getYear())) / 10 * this.getBasePrice();
         else {
             return (this.getBasePrice() / this.dimension);
         }
@@ -121,7 +123,7 @@ public class Bag extends Item {
      * 
      * @param releaseDate The release date to set for the bag.
      */
-    public void setReleaseDate(int releaseDate) {
+    public void setReleaseDate( LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -132,6 +134,7 @@ public class Bag extends Item {
      */
     public String toString() {
         return "Bag{" +
+                "id=" + getID() + '\'' +
                 "description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
@@ -195,7 +198,7 @@ public class Bag extends Item {
             
             this.dimension = Util.ToDouble(bag[0]);
             this.material = bag[1];
-            this.releaseDate = Util.ToInteger(bag[2]);
+            this.releaseDate = Util.ToDate(bag[2]);
         }
         else{
             // tipo errado!!!!!!

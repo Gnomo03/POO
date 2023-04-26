@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Controller {
@@ -53,7 +54,7 @@ public class Controller {
     public boolean registItemBag(String description, String brand, String reference, double basePrice,
             double priceCorrection,
             String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
-            String material, int releaseDate) {
+            String material, LocalDate releaseDate) {
 
         return m.registBag(description, brand, reference, basePrice, priceCorrection,
                 carrier, conditionScore, previousOwners, premiumStat, dimension, material, releaseDate,
@@ -72,7 +73,7 @@ public class Controller {
     public boolean registItemSneaker(String description, String brand, String reference, double basePrice,
             double priceCorrection,
             String carrier, double conditionScore, int previousOwners, boolean premiumStat,
-            double size, Sneaker.SneakerType type, String color, int releaseDate) {
+            double size, Sneaker.SneakerType type, String color, LocalDate releaseDate) {
         return m.registSneaker(description, brand, reference, basePrice, priceCorrection,
                 carrier, conditionScore, previousOwners, premiumStat, size, type, color, releaseDate,
                 this.m.getCurrentUser().getId());
@@ -87,6 +88,20 @@ public class Controller {
         } else {
             return false;
         }
+    }
+    public void placeOrder(List<Integer> order) {
+
+        m.makeOrder(m.getCurrentUser().getId(), order);
+
+    }
+    public String displayCarriers() {
+        
+        return m.getCarrierManagerList().toString();
+    }
+
+    public String displayListedItems() {
+        
+        return m.getListedItemsManagerList().toString();
     }
 
     public boolean saveData(){        
@@ -112,6 +127,11 @@ public class Controller {
         
         return result;
     }
+    @Override
+    public String toString() {
+        return m.toString();
+    }
+
 
     public boolean loadData(){ 
         boolean result = false;

@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 /**
  * Represents a Sneaker item that extends the Item class.
  * It has instance variables such as size, type, color, and releaseDate.
@@ -10,7 +12,7 @@ public class Sneaker extends Item {
     private double size;
     private SneakerType type;
     private String color;
-    private int releaseDate;
+    private LocalDate releaseDate;
 
     /**
      * This enum represents the type of sneaker: LACES or NOLACES.
@@ -27,7 +29,7 @@ public class Sneaker extends Item {
         this.size = 0;
         this.type = null;
         this.color = "n/d";
-        this.releaseDate = 0;
+        this.releaseDate = null;
     }
 
     /**
@@ -49,7 +51,7 @@ public class Sneaker extends Item {
      */
     public Sneaker(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double size,
-            SneakerType type, String color, int releaseDate,int userId) {
+            SneakerType type, String color, LocalDate releaseDate,int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
                 premiumStat,userId);
         this.size = size;
@@ -103,7 +105,7 @@ public class Sneaker extends Item {
      * 
      * @return The release date of the sneaker.
      */
-    public int getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return this.releaseDate;
     }
 
@@ -149,7 +151,7 @@ public class Sneaker extends Item {
      * 
      * @param releaseDate The release date to set for the sneaker.
      */
-    public void setReleaseDate(int releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -160,6 +162,7 @@ public class Sneaker extends Item {
      */
     public String toString() {
         return "Sneaker{" +
+                "id=" + getID() + '\'' +
                 "description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
@@ -226,7 +229,7 @@ public class Sneaker extends Item {
             this.size = Util.ToDouble(sneaker[0]);
             this.type = Util.toSneakerType(sneaker[1]);
             this.color = sneaker[2];
-            this.releaseDate = Util.ToInteger(sneaker[3]);
+            this.releaseDate = Util.ToDate(sneaker[3]);
         }
         else{
             // tipo errado!!!!!!
