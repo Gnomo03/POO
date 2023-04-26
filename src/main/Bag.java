@@ -39,9 +39,9 @@ public class Bag extends Item {
      */
     public Bag(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
-            String material, LocalDate releaseDate,int userId) {
+            String material, LocalDate releaseDate, int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat,userId);
+                premiumStat, userId);
         this.dimension = dimension;
         this.material = material;
         this.releaseDate = releaseDate;
@@ -82,7 +82,7 @@ public class Bag extends Item {
      * 
      * @return The release date of the bag.
      */
-    public  LocalDate getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return this.releaseDate;
     }
 
@@ -123,7 +123,7 @@ public class Bag extends Item {
      * 
      * @param releaseDate The release date to set for the bag.
      */
-    public void setReleaseDate( LocalDate releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -180,27 +180,26 @@ public class Bag extends Item {
         return new Bag(this);
     }
 
-    public String serialize( String delimiter ){
-        String result = String.join(delimiter, "b", serializeItem( delimiter));
-        result += String.join(delimiter, String.valueOf(this.dimension), 
-                                         this.material,
-                                         String.valueOf(this.releaseDate));
-        
+    public String serialize(String delimiter) {
+        String result = String.join(delimiter, "b", serializeItem(delimiter));
+        result += String.join(delimiter, String.valueOf(this.dimension),
+                this.material,
+                String.valueOf(this.releaseDate));
+
         return result;
     }
 
-    public void deserialize(String delimiter, String line){
+    public void deserialize(String delimiter, String line) {
         String[] fields = Util.Split(delimiter, line);
 
         String type = fields[0];
-        if( type.equals("b") ){
-            String[] bag = deserializeItem( fields, 1 );
-            
+        if (type.equals("b")) {
+            String[] bag = deserializeItem(fields, 1);
+
             this.dimension = Util.ToDouble(bag[0]);
             this.material = bag[1];
             this.releaseDate = Util.ToDate(bag[2]);
-        }
-        else{
+        } else {
             // tipo errado!!!!!!
         }
     }

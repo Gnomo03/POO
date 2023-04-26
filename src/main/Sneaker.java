@@ -51,9 +51,9 @@ public class Sneaker extends Item {
      */
     public Sneaker(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double size,
-            SneakerType type, String color, LocalDate releaseDate,int userId) {
+            SneakerType type, String color, LocalDate releaseDate, int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat,userId);
+                premiumStat, userId);
         this.size = size;
         this.type = type;
         this.color = color;
@@ -209,32 +209,30 @@ public class Sneaker extends Item {
         return new Sneaker(this);
     }
 
-    public String serialize( String delimiter ){
-        String result = String.join(delimiter, "s", serializeItem( delimiter));
-        result += String.join(delimiter, String.valueOf(this.size), 
-                                         String.valueOf(this.type),
-                                         this.color, 
-                                         String.valueOf(this.releaseDate));
-        
+    public String serialize(String delimiter) {
+        String result = String.join(delimiter, "s", serializeItem(delimiter));
+        result += String.join(delimiter, String.valueOf(this.size),
+                String.valueOf(this.type),
+                this.color,
+                String.valueOf(this.releaseDate));
+
         return result;
     }
 
-    public void deserialize(String delimiter, String line){
+    public void deserialize(String delimiter, String line) {
         String[] fields = line.split(delimiter);
 
         String type = fields[0];
-        if( type.equals("s")){
-            String[] sneaker = deserializeItem( fields, 1 );
-            
+        if (type.equals("s")) {
+            String[] sneaker = deserializeItem(fields, 1);
+
             this.size = Util.ToDouble(sneaker[0]);
             this.type = Util.toSneakerType(sneaker[1]);
             this.color = sneaker[2];
             this.releaseDate = Util.ToDate(sneaker[3]);
-        }
-        else{
+        } else {
             // tipo errado!!!!!!
         }
     }
 
-    
 }

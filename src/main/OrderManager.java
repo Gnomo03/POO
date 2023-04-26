@@ -4,7 +4,6 @@ import java.util.List;
 
 public class OrderManager {
     private HashMap<Integer, Order> orderMap; // deve ter de passar a treemap por questões de eficiencia
-    
 
     public OrderManager() {
         this.orderMap = new HashMap<Integer, Order>();
@@ -47,7 +46,7 @@ public class OrderManager {
 
     public void updateOrders() {
         // to be defined
-        
+
     }
 
     public List<Order> getOrders() {

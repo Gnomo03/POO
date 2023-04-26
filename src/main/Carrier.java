@@ -192,27 +192,27 @@ public class Carrier implements Comparable<Carrier> {
         return new Carrier(this);
     }
 
-    public String serialize(){
+    public String serialize() {
         return serialize(null);
     }
 
-    public String serialize( String delimiter ){
-        if(delimiter == null){
-            delimiter="\t";
+    public String serialize(String delimiter) {
+        if (delimiter == null) {
+            delimiter = "\t";
         }
-        String result = String.join( delimiter,
-                                     this.name, 
-                                     String.valueOf(this.taxSmall), 
-                                     String.valueOf(this.taxMedium), 
-                                     String.valueOf(this.taxBig), 
-                                     String.valueOf(this.totalEarning));
+        String result = String.join(delimiter,
+                this.name,
+                String.valueOf(this.taxSmall),
+                String.valueOf(this.taxMedium),
+                String.valueOf(this.taxBig),
+                String.valueOf(this.totalEarning));
 
         return result;
     }
 
-    public void deserialize( String delimiter, String line ){
-        if(delimiter == null){
-            delimiter= Consts.DELIM_1;
+    public void deserialize(String delimiter, String line) {
+        if (delimiter == null) {
+            delimiter = Consts.DELIM_1;
         }
 
         String[] fields = Util.Split(delimiter, line);

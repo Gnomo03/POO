@@ -4,7 +4,6 @@ import java.util.List;
 
 public class UserManager {
     private TreeMap<Integer, User> userMap;
-    
 
     public UserManager() {
         this.userMap = new TreeMap<Integer, User>();
@@ -64,7 +63,6 @@ public class UserManager {
         return this.userMap;
     }
 
-
     public User findUserByEmail(String email) {
         for (Integer user_id : userMap.keySet()) {
 
@@ -75,21 +73,21 @@ public class UserManager {
         return null;
     }
 
-    public String serialize(){
+    public String serialize() {
         String result = "";
-        for ( User u :  userMap.values()) {
-            result += u.serialize( Consts.DELIM_1 )+"\n";
+        for (User u : userMap.values()) {
+            result += u.serialize(Consts.DELIM_1) + "\n";
         }
         return result;
     }
 
-    public String deserialize( List<String> Lines ){
+    public String deserialize(List<String> Lines) {
         String result = "";
 
         this.userMap.clear();
         for (String line : Lines) {
             User u = new User();
-            u.deserialize( Consts.DELIM_1, line);
+            u.deserialize(Consts.DELIM_1, line);
             this.addUser(u);
         }
         return result;

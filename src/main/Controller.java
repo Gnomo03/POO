@@ -1,3 +1,4 @@
+
 //import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 import java.io.File;
 //import java.io.FileReader;
@@ -12,17 +13,17 @@ public class Controller {
     private static String USER_DATA_FILE = "user.data";
     private static String ITEM_DATA_FILE = "item.data";
 
-    private Module m;
+    private Model m;
 
-    public Controller(Module m) {
+    public Controller(Model m) {
         this.m = m;
     }
 
     public User getCurrentUser() {
         return this.m.getCurrentUser();
     }
-    
-    public Carrier getCarrier( String Name ) {
+
+    public Carrier getCarrier(String Name) {
         return this.m.getCarrierManager().getCarrier(Name);
     }
 
@@ -89,70 +90,70 @@ public class Controller {
             return false;
         }
     }
+
     public void placeOrder(List<Integer> order) {
 
         m.makeOrder(m.getCurrentUser().getId(), order);
 
     }
+
     public String displayCarriers() {
-        
+
         return m.getCarrierManagerList().toString();
     }
 
     public String displayListedItems() {
-        
+
         return m.getListedItemsManagerList().toString();
     }
 
-    public boolean saveData(){        
+    public boolean saveData() {
         boolean result = false;
-        try{
-            //Users
+        try {
+            // Users
             FileWriter fw = new FileWriter(USER_DATA_FILE);
-            fw.write( this.m.getUserManager().serialize() );
-            //fw.write(m.toJson());
+            fw.write(this.m.getUserManager().serialize());
+            // fw.write(m.toJson());
             fw.close();
-            
-            //Items
+
+            // Items
             fw = new FileWriter(ITEM_DATA_FILE);
-            fw.write( this.m.getItemManager().serialize());
+            fw.write(this.m.getItemManager().serialize());
             fw.close();
 
             result = true;
-        }
-        catch( Exception ex ){
+        } catch (Exception ex) {
             // Avisar o utilizador
 
         }
-        
+
         return result;
     }
+
     @Override
     public String toString() {
         return m.toString();
     }
 
-
-    public boolean loadData(){ 
+    public boolean loadData() {
         boolean result = false;
-        try{
-            //Users
+        try {
+            // Users
             File f = new File(USER_DATA_FILE);
-            if( f.exists() ){
-                List<String>  lines = Files.readAllLines( Path.of(USER_DATA_FILE ) );
+            if (f.exists()) {
+                List<String> lines = Files.readAllLines(Path.of(USER_DATA_FILE));
                 m.getUserManager().deserialize(lines);
             }
             //
             f = new File(ITEM_DATA_FILE);
-            if( f.exists() ){
-                List<String> lines = Files.readAllLines( Path.of(ITEM_DATA_FILE ) );
+            if (f.exists()) {
+                List<String> lines = Files.readAllLines(Path.of(ITEM_DATA_FILE));
                 m.getItemManager().deserialize(lines);
             }
 
             // Others...
             result = true;
-        }
-        catch( Exception ex){
+        } catch (Exception ex) {
         }
         return result;
     }

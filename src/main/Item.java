@@ -17,8 +17,6 @@ public abstract class Item {
     private int id;
     private int userId;
 
-
-
     private static int currentID = 0;
 
     /**
@@ -53,7 +51,7 @@ public abstract class Item {
      * @param premiumStat     whether or not the item has premium status
      */
     public Item(String description, String brand, String reference, double basePrice, double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId) {
+            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId) {
         this.description = description;
         this.brand = brand;
         this.reference = reference;
@@ -87,6 +85,7 @@ public abstract class Item {
         currentID++; // Acho que isto está a mais
         this.userId = oneItem.getUserId();
     }
+
     /**
      * Returns the id of the user listing the item.
      *
@@ -95,6 +94,7 @@ public abstract class Item {
     public int getUserId() {
         return this.userId;
     }
+
     /**
      * Returns the description of the item.
      *
@@ -200,7 +200,8 @@ public abstract class Item {
     public void setDescription(String description) {
         this.description = description;
     }
-     /**
+
+    /**
      * Sets the description of the item.
      *
      * @param description the new description of the item
@@ -294,55 +295,56 @@ public abstract class Item {
      */
     public abstract Item clone();
 
-    public abstract String serialize( String delimiter );
-    public abstract void deserialize( String delimiter, String line);
+    public abstract String serialize(String delimiter);
 
-    protected String serializeItem( String delimiter ){
+    public abstract void deserialize(String delimiter, String line);
+
+    protected String serializeItem(String delimiter) {
         String result = String.join(delimiter,
-                                    this.description, 
-                                    this.brand,
-                                    this.reference,
-                                    String.valueOf(this.basePrice),
-                                    String.valueOf(this.priceCorrection),
-                                    String.valueOf(this.conditionScore),
-                                    String.valueOf(this.previousOwners),
-                                    String.valueOf(this.premiumStat),
-                                    String.valueOf(this.id),
-                                    String.valueOf(this.userId),        
-                                    carrier.serialize(Consts.DELIM_2)) + "\t";
+                this.description,
+                this.brand,
+                this.reference,
+                String.valueOf(this.basePrice),
+                String.valueOf(this.priceCorrection),
+                String.valueOf(this.conditionScore),
+                String.valueOf(this.previousOwners),
+                String.valueOf(this.premiumStat),
+                String.valueOf(this.id),
+                String.valueOf(this.userId),
+                carrier.serialize(Consts.DELIM_2)) + "\t";
         return result;
     }
 
-    protected String[] deserializeItem( String[] fields, int startIndex ){        
+    protected String[] deserializeItem(String[] fields, int startIndex) {
         this.description = fields[startIndex];
-        this.brand = fields[startIndex+1];
-        this.reference = fields[startIndex+2];
-        this.basePrice = Util.ToDouble(fields[startIndex+3]);
-        this.priceCorrection = Util.ToDouble(fields[startIndex+4]);
-        this.conditionScore = Util.ToDouble(fields[startIndex+5]);
-        this.previousOwners = Util.ToInteger(fields[startIndex+6]);
-        this.premiumStat = Util.ToBoolean(fields[startIndex+7]);
-        this.id = Util.ToInteger(fields[startIndex+8]);
-        this.userId = Util.ToInteger(fields[startIndex+9]);
-        //Carrier
+        this.brand = fields[startIndex + 1];
+        this.reference = fields[startIndex + 2];
+        this.basePrice = Util.ToDouble(fields[startIndex + 3]);
+        this.priceCorrection = Util.ToDouble(fields[startIndex + 4]);
+        this.conditionScore = Util.ToDouble(fields[startIndex + 5]);
+        this.previousOwners = Util.ToInteger(fields[startIndex + 6]);
+        this.premiumStat = Util.ToBoolean(fields[startIndex + 7]);
+        this.id = Util.ToInteger(fields[startIndex + 8]);
+        this.userId = Util.ToInteger(fields[startIndex + 9]);
+        // Carrier
         carrier = new Carrier();
-        carrier.deserialize( Consts.DELIM_2, fields[startIndex+10] );
+        carrier.deserialize(Consts.DELIM_2, fields[startIndex + 10]);
         //
-        int arraySz = fields.length - (startIndex+11);
-        String [] remainder = new String[ arraySz ];
-        System.arraycopy(fields, startIndex+11, remainder, 0, arraySz);
+        int arraySz = fields.length - (startIndex + 11);
+        String[] remainder = new String[arraySz];
+        System.arraycopy(fields, startIndex + 11, remainder, 0, arraySz);
 
         return remainder;
     }
 
-    //Deserialize any kind of item
-    public static Item deserializeItem(String delimiter, String line){
+    // Deserialize any kind of item
+    public static Item deserializeItem(String delimiter, String line) {
         Item item = null;
 
-        String [] fields = Util.Split(delimiter, line);
+        String[] fields = Util.Split(delimiter, line);
         String type = fields[0];
-        switch(type){
-            case "b":   
+        switch (type) {
+            case "b":
                 Bag b = new Bag();
                 b.deserialize(delimiter, line);
                 item = b;

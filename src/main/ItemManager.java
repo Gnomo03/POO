@@ -5,12 +5,11 @@ import java.util.List;
 public class ItemManager {
     private HashMap<Integer, Item> soldItemsMap;
     private HashMap<Integer, Item> listedItemsMap;
-    
 
     public ItemManager() {
         this.soldItemsMap = new HashMap<Integer, Item>();
         this.listedItemsMap = new HashMap<Integer, Item>();
-        
+
     }
 
     public Item getItem(int id) {
@@ -78,15 +77,15 @@ public class ItemManager {
         return null;
     }
 
-    public String serialize(){
+    public String serialize() {
         String result = "";
-        for ( Item i : listedItemsMap.values()) {
+        for (Item i : listedItemsMap.values()) {
             result += i.serialize(Consts.DELIM_1) + "\n";
         }
         return result;
     }
 
-    public String deserialize( List<String> Lines ){
+    public String deserialize(List<String> Lines) {
         String result = "";
 
         this.listedItemsMap.clear();
