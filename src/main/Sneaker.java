@@ -35,25 +35,23 @@ public class Sneaker extends Item {
     /**
      * Constructor for the Sneaker class with all parameters.
      *
-     * @param description     The description of the sneaker.
-     * @param brand           The brand of the sneaker.
-     * @param reference       The reference of the sneaker.
-     * @param basePrice       The base price of the sneaker.
-     * @param priceCorrection The price correction of the sneaker.
-     * @param carrier         The carrier of the sneaker.
-     * @param conditionScore  The condition score of the sneaker.
-     * @param previousOwners  The number of previous owners of the sneaker.
-     * @param premiumStat     Whether or not the sneaker is premium status.
-     * @param size            The size of the sneaker.
-     * @param type            The type of the sneaker (LACES or NOLACES).
-     * @param color           The color of the sneaker.
-     * @param releaseDate     The release date of the sneaker.
+     * @param description    The description of the sneaker.
+     * @param brand          The brand of the sneaker.
+     * @param reference      The reference of the sneaker.
+     * @param basePrice      The base price of the sneaker.
+     * @param carrier        The carrier of the sneaker.
+     * @param conditionScore The condition score of the sneaker.
+     * @param previousOwners The number of previous owners of the sneaker.
+     * @param size           The size of the sneaker.
+     * @param type           The type of the sneaker (LACES or NOLACES).
+     * @param color          The color of the sneaker.
+     * @param releaseDate    The release date of the sneaker.
      */
-    public Sneaker(String description, String brand, String reference, double basePrice, double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double size,
+    public Sneaker(String description, String brand, String reference, double basePrice,
+            Carrier carrier, double conditionScore, int previousOwners, double size,
             SneakerType type, String color, LocalDate releaseDate, int userId) {
-        super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat, userId);
+        super(description, brand, reference, basePrice, carrier, conditionScore, previousOwners,
+                userId);
         this.size = size;
         this.type = type;
         this.color = color;
@@ -167,11 +165,9 @@ public class Sneaker extends Item {
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
-                ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
-                ", premiumStat=" + isPremium() +
                 ", size=" + this.size +
                 ", type=" + this.type +
                 ", color='" + this.color + '\'' +
@@ -193,9 +189,9 @@ public class Sneaker extends Item {
         Sneaker s = (Sneaker) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
                 && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
-                && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
+                && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
-                && this.getPreviousOwners() == s.getPreviousOwners() && this.isPremium() == (s.isPremium())
+                && this.getPreviousOwners() == s.getPreviousOwners()
                 && this.size == s.getSize() && this.type.equals(s.getType()) && this.color.equals(s.getColor())
                 && this.releaseDate == s.getReleaseDate();
     }

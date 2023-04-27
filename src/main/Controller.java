@@ -53,30 +53,27 @@ public class Controller {
      */
 
     public boolean registItemBag(String description, String brand, String reference, double basePrice,
-            double priceCorrection,
-            String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
+            String carrier, double conditionScore, int previousOwners, double dimension,
             String material, LocalDate releaseDate) {
 
-        return m.registBag(description, brand, reference, basePrice, priceCorrection,
-                carrier, conditionScore, previousOwners, premiumStat, dimension, material, releaseDate,
+        return m.registBag(description, brand, reference, basePrice,
+                carrier, conditionScore, previousOwners, dimension, material, releaseDate,
                 this.m.getCurrentUser().getId());
     }
 
     public boolean registItemTshirt(String description, String brand, String reference, double basePrice,
-            double priceCorrection,
-            String carrier, double conditionScore, int previousOwners, boolean premiumStat,
+            String carrier, double conditionScore, int previousOwners,
             Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
-        return m.registTshirt(description, brand, reference, basePrice, priceCorrection,
-                reference, conditionScore, previousOwners, premiumStat, size, pattern,
+        return m.registTshirt(description, brand, reference, basePrice,
+                reference, conditionScore, previousOwners, size, pattern,
                 this.m.getCurrentUser().getId());
     }
 
     public boolean registItemSneaker(String description, String brand, String reference, double basePrice,
-            double priceCorrection,
-            String carrier, double conditionScore, int previousOwners, boolean premiumStat,
+            String carrier, double conditionScore, int previousOwners,
             double size, Sneaker.SneakerType type, String color, LocalDate releaseDate) {
-        return m.registSneaker(description, brand, reference, basePrice, priceCorrection,
-                carrier, conditionScore, previousOwners, premiumStat, size, type, color, releaseDate,
+        return m.registSneaker(description, brand, reference, basePrice,
+                carrier, conditionScore, previousOwners, size, type, color, releaseDate,
                 this.m.getCurrentUser().getId());
     }
 

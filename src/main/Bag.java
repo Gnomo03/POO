@@ -24,24 +24,22 @@ public class Bag extends Item {
     /**
      * Constructor for the Bag class with all parameters.
      *
-     * @param description     The description of the bag.
-     * @param brand           The brand of the bag.
-     * @param reference       The reference of the bag.
-     * @param basePrice       The base price of the bag.
-     * @param priceCorrection The price correction of the bag.
-     * @param carrier         The carrier of the bag.
-     * @param conditionScore  The condition score of the bag.
-     * @param previousOwners  The number of previous owners of the bag.
-     * @param premiumStat     Whether or not the bag is premium status.
-     * @param dimension       The dimension of the bag.
-     * @param material        The material of the bag.
-     * @param releaseDate     The release date of the bag.
+     * @param description    The description of the bag.
+     * @param brand          The brand of the bag.
+     * @param reference      The reference of the bag.
+     * @param basePrice      The base price of the bag.
+     * @param carrier        The carrier of the bag.
+     * @param conditionScore The condition score of the bag.
+     * @param previousOwners The number of previous owners of the bag.
+     * @param dimension      The dimension of the bag.
+     * @param material       The material of the bag.
+     * @param releaseDate    The release date of the bag.
      */
-    public Bag(String description, String brand, String reference, double basePrice, double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
+    public Bag(String description, String brand, String reference, double basePrice,
+            Carrier carrier, double conditionScore, int previousOwners, double dimension,
             String material, LocalDate releaseDate, int userId) {
-        super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat, userId);
+        super(description, brand, reference, basePrice, carrier, conditionScore, previousOwners,
+                userId);
         this.dimension = dimension;
         this.material = material;
         this.releaseDate = releaseDate;
@@ -93,11 +91,7 @@ public class Bag extends Item {
      * @return The price of the bag.
      */
     public double getPrice() {
-        if (this.isPremium())
-            return (10 + (2023 - this.releaseDate.getYear())) / 10 * this.getBasePrice();
-        else {
-            return (this.getBasePrice() / this.dimension);
-        }
+        return (this.getBasePrice() / this.dimension);
     }
 
     /**
@@ -139,11 +133,9 @@ public class Bag extends Item {
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
-                ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
-                ", premiumStat=" + isPremium() +
                 ", dimension=" + this.dimension +
                 ", material=" + this.material +
                 ", releaseDate=" + this.releaseDate +
@@ -164,9 +156,9 @@ public class Bag extends Item {
         Bag s = (Bag) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
                 && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
-                && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
+                && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
-                && this.getPreviousOwners() == s.getPreviousOwners() && this.isPremium() == (s.isPremium())
+                && this.getPreviousOwners() == s.getPreviousOwners()
                 && this.dimension == s.getDimension() && this.material.equals(s.getMaterial())
                 && this.releaseDate == s.getReleaseDate();
     }
