@@ -67,7 +67,7 @@ public class Controller {
             String carrier, double conditionScore, int previousOwners, boolean premiumStat,
             Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
         return m.registTshirt(description, brand, reference, basePrice, priceCorrection,
-                reference, conditionScore, previousOwners, premiumStat, size, pattern,
+                carrier, conditionScore, previousOwners, premiumStat, size, pattern,
                 this.m.getCurrentUser().getId());
     }
 
@@ -98,8 +98,11 @@ public class Controller {
     }
 
     public String displayCarriers() {
-
-        return m.getCarrierManagerList().toString();
+        String res = "";
+        for (Carrier c :m.getCarrierManagerList()) {
+            res += c.toString() + "\n";
+        }
+        return res;
     }
 
     public String displayListedItems() {

@@ -68,7 +68,8 @@ public class View {
     }
 
     private void registerItem() {
-        String des, brand, ref, price, correc, score, prevO, premium, date, size, carrier;
+        String des, brand, ref, price, correc, prevO, premium, date, size, carrier;
+        //score
         // User cUser = _cont.getCurrentUser();
         // int cID = cUser.getId();
         if (_cont.getCurrentUser() == null) {
@@ -96,8 +97,10 @@ public class View {
                     price = scanner.nextLine();
                     System.out.print("Enter Bag Price Correction:"); //
                     correc = scanner.nextLine();
-                    System.out.print("Enter Bag Condition Score:");
+                    /*
+                    System.out.print("Enter Tshirt Condition Score:");
                     score = scanner.nextLine();
+                     */
                     System.out.print("Enter Bag Previous Owners:");
                     prevO = scanner.nextLine();
                     System.out.print("Enter Bag Premium Stat:");
@@ -108,14 +111,11 @@ public class View {
                     String material = scanner.nextLine();
                     System.out.print("Enter Bag Release Date:");
                     date = scanner.nextLine();
-                    System.out.print("Choose one of the following Carrier's:");
+                    System.out.print("Choose one of the following Carrier's:\n");
                     System.out.print(_cont.displayCarriers());
                     carrier = scanner.nextLine();
-                    System.out.print("\n");
-                    System.out.print("\n");
-                    System.out.print("\n");
                     _cont.registItemBag(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc),
-                            carrier, Util.ToDouble(score),
+                            carrier, 0/*Util.ToDouble(score)*/,
                             Util.ToInteger(prevO), Util.ToBoolean(premium),
                             // cID,
                             Util.ToInteger(dimension), material, Util.ToDate(date));
@@ -132,8 +132,10 @@ public class View {
                     price = scanner.nextLine();
                     System.out.print("Enter Tshirt Price Correction:");
                     correc = scanner.nextLine();
+                    /*
                     System.out.print("Enter Tshirt Condition Score:");
                     score = scanner.nextLine();
+                     */
                     System.out.print("Enter Tshirt Previous Owners:");
                     prevO = scanner.nextLine();
                     System.out.print("Enter Tshirt Premium Stat:");
@@ -142,14 +144,11 @@ public class View {
                     size = scanner.nextLine();
                     System.out.print("Enter Tshirt Pattern:");
                     String pattern = scanner.nextLine();
-                    System.out.print("Choose one of the following Carrier's:");
+                    System.out.print("Choose one of the following Carrier's:\n");
                     System.out.print(_cont.displayCarriers());
-                    System.out.print("\n");
-                    System.out.print("\n");
-                    System.out.print("\n");
                     carrier = scanner.nextLine();
                     _cont.registItemTshirt(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc),
-                            carrier, Util.ToInteger(score), Util.ToInteger(prevO), Util.ToBoolean(premium),
+                            carrier, 0/*Util.ToInteger(score)*/, Util.ToInteger(prevO), Util.ToBoolean(premium),
                             // cID,
                             Util.toTshirtSize(size), Util.toTshirtPattern(pattern));
                     break;
@@ -165,8 +164,10 @@ public class View {
                     price = scanner.nextLine();
                     System.out.print("Enter Sneaker Price Correction:");
                     correc = scanner.nextLine();
-                    System.out.print("Enter Sneaker Condition Score:");
+                    /*
+                    System.out.print("Enter Tshirt Condition Score:");
                     score = scanner.nextLine();
+                     */
                     System.out.print("Enter Sneaker Previous Owners:");
                     prevO = scanner.nextLine();
                     System.out.print("Enter Sneaker Premium Stat:");
@@ -179,14 +180,11 @@ public class View {
                     String color = scanner.nextLine();
                     System.out.print("Enter Sneaker Release Date:");
                     date = scanner.nextLine();
-                    System.out.print("Choose one of the following Carrier's:");
+                    System.out.print("Choose one of the following Carrier's:\n");
                     System.out.print(_cont.displayCarriers());
-                    System.out.print("\n");
-                    System.out.print("\n");
-                    System.out.print("\n");
                     carrier = scanner.nextLine();
                     _cont.registItemSneaker(des, brand, ref, Util.ToDouble(price), Util.ToDouble(correc),
-                            carrier, Util.ToDouble(score), Util.ToInteger(prevO),
+                            carrier, 0/*Util.ToDouble(score)*/, Util.ToInteger(prevO),
                             Util.ToBoolean(premium),
                             // cID,
                             Util.ToDouble(size), Util.toSneakerType(type), color, Util.ToDate(date));

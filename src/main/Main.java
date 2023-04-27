@@ -19,6 +19,5 @@ public class Main {
 
         View menu = new View(c);
         menu.mainMenu();
-
     }
 }
