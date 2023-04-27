@@ -1,19 +1,15 @@
-
 /**
- * Represents an item with a description, brand, reference, base price,
+ * Represents an item with a description, brand, base price,
  * price correction, carrier, condition score, previous owners,
  * premium status and ID.
  */
 public abstract class Item {
     private String description;
     private String brand;
-    private String reference;
     private double basePrice;
-    private double priceCorrection;
     private Carrier carrier;
     private double conditionScore;
     private int previousOwners;
-    private boolean premiumStat;
     private int id;
     private int userId;
 
@@ -26,12 +22,9 @@ public abstract class Item {
     public Item() {
         this.description = "n/d";
         this.brand = "n/d";
-        this.reference = "n/d";
         this.basePrice = 0;
-        this.priceCorrection = 0;
         this.conditionScore = 0;
         this.previousOwners = 0;
-        this.premiumStat = false;
         this.id = currentID;
         currentID++;
         this.userId = 0; // admin id
@@ -40,27 +33,21 @@ public abstract class Item {
     /**
      * Constructor for Item class with parameters.
      *
-     * @param description     the description of the item
-     * @param brand           the brand of the item
-     * @param reference       the reference of the item
-     * @param basePrice       the base price of the item
-     * @param priceCorrection the price correction of the item
-     * @param carrier         the carrier of the item
-     * @param conditionScore  the condition score of the item
-     * @param previousOwners  the number of previous owners of the item
-     * @param premiumStat     whether or not the item has premium status
+     * @param description    the description of the item
+     * @param brand          the brand of the item
+     * @param basePrice      the base price of the item
+     * @param carrier        the carrier of the item
+     * @param conditionScore the condition score of the item
+     * @param previousOwners the number of previous owners of the item
      */
-    public Item(String description, String brand, String reference, double basePrice, double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId) {
+    public Item(String description, String brand, double basePrice,
+            Carrier carrier, double conditionScore, int previousOwners, int userId) {
         this.description = description;
         this.brand = brand;
-        this.reference = reference;
         this.basePrice = basePrice;
-        this.priceCorrection = priceCorrection;
         this.carrier = carrier;
         this.conditionScore = conditionScore;
         this.previousOwners = previousOwners;
-        this.premiumStat = premiumStat;
         this.id = currentID;
         currentID++;
         this.userId = userId;
@@ -74,13 +61,10 @@ public abstract class Item {
     public Item(Item oneItem) {
         this.description = oneItem.getDescription();
         this.brand = oneItem.getBrand();
-        this.reference = oneItem.getReference();
         this.basePrice = oneItem.getBasePrice();
-        this.priceCorrection = oneItem.getPriceCorrection();
         this.carrier = oneItem.getCarrier();
         this.conditionScore = oneItem.getConditionScore();
         this.previousOwners = oneItem.getPreviousOwners();
-        this.premiumStat = oneItem.isPremium();
         this.id = oneItem.getID();
         currentID++; // Acho que isto está a mais
         this.userId = oneItem.getUserId();
@@ -114,30 +98,12 @@ public abstract class Item {
     }
 
     /**
-     * Returns the reference of the item.
-     *
-     * @return the reference of the item
-     */
-    public String getReference() {
-        return this.reference;
-    }
-
-    /**
      * Returns the base price of the item.
      *
      * @return the base price of the item
      */
     public double getBasePrice() {
         return this.basePrice;
-    }
-
-    /**
-     * Returns the price correction of the item.
-     *
-     * @return the price correction of the item
-     */
-    public double getPriceCorrection() {
-        return this.priceCorrection;
     }
 
     /**
@@ -184,15 +150,6 @@ public abstract class Item {
     }
 
     /**
-     * Returns whether or not the item has premium status.
-     *
-     * @return true if the item has premium status, false otherwise
-     */
-    public boolean isPremium() {
-        return this.premiumStat;
-    }
-
-    /**
      * Sets the description of the item.
      *
      * @param description the new description of the item
@@ -220,30 +177,12 @@ public abstract class Item {
     }
 
     /**
-     * Sets the reference of the item.
-     *
-     * @param reference the new reference of the item
-     */
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    /**
      * Sets the base price of the item.
      *
      * @param basePrice the new base price of the item
      */
     public void setBasePrice(double basePrice) {
         this.basePrice = basePrice;
-    }
-
-    /**
-     * Sets the price correction of the item.
-     *
-     * @param priceCorrection the new price correction of the item
-     */
-    public void setPriceCorrection(double priceCorrection) {
-        this.priceCorrection = priceCorrection;
     }
 
     /**
@@ -303,12 +242,9 @@ public abstract class Item {
         String result = String.join(delimiter,
                 this.description,
                 this.brand,
-                this.reference,
                 String.valueOf(this.basePrice),
-                String.valueOf(this.priceCorrection),
                 String.valueOf(this.conditionScore),
                 String.valueOf(this.previousOwners),
-                String.valueOf(this.premiumStat),
                 String.valueOf(this.id),
                 String.valueOf(this.userId),
                 carrier.serialize(Consts.DELIM_2)) + "\t";
@@ -318,12 +254,9 @@ public abstract class Item {
     protected String[] deserializeItem(String[] fields, int startIndex) {
         this.description = fields[startIndex];
         this.brand = fields[startIndex + 1];
-        this.reference = fields[startIndex + 2];
         this.basePrice = Util.ToDouble(fields[startIndex + 3]);
-        this.priceCorrection = Util.ToDouble(fields[startIndex + 4]);
         this.conditionScore = Util.ToDouble(fields[startIndex + 5]);
         this.previousOwners = Util.ToInteger(fields[startIndex + 6]);
-        this.premiumStat = Util.ToBoolean(fields[startIndex + 7]);
         this.id = Util.ToInteger(fields[startIndex + 8]);
         this.userId = Util.ToInteger(fields[startIndex + 9]);
         // Carrier

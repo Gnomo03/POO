@@ -40,24 +40,21 @@ public class Tshirt extends Item {
     /**
      * Constructor for the Tshirt class with all parameters.
      *
-     * @param description     The description of the tshirt.
-     * @param brand           The brand of the tshirt.
-     * @param reference       The reference of the tshirt.
-     * @param basePrice       The base price of the tshirt.
-     * @param priceCorrection The price correction of the tshirt.
-     * @param carrier         The carrier of the tshirt.
-     * @param conditionScore  The condition score of the tshirt.
-     * @param previousOwners  The number of previous owners of the tshirt.
-     * @param premiumStat     Whether or not the tshirt is premium status.
-     * @param size            The size of the tshirt (S, M, L or XL).
-     * @param pattern         The pattern of the tshirt (Smooth, Stripes or
-     *                        PalmTrees).
+     * @param description    The description of the tshirt.
+     * @param brand          The brand of the tshirt.
+     * @param basePrice      The base price of the tshirt.
+     * @param carrier        The carrier of the tshirt.
+     * @param conditionScore The condition score of the tshirt.
+     * @param previousOwners The number of previous owners of the tshirt.
+     * @param size           The size of the tshirt (S, M, L or XL).
+     * @param pattern        The pattern of the tshirt (Smooth, Stripes or
+     *                       PalmTrees).
      */
-    public Tshirt(String description, String brand, String reference, double basePrice, double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, TshirtSize size,
+    public Tshirt(String description, String brand, double basePrice,
+            Carrier carrier, double conditionScore, int previousOwners, TshirtSize size,
             TshirtPattern pattern, int userId) {
-        super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat, userId);
+        super(description, brand, basePrice, carrier, conditionScore, previousOwners,
+                userId);
         this.size = size;
         this.pattern = pattern;
     }
@@ -137,13 +134,10 @@ public class Tshirt extends Item {
                 "id=" + getID() + '\'' +
                 "description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
-                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
-                ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
-                ", premiumStat=" + isPremium() +
                 ", size=" + this.size +
                 ", pattern=" + this.pattern +
                 '}';
@@ -162,10 +156,10 @@ public class Tshirt extends Item {
             return false;
         Tshirt s = (Tshirt) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
-                && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
-                && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
+                && this.getBasePrice() == s.getBasePrice()
+                && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
-                && this.getPreviousOwners() == s.getPreviousOwners() && this.isPremium() == (s.isPremium())
+                && this.getPreviousOwners() == s.getPreviousOwners()
                 && this.size == s.getSize() && this.pattern == s.getPattern();
     }
 
