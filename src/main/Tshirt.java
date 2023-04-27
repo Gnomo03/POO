@@ -54,18 +54,10 @@ import java.util.Stack;
      * @param pattern         The pattern of the tshirt (Smooth, Stripes or
      *                        PalmTrees).
      */
-<<<<<<< Updated upstream
-    public Tshirt(String description, String brand, String reference, double basePrice, double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, TshirtSize size,
-            TshirtPattern pattern,int userId) {
-        super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat,userId);
-=======
     public Tshirt(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, Stack<Integer> previousOwners, TshirtSize size,
             TshirtPattern pattern, int userId) {
         super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
->>>>>>> Stashed changes
         this.size = size;
         this.pattern = pattern;
     }
@@ -150,7 +142,6 @@ import java.util.Stack;
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
-                ", premiumStat=" + isPremium() +
                 ", size=" + this.size +
                 ", pattern=" + this.pattern +
                 '}';
@@ -172,7 +163,7 @@ import java.util.Stack;
                 && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
                 && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
-                && this.getPreviousOwners() == s.getPreviousOwners() && this.isPremium() == (s.isPremium())
+                && this.getPreviousOwners() == s.getPreviousOwners()
                 && this.size == s.getSize() && this.pattern == s.getPattern();
     }
 
@@ -184,8 +175,4 @@ import java.util.Stack;
     public Tshirt clone() {
         return new Tshirt(this);
     }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

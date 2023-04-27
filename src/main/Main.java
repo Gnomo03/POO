@@ -2,12 +2,8 @@ public class Main {
     
     public static void main(String[] args) {
 
-        Module m = new Module();
+        Model m = new Model();
         Controller c = new Controller(m);
-<<<<<<< Updated upstream
-        c.loadData();
-        Menu menu = new Menu(c);
-=======
 
 
         // ----------Carriers-----------------
@@ -22,7 +18,6 @@ public class Main {
         // -----------------------------------
 
         View menu = new View(c);
->>>>>>> Stashed changes
         menu.mainMenu();
     }
 }

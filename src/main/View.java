@@ -68,7 +68,7 @@ public class View {
     }
 
     private void registerItem() {
-        String des, brand, price, score, prevO, date, size, carrier;
+        String des, brand, price, score, date, size, carrier;
         // User cUser = _cont.getCurrentUser();
         // int cID = cUser.getId();
         if (_cont.getCurrentUser() == null) {
@@ -92,7 +92,7 @@ public class View {
                     brand = scanner.nextLine();
                     System.out.print("Enter Bag Base Price:");
                     price = scanner.nextLine();
-                    System.out.print("Enter Bag Condition Score:");
+                    System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
                     score = scanner.nextLine();
                     System.out.print("Enter Bag dimension:");
                     String dimension = scanner.nextLine();
@@ -107,7 +107,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     _cont.registItemBag(des, brand, Util.ToDouble(price),
-                            carrier, Util.ToDouble(score),
+                            carrier, Util.ToDouble(score)/5,
                             
                             // cID,
                             Util.ToInteger(dimension), material, Util.ToDate(date));
@@ -120,7 +120,7 @@ public class View {
                     brand = scanner.nextLine();
                     System.out.print("Enter Tshirt Base Price:");
                     price = scanner.nextLine();
-                    System.out.print("Enter Tshirt Condition Score:");
+                    System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
                     score = scanner.nextLine();
                     System.out.print("Enter Tshirt Size:");
                     size = scanner.nextLine();
@@ -133,7 +133,7 @@ public class View {
                     System.out.print("\n");
                     carrier = scanner.nextLine();
                     _cont.registItemTshirt(des, brand, Util.ToDouble(price),
-                            carrier, Util.ToInteger(score),
+                            carrier, Util.ToInteger(score)/5,
                             // cID,
                             Util.toTshirtSize(size), Util.toTshirtPattern(pattern));
                     break;
@@ -145,7 +145,7 @@ public class View {
                     brand = scanner.nextLine();
                     System.out.print("Enter Sneaker Base Price:");
                     price = scanner.nextLine();
-                    System.out.print("Enter Sneaker Condition Score:");
+                    System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
                     score = scanner.nextLine();
                     System.out.print("Enter Sneaker Size:");
                     size = scanner.nextLine();
@@ -162,7 +162,7 @@ public class View {
                     System.out.print("\n");
                     carrier = scanner.nextLine();
                     _cont.registItemSneaker(des, brand, Util.ToDouble(price),
-                            carrier, Util.ToDouble(score),
+                            carrier, Util.ToDouble(score)/5,
                             // cID,
                             Util.ToDouble(size), Util.toSneakerType(type), color, Util.ToDate(date));
                     break;
@@ -193,7 +193,11 @@ public class View {
         System.out.print("\n");
         System.out.print("\n");
     }
+    private void skipTime(){
 
+        System.out.print("Not implemented yet\n");
+
+    }
     public void mainMenu() {
         boolean quit = false;
 
@@ -209,6 +213,7 @@ public class View {
             System.out.print("o: Make a order:\n");
             System.out.print("i: Register a Item:\n");
             System.out.print("c: To check orders:\n");
+            System.out.print("t: To skip time:\n");
             System.out.print("\n");
             if (_cont.getCurrentUser() != null) {
                 System.out.print("User: " + _cont.getCurrentUser().getName());
@@ -245,6 +250,9 @@ public class View {
                 case "c":
                     checkOrder();
                     break;
+                case "t":
+                    skipTime();
+                break;
             }
         }
 

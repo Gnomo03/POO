@@ -13,12 +13,7 @@ public abstract class Item implements Price {
     private double priceCorrection;
     private Carrier carrier;
     private double conditionScore;
-<<<<<<< Updated upstream
-    private int previousOwners;
-    private boolean premiumStat;
-=======
     Stack<Integer> previousOwners;
->>>>>>> Stashed changes
     private int id;
     private int userId;
 
@@ -37,12 +32,7 @@ public abstract class Item implements Price {
         this.basePrice = 0;
         this.priceCorrection = 0;
         this.conditionScore = 0;
-<<<<<<< Updated upstream
-        this.previousOwners = 0;
-        this.premiumStat = false;
-=======
         this.previousOwners = new Stack<Integer>();
->>>>>>> Stashed changes
         this.id = currentID;
         currentID++;
         this.userId = 0; // admin id
@@ -61,22 +51,15 @@ public abstract class Item implements Price {
      * @param previousOwners  the number of previous owners of the item
      * @param premiumStat     whether or not the item has premium status
      */
-<<<<<<< Updated upstream
-    public Item(String description, String brand, String reference, double basePrice, double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId) {
-=======
     public Item(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, int userId,Stack<Integer>previousOwners) {
->>>>>>> Stashed changes
         this.description = description;
         this.brand = brand;
-        this.reference = reference;
         this.basePrice = basePrice;
-        this.priceCorrection = priceCorrection;
         this.carrier = carrier;
         this.conditionScore = conditionScore;
+        this.priceCorrection = 1-this.conditionScore;
         this.previousOwners = previousOwners;
-        this.premiumStat = premiumStat;
         this.id = currentID;
         currentID++;
         this.userId = userId;
@@ -96,7 +79,6 @@ public abstract class Item implements Price {
         this.carrier = oneItem.getCarrier();
         this.conditionScore = oneItem.getConditionScore();
         this.previousOwners = oneItem.getPreviousOwners();
-        this.premiumStat = oneItem.isPremium();
         this.id = oneItem.getID();
         currentID++; // Acho que isto está a mais
         this.userId = oneItem.getUserId();
@@ -197,14 +179,8 @@ public abstract class Item implements Price {
         return this.id;
     }
 
-    /**
-     * Returns whether or not the item has premium status.
-     *
-     * @return true if the item has premium status, false otherwise
-     */
-    public boolean isPremium() {
-        return this.premiumStat;
-    }
+
+
 
     /**
      * Sets the description of the item.

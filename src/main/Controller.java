@@ -1,27 +1,11 @@
-<<<<<<< Updated upstream
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-=======
 import java.time.LocalDate;
->>>>>>> Stashed changes
 import java.util.List;
 
 public class Controller {
 
-<<<<<<< Updated upstream
-    private static String USER_DATA_FILE = "user.data";
-    private static String ITEM_DATA_FILE = "item.data";
-
-    private Module m;
-=======
     private Model m;
->>>>>>> Stashed changes
 
-    public Controller(Module m) {
+    public Controller(Model m) {
         this.m = m;
     }
 
@@ -54,29 +38,6 @@ public class Controller {
      * }
      */
 
-<<<<<<< Updated upstream
-    public boolean registItemBag(String description, String brand, String reference, double basePrice, double priceCorrection,
-    String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
-    String material, int releaseDate){
-        
-        return m.registBag(description, brand, reference, basePrice, priceCorrection,
-        carrier,conditionScore, previousOwners, premiumStat, dimension,material,releaseDate,this.m.getCurrentUser().getId());
-    }
-
-    public boolean registItemTshirt(String description, String brand, String reference, double basePrice,
-            double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,
-            Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
-       return false; // to be defined
-    }
-
-    public boolean registItemSneaker(String description, String brand, String reference, double basePrice,
-            double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, int userId,
-            double size, Sneaker.SneakerType type,
-            String color, int date) {
-            return false; // to be defined
-=======
     public boolean registItemBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
             String material, LocalDate releaseDate) {
@@ -100,7 +61,6 @@ public class Controller {
         return m.registSneaker(description, brand, basePrice,
                 carrier, conditionScore, size, type, color, releaseDate,
                 this.m.getCurrentUser().getId());
->>>>>>> Stashed changes
     }
 
     public boolean registerUser(String email, String name, String address, int nif, String password) {
@@ -114,37 +74,6 @@ public class Controller {
         }
     }
 
-<<<<<<< Updated upstream
-    public boolean saveData() {
-        boolean result = false;
-        try {
-            FileWriter fw = new FileWriter(USER_DATA_FILE);
-            fw.write(this.m.SerializeUsers());
-            // fw.write(m.toJson());
-            fw.close();
-            result = true;
-        } catch (Exception ex) {
-            // Avisar o utilizador
-
-        }
-
-        return result;
-    }
-
-    public boolean loadData() {
-        boolean result = false;
-        try {
-            // Users
-            List<String> lines = Files.readAllLines(Path.of(USER_DATA_FILE));
-            m.DeSerializeUsers(lines);
-            //
-            // Others...
-            result = true;
-        } catch (Exception ex) {
-        }
-        return result;
-    }
-=======
     public void placeOrder(List<Integer> order) {
 
         m.makeOrder(m.getCurrentUser().getId(), order);
@@ -166,5 +95,4 @@ public class Controller {
         return m.toString();
     }
 
->>>>>>> Stashed changes
 }

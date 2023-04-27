@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-=======
 import java.time.LocalDate;
 import java.util.Stack;
->>>>>>> Stashed changes
 /**
  * Represents a Sneaker item that extends the Item class.
  * It has instance variables such as size, type, color, and releaseDate.
@@ -15,7 +12,7 @@ public class Sneaker extends Item {
     private double size;
     private SneakerType type;
     private String color;
-    private int releaseDate;
+    private LocalDate releaseDate;
 
     /**
      * This enum represents the type of sneaker: LACES or NOLACES.
@@ -32,7 +29,7 @@ public class Sneaker extends Item {
         this.size = 0;
         this.type = null;
         this.color = "n/d";
-        this.releaseDate = 0;
+        
     }
 
     /**
@@ -52,18 +49,10 @@ public class Sneaker extends Item {
      * @param color           The color of the sneaker.
      * @param releaseDate     The release date of the sneaker.
      */
-<<<<<<< Updated upstream
-    public Sneaker(String description, String brand, String reference, double basePrice, double priceCorrection,
-            Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double size,
-            SneakerType type, String color, int releaseDate, int userId) {
-        super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
-                premiumStat, userId);
-=======
     public Sneaker(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double size,
             SneakerType type, String color, LocalDate releaseDate, int userId) {
          super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
->>>>>>> Stashed changes
         this.size = size;
         this.type = type;
         this.color = color;
@@ -115,7 +104,7 @@ public class Sneaker extends Item {
      * 
      * @return The release date of the sneaker.
      */
-    public int getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return this.releaseDate;
     }
 
@@ -126,16 +115,11 @@ public class Sneaker extends Item {
      * @return The price of the sneaker.
      */
     public double getPrice() {
-<<<<<<< Updated upstream
-        return (this.getBasePrice() - (this.getBasePrice() / this.getPreviousOwners() * this.getConditionScore()));
-    }
-=======
         return (this.getBasePrice() - (this.getBasePrice() / this.getPreviousOwners().size() * this.getConditionScore()));
     } // Seria 1 / this.getConditionScore, caso conditionScore seja pior à medida que
       // aumenta.
 
 
->>>>>>> Stashed changes
 
     /**
      * Sets the size of the sneaker.
@@ -169,7 +153,7 @@ public class Sneaker extends Item {
      * 
      * @param releaseDate The release date to set for the sneaker.
      */
-    public void setReleaseDate(int releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -188,7 +172,6 @@ public class Sneaker extends Item {
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
-                ", premiumStat=" + isPremium() +
                 ", size=" + this.size +
                 ", type=" + this.type +
                 ", color='" + this.color + '\'' +
@@ -212,7 +195,7 @@ public class Sneaker extends Item {
                 && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
                 && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
-                && this.getPreviousOwners() == s.getPreviousOwners() && this.isPremium() == (s.isPremium())
+                && this.getPreviousOwners() == s.getPreviousOwners()
                 && this.size == s.getSize() && this.type.equals(s.getType()) && this.color.equals(s.getColor())
                 && this.releaseDate == s.getReleaseDate();
     }
@@ -225,9 +208,6 @@ public class Sneaker extends Item {
     public Sneaker clone() {
         return new Sneaker(this);
     }
-<<<<<<< Updated upstream
-=======
 
 
->>>>>>> Stashed changes
 }

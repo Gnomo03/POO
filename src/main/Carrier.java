@@ -192,8 +192,6 @@ public class Carrier implements Comparable<Carrier> {
     public Carrier clone() {
         return new Carrier(this);
     }
-<<<<<<< Updated upstream
-=======
 
     public void updateEarnings (Integer total_items, double final_price){
 
@@ -205,5 +203,4 @@ public class Carrier implements Comparable<Carrier> {
         this.totalEarning += final_price *this.taxBig;
 
     }   
->>>>>>> Stashed changes
 }

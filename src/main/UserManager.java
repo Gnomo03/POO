@@ -60,10 +60,7 @@ public class UserManager {
         }
         return null;
     }
-<<<<<<< Updated upstream
-=======
 
     
 
->>>>>>> Stashed changes
 }

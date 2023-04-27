@@ -7,7 +7,7 @@ import java.util.Stack;
  * This class represents a module that manages items, users, orders, and
  * carriers.
  */
-public class Module {
+public class Model {
 
     private ItemManager itemManager;
     private UserManager userManager;
@@ -20,7 +20,7 @@ public class Module {
     /**
      * Constructs a new Module object with Managers.
      */
-    Module() {
+    Model() {
         this.itemManager = new ItemManager();
         this.userManager = new UserManager();
         this.orderManager = new OrderManager();
@@ -28,8 +28,6 @@ public class Module {
         this.date = LocalDate.now();
         this.vintageProfit = 0;
     }
-<<<<<<< Updated upstream:src/main/Module.java
-=======
 
     /// Managers -- Should be on Controller
     public UserManager getUserManager() {
@@ -59,7 +57,6 @@ public class Module {
     }
     /// -------------------
 
->>>>>>> Stashed changes:src/main/Model.java
     public User getCurrentUser() {
         if (this.currentUser != null) {
             return this.currentUser.clone();
@@ -106,15 +103,6 @@ public class Module {
         
     }
 
-<<<<<<< Updated upstream:src/main/Module.java
-    public boolean registBag(String description, String brand, String reference, double basePrice, double priceCorrection,
-    String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
-    String material, int releaseDate,int userId){
-
-
-        Bag bag = new Bag(description, brand, reference, basePrice, priceCorrection,this.carrierManager.getCarrier(carrier),
-        conditionScore,previousOwners,premiumStat,dimension,material,releaseDate,userId);
-=======
     public boolean registBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
             String material, LocalDate releaseDate, int userId) {
@@ -122,14 +110,10 @@ public class Module {
         Bag bag = new Bag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, dimension, material, releaseDate, userId);
->>>>>>> Stashed changes:src/main/Model.java
         registsItem(bag, userId);
 
 
         return registsItem(bag, userId);
-<<<<<<< Updated upstream:src/main/Module.java
-    }   
-=======
     }
 
     public boolean registTshirt(String description, String brand, double basePrice,
@@ -155,7 +139,6 @@ public class Module {
 
         return registsItem(sneaker, userId);
     }
->>>>>>> Stashed changes:src/main/Model.java
 
     @Override
     public String toString() {
@@ -170,25 +153,6 @@ public class Module {
                 '}';
     }
 
-    public String SerializeUsers() {
-        String result = "";
-        for (User u : userManager.getUserMap().values()) {
-            result += u.Serialize() + "\n";
-        }
-        return result;
-    }
-
-    public String DeSerializeUsers(List<String> Lines) {
-        String result = "";
-
-        this.userManager.getUserMap().clear();
-        for (String line : Lines) {
-            User u = new User();
-            u.DeSerialize(line);
-            this.userManager.addUser(u);
-        }
-        return result;
-    }
     public User lookupUser( String email){
 
         User u = userManager.findUserByEmail(email);
@@ -199,9 +163,6 @@ public class Module {
         User u = this.userManager.findUserByEmail(email);
         return u==null;
     }
-<<<<<<< Updated upstream:src/main/Module.java
-}
-=======
 
  public void updateItemModel(int item_id) {
 
@@ -209,8 +170,8 @@ public class Module {
         if (i != null) {
 
             this.vintageProfit += i.getPrice() * 0.112; // 0.122 Comissão por item da vintage
-            i.addPreviousOwner(this.getId());
-            removeItem(i);
+            i.addPreviousOwner(this.getCurrentUser().getId());
+            this.itemManager.updateItem(item_id);
         }
 
     }
@@ -254,4 +215,3 @@ public class Module {
 
     } 
 }
->>>>>>> Stashed changes:src/main/Model.java
