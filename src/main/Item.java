@@ -3,7 +3,7 @@
  * price correction, carrier, condition score, previous owners,
  * premium status and ID.
  */
-public abstract class Item implements Premium {
+public abstract class Item {
     private String description;
     private String brand;
     private String reference;

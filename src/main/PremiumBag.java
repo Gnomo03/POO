@@ -1,4 +1,4 @@
-public class PremiumBag extends Bag {
+public class PremiumBag extends Bag implements Premium {
 
     public PremiumBag() {
         super();
