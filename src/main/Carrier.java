@@ -192,4 +192,18 @@ public class Carrier implements Comparable<Carrier> {
     public Carrier clone() {
         return new Carrier(this);
     }
+<<<<<<< Updated upstream
+=======
+
+    public void updateEarnings (Integer total_items, double final_price){
+
+        if (total_items == 1 )
+        this.totalEarning += final_price *this.taxSmall;
+        if (total_items >= 2 && total_items <= 5 )
+        this.totalEarning += final_price *this.taxMedium;
+        if (total_items > 5  )
+        this.totalEarning += final_price *this.taxBig;
+
+    }   
+>>>>>>> Stashed changes
 }

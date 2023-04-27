@@ -4,8 +4,25 @@ public class Main {
 
         Module m = new Module();
         Controller c = new Controller(m);
+<<<<<<< Updated upstream
         c.loadData();
         Menu menu = new Menu(c);
+=======
+
+
+        // ----------Carriers-----------------
+
+        Carrier forBag = new Carrier("forBag", 0.013, 0.05, 0.02, 0);
+        Carrier forTS = new Carrier("forTS", 0.002, 0.015, 0.035, 0);
+        Carrier forSneak = new Carrier("forSneak", 0.0034, 0.062, 0.05, 0);
+        m.getCarrierManager().addCarrier(forBag);
+        m.getCarrierManager().addCarrier(forTS);
+        m.getCarrierManager().addCarrier(forSneak);
+
+        // -----------------------------------
+
+        View menu = new View(c);
+>>>>>>> Stashed changes
         menu.mainMenu();
     }
 }

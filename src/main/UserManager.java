@@ -37,20 +37,6 @@ public class UserManager {
         return this.userMap.remove(id).clone();
     }
 
-    /**
-     * Returns every sales of an user
-     *
-     * @param id of the user
-     * @return the sales of an user in a List
-     */
-    public List<Order> getUserSales(int id) {
-        User u = this.userMap.get(id);
-        List<Order> orders = new LinkedList<Order>();
-        for (Order order : u.getEmittedOrder())
-            orders.add(order.clone());
-        return orders;
-    }
-
     public List<User> getUsers() {
         List<User> users = new LinkedList<User>();
         for (Integer key : this.userMap.keySet()) {
@@ -74,4 +60,10 @@ public class UserManager {
         }
         return null;
     }
+<<<<<<< Updated upstream
+=======
+
+    
+
+>>>>>>> Stashed changes
 }

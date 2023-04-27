@@ -1,3 +1,4 @@
+import java.util.Stack;
 /**
  * Represents a Tshirt item that extends the Item class.
  * It has instance variables such as size and pattern.
@@ -53,11 +54,18 @@
      * @param pattern         The pattern of the tshirt (Smooth, Stripes or
      *                        PalmTrees).
      */
+<<<<<<< Updated upstream
     public Tshirt(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, TshirtSize size,
             TshirtPattern pattern,int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
                 premiumStat,userId);
+=======
+    public Tshirt(String description, String brand, double basePrice,
+            Carrier carrier, double conditionScore, Stack<Integer> previousOwners, TshirtSize size,
+            TshirtPattern pattern, int userId) {
+        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+>>>>>>> Stashed changes
         this.size = size;
         this.pattern = pattern;
     }
@@ -101,7 +109,7 @@
         if (this.pattern == TshirtPattern.Smooth)
             return this.getBasePrice();
         else {
-            if (this.getPreviousOwners() > 0)
+            if (this.getConditionScore() != 1)
                 return 0.5 * this.getBasePrice();
             else {
                 return this.getBasePrice();
@@ -176,4 +184,8 @@
     public Tshirt clone() {
         return new Tshirt(this);
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

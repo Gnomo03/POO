@@ -77,4 +77,8 @@ public class ItemManager {
         }
         return null;
     }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 }

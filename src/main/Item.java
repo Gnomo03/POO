@@ -1,9 +1,11 @@
+import java.util.Stack;
+
 /**
  * Represents an item with a description, brand, reference, base price,
  * price correction, carrier, condition score, previous owners,
  * premium status and ID.
  */
-public abstract class Item {
+public abstract class Item implements Price {
     private String description;
     private String brand;
     private String reference;
@@ -11,8 +13,12 @@ public abstract class Item {
     private double priceCorrection;
     private Carrier carrier;
     private double conditionScore;
+<<<<<<< Updated upstream
     private int previousOwners;
     private boolean premiumStat;
+=======
+    Stack<Integer> previousOwners;
+>>>>>>> Stashed changes
     private int id;
     private int userId;
 
@@ -31,8 +37,12 @@ public abstract class Item {
         this.basePrice = 0;
         this.priceCorrection = 0;
         this.conditionScore = 0;
+<<<<<<< Updated upstream
         this.previousOwners = 0;
         this.premiumStat = false;
+=======
+        this.previousOwners = new Stack<Integer>();
+>>>>>>> Stashed changes
         this.id = currentID;
         currentID++;
         this.userId = 0; // admin id
@@ -51,8 +61,13 @@ public abstract class Item {
      * @param previousOwners  the number of previous owners of the item
      * @param premiumStat     whether or not the item has premium status
      */
+<<<<<<< Updated upstream
     public Item(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat,int userId) {
+=======
+    public Item(String description, String brand, double basePrice,
+            Carrier carrier, double conditionScore, int userId,Stack<Integer>previousOwners) {
+>>>>>>> Stashed changes
         this.description = description;
         this.brand = brand;
         this.reference = reference;
@@ -169,7 +184,7 @@ public abstract class Item {
      *
      * @return the number of previous owners of the item
      */
-    public int getPreviousOwners() {
+    public Stack<Integer> getPreviousOwners() {
         return this.previousOwners;
     }
 
@@ -267,10 +282,12 @@ public abstract class Item {
      *
      * @param previousOwners the new number of previous owners of the item
      */
-    public void setPreviousOwners(int previousOwners) {
+    public void setPreviousOwners(Stack<Integer> previousOwners) {
         this.previousOwners = previousOwners;
     }
-
+    public void addPreviousOwner(int user_id){
+        this.previousOwners.push(user_id);
+    }
     /**
      * Returns a string representation of the item.
      *

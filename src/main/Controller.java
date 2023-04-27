@@ -1,17 +1,25 @@
+<<<<<<< Updated upstream
 import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+=======
+import java.time.LocalDate;
+>>>>>>> Stashed changes
 import java.util.List;
 
 public class Controller {
 
+<<<<<<< Updated upstream
     private static String USER_DATA_FILE = "user.data";
     private static String ITEM_DATA_FILE = "item.data";
 
     private Module m;
+=======
+    private Model m;
+>>>>>>> Stashed changes
 
     public Controller(Module m) {
         this.m = m;
@@ -46,6 +54,7 @@ public class Controller {
      * }
      */
 
+<<<<<<< Updated upstream
     public boolean registItemBag(String description, String brand, String reference, double basePrice, double priceCorrection,
     String carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
     String material, int releaseDate){
@@ -67,6 +76,31 @@ public class Controller {
             double size, Sneaker.SneakerType type,
             String color, int date) {
             return false; // to be defined
+=======
+    public boolean registItemBag(String description, String brand, double basePrice,
+            String carrier, double conditionScore, double dimension,
+            String material, LocalDate releaseDate) {
+
+        return m.registBag(description, brand, basePrice,
+                carrier, conditionScore, dimension, material, releaseDate,
+                this.m.getCurrentUser().getId());
+    }
+
+    public boolean registItemTshirt(String description, String brand, double basePrice,
+            String carrier, double conditionScore,
+            Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
+        return m.registTshirt(description, brand, basePrice, carrier,
+                conditionScore, size, pattern,
+                this.m.getCurrentUser().getId());
+    }
+
+    public boolean registItemSneaker(String description, String brand, double basePrice,
+            String carrier, double conditionScore,
+            double size, Sneaker.SneakerType type, String color, LocalDate releaseDate) {
+        return m.registSneaker(description, brand, basePrice,
+                carrier, conditionScore, size, type, color, releaseDate,
+                this.m.getCurrentUser().getId());
+>>>>>>> Stashed changes
     }
 
     public boolean registerUser(String email, String name, String address, int nif, String password) {
@@ -80,6 +114,7 @@ public class Controller {
         }
     }
 
+<<<<<<< Updated upstream
     public boolean saveData() {
         boolean result = false;
         try {
@@ -109,4 +144,27 @@ public class Controller {
         }
         return result;
     }
+=======
+    public void placeOrder(List<Integer> order) {
+
+        m.makeOrder(m.getCurrentUser().getId(), order);
+
+    }
+
+    public String displayCarriers() {
+
+        return m.getCarrierManagerList().toString();
+    }
+
+    public String displayListedItems() {
+
+        return m.getListedItemsManagerList().toString();
+    }
+
+    @Override
+    public String toString() {
+        return m.toString();
+    }
+
+>>>>>>> Stashed changes
 }

@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
+=======
+import java.time.LocalDate;
+import java.util.Stack;
+>>>>>>> Stashed changes
 /**
  * Represents a Sneaker item that extends the Item class.
  * It has instance variables such as size, type, color, and releaseDate.
@@ -47,11 +52,18 @@ public class Sneaker extends Item {
      * @param color           The color of the sneaker.
      * @param releaseDate     The release date of the sneaker.
      */
+<<<<<<< Updated upstream
     public Sneaker(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double size,
             SneakerType type, String color, int releaseDate, int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
                 premiumStat, userId);
+=======
+    public Sneaker(String description, String brand, double basePrice,
+            Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double size,
+            SneakerType type, String color, LocalDate releaseDate, int userId) {
+         super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+>>>>>>> Stashed changes
         this.size = size;
         this.type = type;
         this.color = color;
@@ -114,8 +126,16 @@ public class Sneaker extends Item {
      * @return The price of the sneaker.
      */
     public double getPrice() {
+<<<<<<< Updated upstream
         return (this.getBasePrice() - (this.getBasePrice() / this.getPreviousOwners() * this.getConditionScore()));
     }
+=======
+        return (this.getBasePrice() - (this.getBasePrice() / this.getPreviousOwners().size() * this.getConditionScore()));
+    } // Seria 1 / this.getConditionScore, caso conditionScore seja pior à medida que
+      // aumenta.
+
+
+>>>>>>> Stashed changes
 
     /**
      * Sets the size of the sneaker.
@@ -205,4 +225,9 @@ public class Sneaker extends Item {
     public Sneaker clone() {
         return new Sneaker(this);
     }
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 }

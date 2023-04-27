@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
+=======
+import java.time.LocalDate;
+import java.util.Stack;
+>>>>>>> Stashed changes
 /**
  * Represents a Bag item that extends the Item class.
  * It has instance variables such as dimension, material and releaseDate.
@@ -35,11 +40,18 @@ public class Bag extends Item {
      * @param material        The material of the bag.
      * @param releaseDate     The release date of the bag.
      */
+<<<<<<< Updated upstream
     public Bag(String description, String brand, String reference, double basePrice, double priceCorrection,
             Carrier carrier, double conditionScore, int previousOwners, boolean premiumStat, double dimension,
             String material, int releaseDate,int userId) {
         super(description, brand, reference, basePrice, priceCorrection, carrier, conditionScore, previousOwners,
                 premiumStat,userId);
+=======
+    public Bag(String description, String brand, double basePrice,
+            Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double dimension,
+            String material, LocalDate releaseDate, int userId) {
+        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+>>>>>>> Stashed changes
         this.dimension = dimension;
         this.material = material;
         this.releaseDate = releaseDate;
@@ -91,11 +103,15 @@ public class Bag extends Item {
      * @return The price of the bag.
      */
     public double getPrice() {
+<<<<<<< Updated upstream
         if (this.isPremium())
             return (10 + (2023 - this.releaseDate)) / 10 * this.getBasePrice();
         else {
             return (this.getBasePrice() / this.dimension);
         }
+=======
+        return (this.getBasePrice() / this.dimension);
+>>>>>>> Stashed changes
     }
 
     /**
@@ -176,4 +192,9 @@ public class Bag extends Item {
     public Bag clone() {
         return new Bag(this);
     }
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 }
