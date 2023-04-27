@@ -52,27 +52,27 @@ public class Controller {
      * }
      */
 
-    public boolean registItemBag(String description, String brand, String reference, double basePrice,
+    public boolean registItemBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, int previousOwners, double dimension,
             String material, LocalDate releaseDate) {
 
-        return m.registBag(description, brand, reference, basePrice,
+        return m.registBag(description, brand, basePrice,
                 carrier, conditionScore, previousOwners, dimension, material, releaseDate,
                 this.m.getCurrentUser().getId());
     }
 
-    public boolean registItemTshirt(String description, String brand, String reference, double basePrice,
+    public boolean registItemTshirt(String description, String brand, double basePrice,
             String carrier, double conditionScore, int previousOwners,
             Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
-        return m.registTshirt(description, brand, reference, basePrice,
-                reference, conditionScore, previousOwners, size, pattern,
+        return m.registTshirt(description, brand, basePrice, carrier,
+                conditionScore, previousOwners, size, pattern,
                 this.m.getCurrentUser().getId());
     }
 
-    public boolean registItemSneaker(String description, String brand, String reference, double basePrice,
+    public boolean registItemSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore, int previousOwners,
             double size, Sneaker.SneakerType type, String color, LocalDate releaseDate) {
-        return m.registSneaker(description, brand, reference, basePrice,
+        return m.registSneaker(description, brand, basePrice,
                 carrier, conditionScore, previousOwners, size, type, color, releaseDate,
                 this.m.getCurrentUser().getId());
     }

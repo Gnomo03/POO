@@ -68,7 +68,7 @@ public class View {
     }
 
     private void registerItem() {
-        String des, brand, ref, price, score, prevO, date, size, carrier;
+        String des, brand, price, score, prevO, date, size, carrier;
         // User cUser = _cont.getCurrentUser();
         // int cID = cUser.getId();
         if (_cont.getCurrentUser() == null) {
@@ -90,8 +90,6 @@ public class View {
                     des = scanner.nextLine();
                     System.out.print("Enter Bag brand:");
                     brand = scanner.nextLine();
-                    System.out.print("Enter Bag refrence:");
-                    ref = scanner.nextLine();
                     System.out.print("Enter Bag Base Price:");
                     price = scanner.nextLine();
                     System.out.print("Enter Bag Condition Score:");
@@ -110,7 +108,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     System.out.print("\n");
-                    _cont.registItemBag(des, brand, ref, Util.ToDouble(price),
+                    _cont.registItemBag(des, brand, Util.ToDouble(price),
                             carrier, Util.ToDouble(score),
                             Util.ToInteger(prevO),
                             // cID,
@@ -122,8 +120,6 @@ public class View {
                     des = scanner.nextLine();
                     System.out.print("Enter Tshirt brand:");
                     brand = scanner.nextLine();
-                    System.out.print("Enter Tshirt refrence:");
-                    ref = scanner.nextLine();
                     System.out.print("Enter Tshirt Base Price:");
                     price = scanner.nextLine();
                     System.out.print("Enter Tshirt Condition Score:");
@@ -140,7 +136,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     carrier = scanner.nextLine();
-                    _cont.registItemTshirt(des, brand, ref, Util.ToDouble(price),
+                    _cont.registItemTshirt(des, brand, Util.ToDouble(price),
                             carrier, Util.ToInteger(score), Util.ToInteger(prevO),
                             // cID,
                             Util.toTshirtSize(size), Util.toTshirtPattern(pattern));
@@ -151,8 +147,6 @@ public class View {
                     des = scanner.nextLine();
                     System.out.print("Enter Sneaker brand:");
                     brand = scanner.nextLine();
-                    System.out.print("Enter Sneaker refrence:");
-                    ref = scanner.nextLine();
                     System.out.print("Enter Sneaker Base Price:");
                     price = scanner.nextLine();
                     System.out.print("Enter Sneaker Condition Score:");
@@ -173,7 +167,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     carrier = scanner.nextLine();
-                    _cont.registItemSneaker(des, brand, ref, Util.ToDouble(price),
+                    _cont.registItemSneaker(des, brand, Util.ToDouble(price),
                             carrier, Util.ToDouble(score), Util.ToInteger(prevO),
                             // cID,
                             Util.ToDouble(size), Util.toSneakerType(type), color, Util.ToDate(date));

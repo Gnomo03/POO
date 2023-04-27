@@ -26,7 +26,6 @@ public class Bag extends Item {
      *
      * @param description    The description of the bag.
      * @param brand          The brand of the bag.
-     * @param reference      The reference of the bag.
      * @param basePrice      The base price of the bag.
      * @param carrier        The carrier of the bag.
      * @param conditionScore The condition score of the bag.
@@ -35,10 +34,10 @@ public class Bag extends Item {
      * @param material       The material of the bag.
      * @param releaseDate    The release date of the bag.
      */
-    public Bag(String description, String brand, String reference, double basePrice,
+    public Bag(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, int previousOwners, double dimension,
             String material, LocalDate releaseDate, int userId) {
-        super(description, brand, reference, basePrice, carrier, conditionScore, previousOwners,
+        super(description, brand, basePrice, carrier, conditionScore, previousOwners,
                 userId);
         this.dimension = dimension;
         this.material = material;
@@ -94,6 +93,10 @@ public class Bag extends Item {
         return (this.getBasePrice() / this.dimension);
     }
 
+    public double getPremiumPrice() {
+        return (10 + (2023 - this.getReleaseDate().getYear())) / 10 * this.getBasePrice();
+    }
+
     /**
      * Sets the dimension of the bag.
      * 
@@ -131,7 +134,6 @@ public class Bag extends Item {
                 "id=" + getID() + '\'' +
                 "description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
-                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
@@ -155,7 +157,7 @@ public class Bag extends Item {
             return false;
         Bag s = (Bag) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
-                && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
+                && this.getBasePrice() == s.getBasePrice()
                 && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
                 && this.getPreviousOwners() == s.getPreviousOwners()

@@ -1,12 +1,11 @@
 /**
- * Represents an item with a description, brand, reference, base price,
+ * Represents an item with a description, brand, base price,
  * price correction, carrier, condition score, previous owners,
  * premium status and ID.
  */
 public abstract class Item {
     private String description;
     private String brand;
-    private String reference;
     private double basePrice;
     private Carrier carrier;
     private double conditionScore;
@@ -23,7 +22,6 @@ public abstract class Item {
     public Item() {
         this.description = "n/d";
         this.brand = "n/d";
-        this.reference = "n/d";
         this.basePrice = 0;
         this.conditionScore = 0;
         this.previousOwners = 0;
@@ -37,17 +35,15 @@ public abstract class Item {
      *
      * @param description    the description of the item
      * @param brand          the brand of the item
-     * @param reference      the reference of the item
      * @param basePrice      the base price of the item
      * @param carrier        the carrier of the item
      * @param conditionScore the condition score of the item
      * @param previousOwners the number of previous owners of the item
      */
-    public Item(String description, String brand, String reference, double basePrice,
+    public Item(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, int previousOwners, int userId) {
         this.description = description;
         this.brand = brand;
-        this.reference = reference;
         this.basePrice = basePrice;
         this.carrier = carrier;
         this.conditionScore = conditionScore;
@@ -65,7 +61,6 @@ public abstract class Item {
     public Item(Item oneItem) {
         this.description = oneItem.getDescription();
         this.brand = oneItem.getBrand();
-        this.reference = oneItem.getReference();
         this.basePrice = oneItem.getBasePrice();
         this.carrier = oneItem.getCarrier();
         this.conditionScore = oneItem.getConditionScore();
@@ -100,15 +95,6 @@ public abstract class Item {
      */
     public String getBrand() {
         return this.brand;
-    }
-
-    /**
-     * Returns the reference of the item.
-     *
-     * @return the reference of the item
-     */
-    public String getReference() {
-        return this.reference;
     }
 
     /**
@@ -191,15 +177,6 @@ public abstract class Item {
     }
 
     /**
-     * Sets the reference of the item.
-     *
-     * @param reference the new reference of the item
-     */
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    /**
      * Sets the base price of the item.
      *
      * @param basePrice the new base price of the item
@@ -265,7 +242,6 @@ public abstract class Item {
         String result = String.join(delimiter,
                 this.description,
                 this.brand,
-                this.reference,
                 String.valueOf(this.basePrice),
                 String.valueOf(this.conditionScore),
                 String.valueOf(this.previousOwners),
@@ -278,7 +254,6 @@ public abstract class Item {
     protected String[] deserializeItem(String[] fields, int startIndex) {
         this.description = fields[startIndex];
         this.brand = fields[startIndex + 1];
-        this.reference = fields[startIndex + 2];
         this.basePrice = Util.ToDouble(fields[startIndex + 3]);
         this.conditionScore = Util.ToDouble(fields[startIndex + 5]);
         this.previousOwners = Util.ToInteger(fields[startIndex + 6]);

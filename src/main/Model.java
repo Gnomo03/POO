@@ -95,25 +95,21 @@ public class Model {
         if (currentUser == null) {
             return false;
         }
-
         this.itemManager.addListedItem(item);
         Item i = this.itemManager.searchItem(item.getID());
         u.addItem(i);
         return true;
-
     }
 
     public void registsUser(User u) {
-
         this.userManager.addUser(u);
-
     }
 
-    public boolean registBag(String description, String brand, String reference, double basePrice,
+    public boolean registBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, int previousOwners, double dimension,
             String material, LocalDate releaseDate, int userId) {
 
-        Bag bag = new Bag(description, brand, reference, basePrice,
+        Bag bag = new Bag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, dimension, material, releaseDate, userId);
         registsItem(bag, userId);
@@ -121,11 +117,11 @@ public class Model {
         return registsItem(bag, userId);
     }
 
-    public boolean registTshirt(String description, String brand, String reference, double basePrice,
+    public boolean registTshirt(String description, String brand, double basePrice,
             String carrier, double conditionScore, int previousOwners, Tshirt.TshirtSize size,
             Tshirt.TshirtPattern pattern, int userId) {
 
-        Tshirt tshirt = new Tshirt(description, brand, reference, basePrice,
+        Tshirt tshirt = new Tshirt(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, pattern, userId);
         registsItem(tshirt, userId);
@@ -133,11 +129,11 @@ public class Model {
         return registsItem(tshirt, userId);
     }
 
-    public boolean registSneaker(String description, String brand, String reference, double basePrice,
+    public boolean registSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore, int previousOwners, double size,
             Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId) {
 
-        Sneaker sneaker = new Sneaker(description, brand, reference, basePrice,
+        Sneaker sneaker = new Sneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, type, color, releaseDate, userId);
         registsItem(sneaker, userId);

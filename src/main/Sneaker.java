@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Sneaker extends Item {
+public class Sneaker extends Item implements Premium {
     private double size;
     private SneakerType type;
     private String color;
@@ -37,7 +37,6 @@ public class Sneaker extends Item {
      *
      * @param description    The description of the sneaker.
      * @param brand          The brand of the sneaker.
-     * @param reference      The reference of the sneaker.
      * @param basePrice      The base price of the sneaker.
      * @param carrier        The carrier of the sneaker.
      * @param conditionScore The condition score of the sneaker.
@@ -47,10 +46,10 @@ public class Sneaker extends Item {
      * @param color          The color of the sneaker.
      * @param releaseDate    The release date of the sneaker.
      */
-    public Sneaker(String description, String brand, String reference, double basePrice,
+    public Sneaker(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, int previousOwners, double size,
             SneakerType type, String color, LocalDate releaseDate, int userId) {
-        super(description, brand, reference, basePrice, carrier, conditionScore, previousOwners,
+        super(description, brand, basePrice, carrier, conditionScore, previousOwners,
                 userId);
         this.size = size;
         this.type = type;
@@ -118,6 +117,10 @@ public class Sneaker extends Item {
     } // Seria 1 / this.getConditionScore, caso conditionScore seja pior à medida que
       // aumenta.
 
+    public double getPremiumPrice() {
+        return (10 + (2023 - this.getReleaseDate().getYear())) / 10 * this.getBasePrice();
+    }
+
     /**
      * Sets the size of the sneaker.
      * 
@@ -164,7 +167,6 @@ public class Sneaker extends Item {
                 "id=" + getID() + '\'' +
                 "description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
-                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
@@ -189,7 +191,7 @@ public class Sneaker extends Item {
             return false;
         Sneaker s = (Sneaker) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
-                && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
+                && this.getBasePrice() == s.getBasePrice()
                 && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
                 && this.getPreviousOwners() == s.getPreviousOwners()
