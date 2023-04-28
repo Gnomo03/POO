@@ -81,13 +81,19 @@ public class Controller {
     }
 
     public String displayCarriers() {
-
-        return m.getCarrierManagerList().toString();
+        String result = "\n";
+        for (Carrier c : m.getCarrierManagerList()) {
+            result += c.toString() + "\n";
+        }
+        return result;
     }
 
     public String displayListedItems() {
-
-        return m.getListedItemsManagerList().toString();
+        String result = "\n";
+        for (Item i : m.getListedItemsManagerList()){
+            result += i.toString() + "\n"; 
+        }
+        return result;
     }
 
     @Override

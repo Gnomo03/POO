@@ -128,10 +128,10 @@ public class View {
                     String pattern = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
                     System.out.print(_cont.displayCarriers());
-                    System.out.print("\n");
-                    System.out.print("\n");
-                    System.out.print("\n");
                     carrier = scanner.nextLine();
+                    System.out.print("\n");
+                    System.out.print("\n");
+                    System.out.print("\n");
                     _cont.registItemTshirt(des, brand, Util.ToDouble(price),
                             carrier, Util.ToInteger(score)/5,
                             // cID,
@@ -157,10 +157,10 @@ public class View {
                     date = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
                     System.out.print(_cont.displayCarriers());
-                    System.out.print("\n");
-                    System.out.print("\n");
-                    System.out.print("\n");
                     carrier = scanner.nextLine();
+                    System.out.print("\n");
+                    System.out.print("\n");
+                    System.out.print("\n");
                     _cont.registItemSneaker(des, brand, Util.ToDouble(price),
                             carrier, Util.ToDouble(score)/5,
                             // cID,
@@ -193,11 +193,13 @@ public class View {
         System.out.print("\n");
         System.out.print("\n");
     }
+
     private void skipTime(){
 
         System.out.print("Not implemented yet\n");
 
     }
+    
     public void mainMenu() {
         boolean quit = false;
 
