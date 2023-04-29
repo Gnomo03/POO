@@ -1,7 +1,12 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+import java.util.TreeMap;
 
 /**
  * This class represents a module that manages items, users, orders, and
@@ -214,4 +219,40 @@ public class Model {
             }
 
     } 
+    public int save( String fileName){
+
+        int result = 1;
+        try{
+            FileOutputStream fs = new FileOutputStream(fileName);
+            ObjectOutputStream os = new ObjectOutputStream(fs);
+            this.getUserManager().save(os);
+            this.getItemManager().save(os);
+            // acrescentar os outros
+            os.close();
+            fs.close();
+        }
+        catch(Exception ex){
+            result = 0;
+        }
+        return result;
+    }
+    
+    public int load( String fileName){
+        int result = 1;
+        try{
+            if( Util.FileExists(fileName) ){
+                FileInputStream fs = new FileInputStream(fileName);
+                ObjectInputStream os = new ObjectInputStream(fs);
+                this.getUserManager().load(os);
+                this.getItemManager().load(os);
+                //ler os outros
+                os.close();
+                fs.close();
+            }
+        }
+        catch(Exception ex){
+            result = 0;
+        }
+        return result;
+    }
 }

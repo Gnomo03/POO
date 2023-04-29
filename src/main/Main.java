@@ -4,8 +4,6 @@ public class Main {
 
         Model m = new Model();
         Controller c = new Controller(m);
-
-
         // ----------Carriers-----------------
 
         Carrier forBag = new Carrier("forBag", 0.013, 0.05, 0.02, 0);
@@ -15,8 +13,10 @@ public class Main {
         m.getCarrierManager().addCarrier(forTS);
         m.getCarrierManager().addCarrier(forSneak);
 
-        // -----------------------------------
+        // Load
+        c.load();
 
+        // -----------------------------------
         View menu = new View(c);
         menu.mainMenu();
     }

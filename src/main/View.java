@@ -228,9 +228,9 @@ public class View {
             String option = scanner.nextLine();
 
             switch (option) {
-                case "q":
-                    
+                case "q":                    
                     quit = true;
+                    _cont.save();
                     break;
 
                 case "u":

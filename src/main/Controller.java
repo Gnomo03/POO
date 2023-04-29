@@ -101,4 +101,12 @@ public class Controller {
         return m.toString();
     }
 
+
+    public void save(){
+        this.m.save("mymodel.data");
+    }
+
+    public void load(){
+        this.m.load("mymodel.data");
+    }
 }

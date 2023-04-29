@@ -1,4 +1,6 @@
 import java.util.TreeMap;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,7 +52,6 @@ public class UserManager {
         return this.userMap;
     }
 
-
     public User findUserByEmail(String email) {
         for (Integer user_id : userMap.keySet()) {
 
@@ -61,6 +62,22 @@ public class UserManager {
         return null;
     }
 
-    
 
+    public void save( ObjectOutputStream os ){
+        try{
+            os.writeObject( this.userMap );
+        }
+        catch( Exception ex){
+        }
+    }
+
+    public void load( ObjectInputStream is ){
+        TreeMap<Integer,User> temp = null;
+        try{
+            temp =  (TreeMap<Integer,User>) is.readObject();
+            this.userMap = temp;
+        }
+        catch( Exception ex){
+        }
+    }
 }

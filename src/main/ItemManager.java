@@ -1,3 +1,5 @@
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,5 +78,27 @@ public class ItemManager {
             return item;
         }
         return null;
+    }
+
+    public void save( ObjectOutputStream os ){
+        try{
+            os.writeObject( this.listedItemsMap );
+        }
+        catch( Exception ex){
+            //TODO: Remove
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void load( ObjectInputStream is ){
+        HashMap<Integer, Item> temp = null;
+        try{
+            temp =  (HashMap<Integer, Item>) is.readObject();
+            this.listedItemsMap = temp;
+        }
+        catch( Exception ex){
+            //TODO: Remove
+            System.out.println(ex.getMessage());
+        }
     }
 }

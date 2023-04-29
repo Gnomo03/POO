@@ -1,3 +1,4 @@
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * of orders
  * and items associated with the user.
  */
-public class User implements Comparable<User> {
+public class User implements Comparable<User>, java.io.Serializable {
 
     private int id;
     private String email;
@@ -439,7 +440,5 @@ public class User implements Comparable<User> {
             i.addPreviousOwner(this.getId());
             removeItem(i);
         }
-
     }
-
 }

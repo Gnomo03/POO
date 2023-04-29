@@ -5,7 +5,7 @@ import java.util.Stack;
  * price correction, carrier, condition score, previous owners,
  * premium status and ID.
  */
-public abstract class Item implements Price {
+public abstract class Item implements Price, java.io.Serializable {
     private String description;
     private String brand;
     private String reference;
