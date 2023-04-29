@@ -102,6 +102,7 @@ public class View {
                     date = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
                     System.out.print(_cont.displayCarriers());
+                    System.out.print("\n");
                     carrier = scanner.nextLine();
                     System.out.print("\n");
                     System.out.print("\n");

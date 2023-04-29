@@ -128,7 +128,8 @@ public class Bag extends Item implements java.io.Serializable {
      */
     public String toString() {
         return "Bag{" +
-                "description='" + getDescription() + '\'' +
+                "ID=" + this.getID() + '\'' + 
+                ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +

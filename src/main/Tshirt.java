@@ -134,7 +134,8 @@ import java.util.Stack;
      */
     public String toString() {
         return "Tshirt{" +
-                "description='" + getDescription() + '\'' +
+                "ID=" + this.getID() + '\'' + 
+                ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +

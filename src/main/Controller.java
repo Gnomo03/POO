@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Controller {
@@ -89,11 +90,16 @@ public class Controller {
     }
 
     public String displayListedItems() {
-        String result = "\n";
-        for (Item i : m.getListedItemsManagerList()){
-            result += i.toString() + "\n"; 
+        List <Item> items = m.getListedItemsManagerList();
+        List <Item> ret = new LinkedList<Item>();
+        for (Item item : items) {
+
+            if (item.getID() == m.getCurrentUser().getId())
+                            continue;
+            else
+                ret.add(item.clone());                
         }
-        return result;
+        return ret.toString();
     }
 
     @Override
