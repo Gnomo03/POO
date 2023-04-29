@@ -54,10 +54,10 @@ import java.util.Stack;
      * @param pattern         The pattern of the tshirt (Smooth, Stripes or
      *                        PalmTrees).
      */
-    public Tshirt(String description, String brand, double basePrice,
+    public Tshirt( Integer itemId, String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, Stack<Integer> previousOwners, TshirtSize size,
             TshirtPattern pattern, int userId) {
-        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+        super( itemId, description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
         this.size = size;
         this.pattern = pattern;
     }

@@ -36,10 +36,10 @@ public class Bag extends Item implements java.io.Serializable {
      * @param material        The material of the bag.
      * @param releaseDate     The release date of the bag.
      */
-    public Bag(String description, String brand, double basePrice,
-            Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double dimension,
-            String material, LocalDate releaseDate, int userId) {
-        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+    public Bag( Integer itemId, String description, String brand, double basePrice,
+                Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double dimension,
+                String material, LocalDate releaseDate, int userId) {
+        super(itemId, description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
         this.dimension = dimension;
         this.material = material;
         this.releaseDate = releaseDate;

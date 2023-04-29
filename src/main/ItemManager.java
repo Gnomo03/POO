@@ -12,7 +12,6 @@ public class ItemManager {
     public ItemManager() {
         this.soldItemsMap = new HashMap<Integer, Item>();
         this.listedItemsMap = new HashMap<Integer, Item>();
-        
     }
 
     public Item getItem(int id) {
@@ -78,6 +77,16 @@ public class ItemManager {
             return item;
         }
         return null;
+    }
+
+    public Integer getNewItemId(){
+        Integer newId = 0;
+        for (Integer i : this.listedItemsMap.keySet()) {
+            if( i > newId ){
+                newId = i;
+            }
+        }
+        return newId+1;
     }
 
     public void save( ObjectOutputStream os ){

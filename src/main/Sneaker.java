@@ -49,10 +49,10 @@ public class Sneaker extends Item implements java.io.Serializable{
      * @param color           The color of the sneaker.
      * @param releaseDate     The release date of the sneaker.
      */
-    public Sneaker(String description, String brand, double basePrice,
+    public Sneaker(Integer itemId, String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double size,
             SneakerType type, String color, LocalDate releaseDate, int userId) {
-         super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+         super(itemId, description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
         this.size = size;
         this.type = type;
         this.color = color;

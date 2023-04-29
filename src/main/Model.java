@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
-import java.util.TreeMap;
 
 /**
  * This class represents a module that manages items, users, orders, and
@@ -92,13 +91,13 @@ public class Model {
         return order.clone();
     }
 
-    private boolean registsItem(Item item,int id_user) {
+    private boolean registsItem(Item item, int id_user) {
         User u = this.userManager.getUser(id_user);
         if (currentUser == null) {return false;}
     
             this.itemManager.addListedItem(item);
-            Item i = this.itemManager.searchItem(item.getID());
-            u.addItem(i);
+            //Item i = this.itemManager.searchItem(item.getID());
+            u.addItem(item);
             return true;
         
     }
@@ -108,40 +107,38 @@ public class Model {
         
     }
 
+    // Add a non-existing bag
     public boolean registBag(String description, String brand, double basePrice,
-            String carrier, double conditionScore, double dimension,
-            String material, LocalDate releaseDate, int userId) {
-                Stack<Integer> previousOwners = new Stack<Integer>();
-        Bag bag = new Bag(description, brand, basePrice,
+                             String carrier, double conditionScore, double dimension,
+                             String material, LocalDate releaseDate, int userId) {
+                             Stack<Integer> previousOwners = new Stack<Integer>();
+        
+        Integer newItemId = this.itemManager.getNewItemId();
+        Bag bag = new Bag(newItemId, description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, dimension, material, releaseDate, userId);
-        registsItem(bag, userId);
-
-
         return registsItem(bag, userId);
     }
 
+    /// Add a non-existing Tshirt
     public boolean registTshirt(String description, String brand, double basePrice,
-            String carrier, double conditionScore, Tshirt.TshirtSize size,
-            Tshirt.TshirtPattern pattern, int userId) {
-                Stack<Integer> previousOwners = new Stack<Integer>();
-        Tshirt tshirt = new Tshirt(description, brand, basePrice,
+                                String carrier, double conditionScore, Tshirt.TshirtSize size,
+                                Tshirt.TshirtPattern pattern, int userId) {
+                                Stack<Integer> previousOwners = new Stack<Integer>();
+        Tshirt tshirt = new Tshirt( this.itemManager.getNewItemId(), description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, pattern, userId);
-        registsItem(tshirt, userId);
-
         return registsItem(tshirt, userId);
     }
 
+    /// Add a non-existing Tshirt
     public boolean registSneaker(String description, String brand, double basePrice,
-            String carrier, double conditionScore, double size,
-            Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId) {
-                Stack<Integer> previousOwners = new Stack<Integer>();
-        Sneaker sneaker = new Sneaker(description, brand, basePrice,
+                                 String carrier, double conditionScore, double size,
+                                 Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId) {
+                                 Stack<Integer> previousOwners = new Stack<Integer>();
+        Sneaker sneaker = new Sneaker( this.itemManager.getNewItemId(), description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, type, color, releaseDate, userId);
-        registsItem(sneaker, userId);
-
         return registsItem(sneaker, userId);
     }
 

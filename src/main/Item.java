@@ -19,7 +19,7 @@ public abstract class Item implements Price, java.io.Serializable {
 
 
 
-    private static int currentID = 0;
+    //private static int currentID = 0;
 
     /**
      * Default constructor for Item class.
@@ -33,8 +33,8 @@ public abstract class Item implements Price, java.io.Serializable {
         this.priceCorrection = 0;
         this.conditionScore = 0;
         this.previousOwners = new Stack<Integer>();
-        this.id = currentID;
-        currentID++;
+        this.id = 0;    //currentID;
+        //currentID++;
         this.userId = 0; // admin id
     }
 
@@ -51,8 +51,8 @@ public abstract class Item implements Price, java.io.Serializable {
      * @param previousOwners  the number of previous owners of the item
      * @param premiumStat     whether or not the item has premium status
      */
-    public Item(String description, String brand, double basePrice,
-            Carrier carrier, double conditionScore, int userId,Stack<Integer>previousOwners) {
+    public Item( Integer itemID, String description, String brand, double basePrice,
+                 Carrier carrier, double conditionScore, int userId,Stack<Integer>previousOwners) {
         this.description = description;
         this.brand = brand;
         this.basePrice = basePrice;
@@ -60,8 +60,8 @@ public abstract class Item implements Price, java.io.Serializable {
         this.conditionScore = conditionScore;
         this.priceCorrection = 1-this.conditionScore;
         this.previousOwners = previousOwners;
-        this.id = currentID;
-        currentID++;
+        this.id = itemID;   // currentID;
+        //currentID++;
         this.userId = userId;
     }
 
@@ -80,7 +80,7 @@ public abstract class Item implements Price, java.io.Serializable {
         this.conditionScore = oneItem.getConditionScore();
         this.previousOwners = oneItem.getPreviousOwners();
         this.id = oneItem.getID();
-        currentID++; // Acho que isto está a mais
+        //currentID++; // Acho que isto está a mais
         this.userId = oneItem.getUserId();
     }
     /**
