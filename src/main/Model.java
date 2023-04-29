@@ -71,18 +71,41 @@ public class Model {
         this.userManager.getUser(id_user).addItem(this.itemManager.getListedItems().get(id_item));
     }
 
-    public void addNewAquiredOrderToUsers(int id_user, int id_order) {
-        this.userManager.getUser(id_user).addAcquireOrder(this.orderManager.getOrder(id_order));
-    }
-
     public Order makeOrder(int id_user, List<Integer> items_keys) { // change
 
         Order order = new Order();
+        
         for (Integer current_key : items_keys) {
-            Item i = this.itemManager.getListedItems().get(current_key);
-            order.addItem(i);
+            Item i = this.itemManager.getItem(current_key);
+            User u = this.userManager.getUser(i.getUserId());
+            order.addItem(i,u);
             this.itemManager.updateItem(i.getID());
         }
+       HashMap<String, Integer> carrierHashMap = order.getCarrierHelper();
+       
+        for (User u : order.getSellers()){ 
+            List<Item> items = order.itemPerUser(u);
+            Bill bill = new Bill();
+                for(Item item : items){
+
+                    bill.addItem(item,carrierHashMap.get(item.getCarrier().getName()));
+                }
+                bill.setSold();
+                bill.setOrder(order);
+                u.addBills(bill.clone());
+        }
+        User buyer = this.userManager.getUser(id_user);
+        order.setBuyer(buyer);
+        Bill billBuyer = new Bill();
+            for (Item item : order.getCollection()){
+
+                billBuyer.addItem(item,carrierHashMap.get(item.getCarrier().getName()));
+
+            }
+            billBuyer.setBought();
+            billBuyer.setOrder(order);
+            order.setBuyer(buyer);
+            buyer.addBills(billBuyer.clone());
         this.orderManager.addOrder(order);
         return order.clone();
     }
@@ -110,7 +133,7 @@ public class Model {
         Bag bag = new Bag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, dimension, material, releaseDate, userId);
-        registsItem(bag, userId);
+       
 
 
         return registsItem(bag, userId);
@@ -123,7 +146,7 @@ public class Model {
         Tshirt tshirt = new Tshirt(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, pattern, userId);
-        registsItem(tshirt, userId);
+        
 
         return registsItem(tshirt, userId);
     }
@@ -135,7 +158,7 @@ public class Model {
         Sneaker sneaker = new Sneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, type, color, releaseDate, userId);
-        registsItem(sneaker, userId);
+        
 
         return registsItem(sneaker, userId);
     }

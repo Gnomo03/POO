@@ -10,6 +10,8 @@ import java.util.LinkedList;
 public class Order implements Comparable<Order> {
     private List<Item> collection;
     private HashMap<String, Integer> carrierHelper;
+    private List<User> sellers;
+    private User buyer;
     private TypeOfSize dimension;
     private double itemPrice;
     private double satisfactionPrice;
@@ -18,7 +20,7 @@ public class Order implements Comparable<Order> {
     private int id;
     private double endPrice;
 
-    private static int currentID = 0;
+    private static int currentID = 1;
 
     public enum TypeOfSize {
         Little, Medium, Big;
@@ -38,11 +40,13 @@ public class Order implements Comparable<Order> {
         this.date = LocalDate.now();
         this.id = currentID++;
         this.endPrice = 0;
+        this.buyer = null;
+        this.sellers = new LinkedList<User>();
         
     }
 
     public Order(List<Item> collection, HashMap<String, Integer> carrierHelper, TypeOfSize dimension,
-            double satisfactionPrice, double itemPrice, OrderState state, LocalDate date,double endPrice) {
+            double satisfactionPrice, double itemPrice, OrderState state, LocalDate date,double endPrice,User buyer,List<User> sellers) {
         this.collection = collection;
         this.dimension = dimension;
         this.carrierHelper = carrierHelper;
@@ -52,6 +56,8 @@ public class Order implements Comparable<Order> {
         this.date = date;
         this.id = currentID++;
         this.endPrice = endPrice;
+        this.buyer = buyer;
+        this.sellers = sellers;
     }
 
     public Order(Order oneOrder) {
@@ -64,6 +70,8 @@ public class Order implements Comparable<Order> {
         this.date = oneOrder.getDate();
         this.id = oneOrder.getID();
         this.endPrice = oneOrder.getEndPrice();
+        this.buyer = oneOrder.getBuyer();
+        this.sellers = oneOrder.getSellers();
     }
     public double getEndPrice(){
         return this.endPrice;
@@ -71,6 +79,13 @@ public class Order implements Comparable<Order> {
     public double getSatisfactionPrice() {
         return this.satisfactionPrice;
     }
+    public User getBuyer(){
+        return this.buyer;
+    }
+    public List <User> getSellers() {
+        return this.sellers;
+    }
+
 
     public HashMap<String, Integer> getCarrierHelper() {
         return this.carrierHelper;
@@ -80,6 +95,7 @@ public class Order implements Comparable<Order> {
         
     }
     public List<Item>  setFinished(){
+        // gerar faturas
         this.state = OrderState.Finished;
         return this.collection;
     }
@@ -146,7 +162,24 @@ public class Order implements Comparable<Order> {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
+    }
+    public void setSeller(LinkedList<User> sellers) {
+      this.sellers = sellers;
+    }
+    public List<Item> itemPerUser(User user) {
 
+        List<Item> list = new LinkedList<Item>();
+
+        for(Item i : this.collection){
+
+            if (i.getUserId() == user.getId())
+                list.add(i);
+        }
+        
+        return list;
+    }
     public String toString() {
         return "Order{" +
                 "collection='" + this.collection.toString() + "\'" +
@@ -169,6 +202,8 @@ public class Order implements Comparable<Order> {
                 this.getItemPrice() == e.getItemPrice() &&
                 this.getSatisfactionPrice() == e.getSatisfactionPrice() &&
                 this.getState().equals(e.getState()) &&
+                this.getBuyer().equals(e.getBuyer()) &&
+                this.getSellers().equals(e.getSellers()) &&
                 this.getID() == e.getID();
     }
 
@@ -176,13 +211,15 @@ public class Order implements Comparable<Order> {
         return new Order(this);
     }
 
-    public void addItem(Item oneItem) {
+    public void addItem(Item oneItem,User owner) {
         int nmbr = this.collection.size();
         if (nmbr == 1)
             this.dimension = TypeOfSize.Medium;
         if (nmbr == 5)
             this.dimension = TypeOfSize.Big;
         this.collection.add(oneItem);
+        this.sellers.add(owner);
+        
         this.itemPrice += oneItem.getPrice(); // Adicionar valor do pedido
 
         if (this.carrierHelper.containsKey(oneItem.getCarrier().getName()))
@@ -198,7 +235,7 @@ public class Order implements Comparable<Order> {
         }
     }
 
-    public void removeItem(Item oneItem) {
+    public void removeItem(Item oneItem,User owner) {
         int nmbr = this.collection.size();
         if (nmbr == 2)
             this.dimension = TypeOfSize.Little;

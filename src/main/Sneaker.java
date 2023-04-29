@@ -164,7 +164,8 @@ public class Sneaker extends Item {
      */
     public String toString() {
         return "Sneaker{" +
-                "description='" + getDescription() + '\'' +
+                "ID=" + this.getID() + '\'' + 
+                ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +

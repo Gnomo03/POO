@@ -15,9 +15,9 @@ public class ItemManager {
 
     public Item getItem(int id) {
         if (this.soldItemsMap.containsKey(id)) {
-            return this.soldItemsMap.get(id).clone();
+            return this.soldItemsMap.get(id);
         } else if (this.listedItemsMap.containsKey(id)) {
-            return this.listedItemsMap.get(id).clone();
+            return this.listedItemsMap.get(id);
         } else {
             return null;
         }

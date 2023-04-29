@@ -19,7 +19,7 @@ public abstract class Item implements Price {
 
 
 
-    private static int currentID = 0;
+    private static int currentID = 1;
 
     /**
      * Default constructor for Item class.
