@@ -136,7 +136,7 @@ public class Model {
                              String material, LocalDate releaseDate, int userId) {
                              Stack<Integer> previousOwners = new Stack<Integer>();
         
-        Integer newItemId = this.itemManager.getNewItemId();
+        Integer newItemId = this.itemManager.getNewId();
         Bag bag = new Bag(newItemId, description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, dimension, material, releaseDate, userId);
@@ -148,7 +148,7 @@ public class Model {
                                 String carrier, double conditionScore, Tshirt.TshirtSize size,
                                 Tshirt.TshirtPattern pattern, int userId) {
                                 Stack<Integer> previousOwners = new Stack<Integer>();
-        Tshirt tshirt = new Tshirt( this.itemManager.getNewItemId(), description, brand, basePrice,
+        Tshirt tshirt = new Tshirt( this.itemManager.getNewId(), description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, pattern, userId);
         return registsItem(tshirt, userId);
@@ -159,7 +159,7 @@ public class Model {
                                  String carrier, double conditionScore, double size,
                                  Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId) {
                                  Stack<Integer> previousOwners = new Stack<Integer>();
-        Sneaker sneaker = new Sneaker( this.itemManager.getNewItemId(), description, brand, basePrice,
+        Sneaker sneaker = new Sneaker( this.itemManager.getNewId(), description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, type, color, releaseDate, userId);
         return registsItem(sneaker, userId);

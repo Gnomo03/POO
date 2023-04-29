@@ -11,7 +11,7 @@ import java.util.Stack;
  * variables.
  */
 
- public class Tshirt extends Item implements java.io.Serializable {
+ public class Tshirt extends Item { // implements java.io.Serializable {
     private TshirtSize size;
     private TshirtPattern pattern;
 

@@ -79,7 +79,7 @@ public class ItemManager {
         return null;
     }
 
-    public Integer getNewItemId(){
+    public Integer getNewId(){
         Integer newId = 0;
         for (Integer i : this.listedItemsMap.keySet()) {
             if( i > newId ){

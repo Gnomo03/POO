@@ -8,7 +8,7 @@ import java.util.Stack;
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Sneaker extends Item implements java.io.Serializable{
+public class Sneaker extends Item { //implements java.io.Serializable{
     private double size;
     private SneakerType type;
     private String color;

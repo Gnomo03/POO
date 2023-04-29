@@ -10,7 +10,7 @@ public class UserManager {
 
     public UserManager() {
         this.userMap = new TreeMap<Integer, User>();
-        User u = new User("admin", "admin", "admin", 0, "admin");
+        User u = new User(0, "admin", "admin", "admin", 0, "admin");
         this.addUser(u);
     }
 
@@ -62,6 +62,15 @@ public class UserManager {
         return null;
     }
 
+    public Integer getNewId(){
+        Integer newId = 0;
+        for (Integer i : this.userMap.keySet()) {
+            if( i > newId ){
+                newId = i;
+            }
+        }
+        return newId+1;
+    }
 
     public void save( ObjectOutputStream os ){
         try{

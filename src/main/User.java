@@ -24,15 +24,17 @@ public class User implements Comparable<User>, java.io.Serializable {
     private Map <Integer, Bill> bills;
     private List<Item> sistemItems;
     private List<Item> sellingItems;
+    //TODO: To Review
+    private int soldItemsValue;
 
-    private static int currentID = 0;
+    //private static int currentID = 0;
 
     /**
      * Constructs a new user with default values for all fields.
      */
     public User() {
 
-        this.id = currentID++;
+        this.id = 0;
         this.email = "n/d";
         this.name = "n/d";
         this.address = "n/d";
@@ -57,9 +59,9 @@ public class User implements Comparable<User>, java.io.Serializable {
      * @param emittedOrder   the orders emitted by the user
      * @param sellingItems   the items being sold by the user
      */
-    public User(String email, String name, String address, int nif,HashMap <Integer, Bill> bills, String password, ArrayList<Item> sistemItems, ArrayList<Item> sellingItems) {
+    public User( Integer userId, String email, String name, String address, int nif,HashMap <Integer, Bill> bills, String password, ArrayList<Item> sistemItems, ArrayList<Item> sellingItems) {
 
-        this.id = currentID++;
+        this.id = userId;
         this.email = email;
         this.name = name;
         this.bills = bills;
@@ -81,9 +83,9 @@ public class User implements Comparable<User>, java.io.Serializable {
      * @param nif      the user's tax identification number
      * @param password the user's password
      */
-    public User(String email, String name, String address, int nif, String password) {
+    public User( Integer userId, String email, String name, String address, int nif, String password) {
 
-        this.id = currentID++;
+        this.id = userId;
         this.email = email;
         this.name = name;
         this.address = address;
@@ -291,7 +293,7 @@ public class User implements Comparable<User>, java.io.Serializable {
      */
     @Override
     public int compareTo(User otherUser) {
-        return Double.compare(this.soldItemsValue(), otherUser.soldItemsValue());
+        return Double.compare(this.soldItemsValue, otherUser.soldItemsValue);
     }
 
     /**
@@ -395,10 +397,5 @@ public class User implements Comparable<User>, java.io.Serializable {
             i.addPreviousOwner(this.getId());
             removeItem(i);
         }
-    }
-    public int soldItemsValue() {
-
-        return 0;// to be defined
-    }
-
+    }    
 }

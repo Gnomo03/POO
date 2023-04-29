@@ -67,7 +67,7 @@ public class Controller {
     public boolean registerUser(String email, String name, String address, int nif, String password) {
 
         if (this.m.reviewCredentials(email)) {
-            User u = new User(email, name, address, nif, password);
+            User u = new User( this.m.getUserManager().getNewId(), email, name, address, nif, password);
             this.m.registsUser(u);
             return true;
         } else {
@@ -99,7 +99,11 @@ public class Controller {
             else
                 ret.add(item.clone());                
         }
-        return ret.toString();
+        String result = "";
+        for (Item x : ret) {
+            result+= x.toString() + "\n";
+        }
+        return result;
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.Stack;
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Bag extends Item implements java.io.Serializable {
+public class Bag extends Item {//implements java.io.Serializable {
     private double dimension;
     private String material;
     private LocalDate releaseDate;
