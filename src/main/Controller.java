@@ -82,8 +82,11 @@ public class Controller {
     }
 
     public String displayCarriers() {
-
-        return m.getCarrierManagerList().toString();
+        String result = "\n";
+        for (Carrier c : m.getCarrierManagerList()) {
+            result += c.toString() + "\n";
+        }
+        return result;
     }
 
     public String displayListedItems() {
