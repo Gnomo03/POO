@@ -203,6 +203,31 @@ public class View {
             System.out.println("Admin cannot make an order!\n");
         }
     }
+    private void changeCarrierMenu(){
+
+        System.out.print("Let´s change a carrier to the system!\n");
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.print(_cont.displayCarriers());
+        System.out.print("Insert the carrier Name: ");
+        String name = scanner.nextLine();
+        System.out.print("\n");
+        System.out.print("Insert the carrier comission for small orders:");
+        double taxSmall = scanner.nextDouble();
+        System.out.print("\n");
+        System.out.print("Insert the carrier comission for medium orders:");
+        double taxMedium = scanner.nextDouble();
+        System.out.print("\n");
+        System.out.print("Insert the carrier comission for big orders:");
+        double taxBig = scanner.nextDouble();
+        try{
+            _cont.changeCarrier(name, taxSmall, taxMedium, taxBig);
+        }catch(NullPointerException e ){
+            System.out.println("Carrier is not in the database!\n");
+        }
+
+
+    }
     private void addCarrierMenu(){
 
         System.out.print("Let´s add a carrier to the system!\n");
@@ -418,7 +443,8 @@ public class View {
             System.out.print("l: Login to a diffrent User:\n");
             System.out.print("u: Register a User:\n");
             System.out.print("t: To skip time:\n");
-            System.out.print("c: To add Carriers:\n");
+            System.out.print("r: To add Carriers:\n");
+            System.out.print("c: To change Carriers:\n");
             System.out.print("a: To access the system Queries:\n");
             System.out.print("\n");
             System.out.print("No user logged in.");
@@ -456,9 +482,14 @@ public class View {
 
                     break;
 
-                    case "c":
+                    case "r":
 
                     addCarrierMenu();
+
+                    break;
+                    case "c":
+
+                    changeCarrierMenu();
 
                     break;
                     case "a":

@@ -181,7 +181,7 @@ public class Bill implements Serializable {
         for (Integer key : this.items.keySet()){
 
             Item i = this.items.get(key);
-            sum += i.getBasePrice();
+            sum += i.getPrice();
 
         }
         this.totalCost = sum;

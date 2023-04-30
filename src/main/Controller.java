@@ -147,4 +147,8 @@ public class Controller {
 
     }
 
+    public void changeCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws NullPointerException{
+        m.changeCarrier(name, taxSmall, taxMedium, taxBig);
+    }
+
 }

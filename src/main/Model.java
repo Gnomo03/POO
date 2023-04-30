@@ -319,7 +319,7 @@ public class Model implements Serializable {
             }
 
         }
-        if (daysBetween >= 16 || !o.isDispatched())
+        if (daysBetween <= 5 && daysBetween >= 16 || !o.isDispatched())
             return false;
 
         this.orderManager.removeOrder(orderId);
@@ -351,5 +351,18 @@ public class Model implements Serializable {
     public void addCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws CarrierAlreadyExistsException {
         
         this.carrierManager.addCarrier(new Carrier(name, taxSmall, taxMedium, taxBig,0));
+    }
+
+    public void changeCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws NullPointerException {
+        Carrier c = this.carrierManager.getCarrier(name);
+        this.carrierManager.removeCarrier(name);
+        c.setTaxSmall(taxSmall);
+        c.setTaxMedium(taxMedium);
+        c.setTaxBig(taxBig);
+        try {
+            this.carrierManager.addCarrier(c);
+        }catch(CarrierAlreadyExistsException e) {}
+        
+
     }
 }
