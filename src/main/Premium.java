@@ -1,3 +1,3 @@
-public interface Premium {
-    public double getPremiumPrice();
+public interface Premium{
+    public double getPrice();
 }

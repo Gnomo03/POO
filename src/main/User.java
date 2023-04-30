@@ -1,5 +1,9 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 
 /**
  * The User class represents a user of an online marketplace. It stores
@@ -15,14 +19,13 @@ public class User implements Comparable<User> {
     private String name;
     private String address;
     private int nif;
-    private double soldItemsValue;
     private String password;
 
-    private List<Order> acquiredOrder;
-    private List<Order> emittedOrder;
+    private Map <Integer, Bill> bills;
+    private List<Item> systemItems;
     private List<Item> sellingItems;
 
-    private static int currentID = 0;
+    private static int currentID = 1;
 
     /**
      * Constructs a new user with default values for all fields.
@@ -34,10 +37,9 @@ public class User implements Comparable<User> {
         this.name = "n/d";
         this.address = "n/d";
         this.nif = 0;
-        this.soldItemsValue = 0.0;
         this.password = "n/d";
-        this.acquiredOrder = new ArrayList<Order>();
-        this.emittedOrder = new ArrayList<Order>();
+        this.bills = new HashMap<Integer,Bill>();
+        this.systemItems = new ArrayList<Item>();
         this.sellingItems = new ArrayList<Item>();
 
     }
@@ -51,22 +53,21 @@ public class User implements Comparable<User> {
      * @param nif            the user's tax identification number
      * @param soldItemsValue the total value of items sold by the user
      * @param password       the user's password
-     * @param acquiredOrder  the orders acquired by the user
+     * @param bills  the orders acquired by the user
      * @param emittedOrder   the orders emitted by the user
      * @param sellingItems   the items being sold by the user
      */
-    public User(String email, String name, String address, int nif, double soldItemsValue, String password,
-            ArrayList<Order> acquiredOrder, ArrayList<Order> emittedOrder, ArrayList<Item> sellingItems) {
+    public User(String email, String name, String address, int nif,HashMap <Integer, Bill> bills, String password, ArrayList<Item> systemItems, ArrayList<Item> sellingItems) {
 
         this.id = currentID++;
         this.email = email;
         this.name = name;
+        this.bills = bills;
         this.address = address;
         this.nif = nif;
-        this.soldItemsValue = soldItemsValue;
         this.password = password;
-        this.acquiredOrder = new ArrayList<>(acquiredOrder);
-        this.emittedOrder = new ArrayList<>(emittedOrder);
+        this.bills = bills;
+        this.systemItems = new ArrayList<>(systemItems);
         this.sellingItems = new ArrayList<>(sellingItems);
 
     }
@@ -87,10 +88,10 @@ public class User implements Comparable<User> {
         this.name = name;
         this.address = address;
         this.nif = nif;
-        this.soldItemsValue = 0.0;
         this.password = password;
-        this.acquiredOrder = new ArrayList<>();
-        this.emittedOrder = new ArrayList<>();
+        this.bills = new HashMap<>();
+        this.systemItems = new ArrayList<>();
+        this.bills = new HashMap<>();
         this.sellingItems = new ArrayList<>();
 
     }
@@ -107,10 +108,9 @@ public class User implements Comparable<User> {
         this.name = oneUser.getName();
         this.address = oneUser.getAddress();
         this.nif = oneUser.getNif();
-        this.soldItemsValue = oneUser.getSoldItemsValue();
         this.password = oneUser.getPassword();
-        this.acquiredOrder = oneUser.getAcquiredOrder();
-        this.emittedOrder = oneUser.getEmittedOrder();
+        this.bills = oneUser.getBills();
+        this.systemItems = oneUser.getSystemItems();
         this.sellingItems = oneUser.getSellingItems();
 
     }
@@ -165,8 +165,13 @@ public class User implements Comparable<User> {
      *
      * @return the user's soldItemsValue
      */
-    public double getSoldItemsValue() {
-        return soldItemsValue;
+    public Map <Integer, Bill> getBills() {
+        return this.bills;
+    }
+    public void addBills(Bill bill) {
+        
+        this.bills.put(bill.getbillNumber(), bill);
+        
     }
 
     /**
@@ -177,25 +182,26 @@ public class User implements Comparable<User> {
     public String getPassword() {
         return password;
     }
-
-    /**
-     * Returns the user's acquiered orders.
-     *
-     * @return the user's acquiered orders
-     */
     public List<Order> getAcquiredOrder() {
-        return new ArrayList<>(this.acquiredOrder);
-    }
 
+        List<Order> orders = new LinkedList<Order>();
+            for (Integer b_id : this.bills.keySet()) {
+                Bill b = this.bills.get(b_id);
+                if (!b.isSold()){
+                    orders.add(b.getOrder().clone());
+                }
+            }
+        return orders;
+    }
     /**
      * Returns the user's emitted orders.
      *
      * @return the user's emitted orders
      */
-    public List<Order> getEmittedOrder() {
-        return new ArrayList<>(this.emittedOrder);
+    public List<Item> getSystemItems () {
+        return new ArrayList<>(this.systemItems );
     }
-
+    
     /**
      * Returns the user's items.
      *
@@ -242,8 +248,14 @@ public class User implements Comparable<User> {
      * @param soldItemsValue
      *                       Set the user's total sold items value.
      */
-    public void setSoldItemsValue(double soldItemsValue) {
-        this.soldItemsValue = soldItemsValue;
+    public double getSoldItemsValue(HashMap <Integer, Bill> bills) {
+        double sum = 0;
+        for (Integer i : bills.keySet()) {
+            Bill b = this.bills.get(i);
+            if ( b.isSold())
+            sum += b.gettotalCost();
+        }
+        return sum;
     }
 
     /**
@@ -253,21 +265,20 @@ public class User implements Comparable<User> {
     public void setPassword(String password) {
         this.password = password;
     }
+    public void listASystemItem(int item_id) {
 
-    /**
-     * @param acquiredOrder
-     *                      Set the user's acquired orders.
-     */
-    public void setAcquiredOrder(List<Order> acquiredOrder) {
-        this.acquiredOrder = new ArrayList<>(acquiredOrder);
+      Item i =  this.searchItem(item_id);
+      this.systemItems.remove(i);
+      this.sellingItems.add(i);
+
     }
 
     /**
      * @param emittedOrder
      *                     Set the user's emitted orders.
      */
-    public void setEmittedOrder(List<Order> emittedOrder) {
-        this.emittedOrder = new ArrayList<>(emittedOrder);
+    public void setEmittedOrder(List<Item> systemItems) {
+        this.systemItems = new ArrayList<>(systemItems);
     }
 
     /**
@@ -286,7 +297,7 @@ public class User implements Comparable<User> {
      */
     @Override
     public int compareTo(User otherUser) {
-        return Double.compare(this.soldItemsValue, otherUser.soldItemsValue);
+        return Double.compare(this.soldItemsValue(), otherUser.soldItemsValue());
     }
 
     /**
@@ -318,9 +329,9 @@ public class User implements Comparable<User> {
 
         return (u.getId() == this.getId()) && u.getEmail().equals(this.getEmail()) && u.getName().equals(this.getName())
                 && u.getAddress().equals(this.getAddress()) && u.getNif() == this.getNif()
-                && u.getSoldItemsValue() == this.getSoldItemsValue()
-                && u.getPassword().equals(this.getPassword()) && u.getAcquiredOrder().equals(this.getAcquiredOrder())
-                && u.getEmittedOrder().equals(this.getEmittedOrder())
+                && u.getBills() == this.getBills()
+                && u.getPassword().equals(this.getPassword())
+                && u.getSystemItems().equals(this.getSystemItems())
                 && u.getSellingItems().equals(this.getSellingItems());
 
     }
@@ -338,11 +349,12 @@ public class User implements Comparable<User> {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", nif=" + nif +
-                ", soldItemsValue=" + soldItemsValue +
+                ", bills=" + bills +
                 ", password='" + password + '\'' +
-                ", acquiredOrder=" + acquiredOrder +
-                ", emittedOrder=" + emittedOrder +
+                ", bills=" + bills +
+                ", systemItems=" + systemItems +
                 ", sellingItems=" + sellingItems +
+                ", Bills=" + bills +
                 '}';
     }
 
@@ -353,21 +365,8 @@ public class User implements Comparable<User> {
     public void addItem(Item oneItem) {
         this.sellingItems.add(oneItem);
     }
-
-    /**
-     * @param oneAcquiredOrder
-     *                         Adds an acquired order to the user
-     */
-    public void addAcquireOrder(Order oneAcquireOrder) {
-        this.acquiredOrder.add(oneAcquireOrder);
-    }
-
-    /**
-     * @param oneEmittedOrder
-     *                        Add an emitted order to the user
-     */
-    public void addEmittedOrder(Order oneEmittedOrder) {
-        this.acquiredOrder.add(oneEmittedOrder);
+    public void addSystemItem (Item oneItem){
+        this.systemItems.add(oneItem);
     }
 
     /**
@@ -376,24 +375,11 @@ public class User implements Comparable<User> {
      */
     public void removeItem(Item oneItem) {
         this.sellingItems.remove(oneItem);
-    }
-
-    /**
-     * @param oneAcquiredOrder
-     *                         Removes an acquired order to the user
-     */
-    public void removeAcquireOrder(Order oneAcquireOrder) {
-        this.acquiredOrder.remove(oneAcquireOrder);
-    }
-
-    /**
-     * @param oneEmittedOrder
-     *                        Removes an emitted order to the user
-     */
-    public void removeEmittedOrder(Order oneEmittedOrder) {
-        this.acquiredOrder.remove(oneEmittedOrder);
-    }
-
+        oneItem.addPreviousOwner(this.id);
+     }
+     public void removeSystemItem(Item oneItem) {
+        this.systemItems.remove(oneItem);
+     }
     /**
      * Check´s if user has the item
      * 
@@ -404,22 +390,15 @@ public class User implements Comparable<User> {
         return this.sellingItems.contains(oneItem);
     }
 
-    /**
-     * Check´s if user has the acquired order
-     * 
-     * @return returns true if it has the order
-     */
-    public boolean containsAcquireOrder(Order oneAcquireOrder) {
-        return this.acquiredOrder.contains(oneAcquireOrder);
-    }
+    public boolean hasItem(int item_id) {
 
-    /**
-     * Check´s if user has the emitted order
-     * 
-     * @return returns true if it has the order
-     */
-    public boolean containsEmittedOrder(Order oneEmittedOrder) {
-        return this.acquiredOrder.contains(oneEmittedOrder);
+        for (Item oneItem : this.systemItems){
+                if (oneItem.getID() == item_id){
+                    return true;
+                }
+        }
+        return false;
+
     }
 
     public Item searchItem(int item_id) {
@@ -427,42 +406,16 @@ public class User implements Comparable<User> {
             if (i.getID() == item_id)
                 return i;
         }
+        for (Item i : this.systemItems) {
+            if (i.getID() == item_id)
+                return i;
+        }
         return null;
     }
 
-    public void itemUpdate(int item_id) {
+    public double soldItemsValue() {
 
-        Item i = searchItem(item_id);
-        if (i != null) {
-
-            this.soldItemsValue += i.getPrice() * 0.92;
-            removeItem(i);
-        }
-
+        return 0;// to be defined
     }
 
-    public String serialize(String delimiter) {
-        String result = String.join(delimiter,
-                this.name,
-                String.valueOf(this.id),
-                this.email,
-                String.valueOf(this.nif),
-                this.address,
-                this.password,
-                String.valueOf(this.soldItemsValue));
-
-        return result;
-    }
-
-    public void deserialize(String delimiter, String line) {
-        String[] fields = Util.Split(delimiter, line);
-
-        this.name = fields[0];
-        this.id = Util.ToInteger(fields[1]);
-        this.email = fields[2];
-        this.nif = Util.ToInteger(fields[3]);
-        this.address = fields[4];
-        this.password = fields[5];
-        this.soldItemsValue = Util.ToDouble(fields[6]);
-    }
 }

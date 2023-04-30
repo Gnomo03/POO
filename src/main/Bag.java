@@ -1,5 +1,5 @@
 import java.time.LocalDate;
-
+import java.util.Stack;
 /**
  * Represents a Bag item that extends the Item class.
  * It has instance variables such as dimension, material and releaseDate.
@@ -18,27 +18,28 @@ public class Bag extends Item {
         super();
         this.dimension = 0;
         this.material = "n/d";
-        this.releaseDate = null;
     }
 
     /**
      * Constructor for the Bag class with all parameters.
      *
-     * @param description    The description of the bag.
-     * @param brand          The brand of the bag.
-     * @param basePrice      The base price of the bag.
-     * @param carrier        The carrier of the bag.
-     * @param conditionScore The condition score of the bag.
-     * @param previousOwners The number of previous owners of the bag.
-     * @param dimension      The dimension of the bag.
-     * @param material       The material of the bag.
-     * @param releaseDate    The release date of the bag.
+     * @param description     The description of the bag.
+     * @param brand           The brand of the bag.
+     * @param reference       The reference of the bag.
+     * @param basePrice       The base price of the bag.
+     * @param priceCorrection The price correction of the bag.
+     * @param carrier         The carrier of the bag.
+     * @param conditionScore  The condition score of the bag.
+     * @param previousOwners  The number of previous owners of the bag.
+     * @param premiumStat     Whether or not the bag is premium status.
+     * @param dimension       The dimension of the bag.
+     * @param material        The material of the bag.
+     * @param releaseDate     The release date of the bag.
      */
     public Bag(String description, String brand, double basePrice,
-            Carrier carrier, double conditionScore, int previousOwners, double dimension,
+            Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double dimension,
             String material, LocalDate releaseDate, int userId) {
-        super(description, brand, basePrice, carrier, conditionScore, previousOwners,
-                userId);
+        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
         this.dimension = dimension;
         this.material = material;
         this.releaseDate = releaseDate;
@@ -93,10 +94,6 @@ public class Bag extends Item {
         return (this.getBasePrice() / this.dimension);
     }
 
-    public double getPremiumPrice() {
-        return (10 + (2023 - this.getReleaseDate().getYear())) / 10 * this.getBasePrice();
-    }
-
     /**
      * Sets the dimension of the bag.
      * 
@@ -120,7 +117,7 @@ public class Bag extends Item {
      * 
      * @param releaseDate The release date to set for the bag.
      */
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate( LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -131,10 +128,12 @@ public class Bag extends Item {
      */
     public String toString() {
         return "Bag{" +
-                "id=" + getID() + '\'' +
-                "description='" + getDescription() + '\'' +
+                "ID=" + this.getID() + '\'' + 
+                ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
+                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
+                ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
@@ -157,8 +156,8 @@ public class Bag extends Item {
             return false;
         Bag s = (Bag) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
-                && this.getBasePrice() == s.getBasePrice()
-                && this.getCarrier().equals(s.getCarrier())
+                && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
+                && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
                 && this.getPreviousOwners() == s.getPreviousOwners()
                 && this.dimension == s.getDimension() && this.material.equals(s.getMaterial())
@@ -174,27 +173,5 @@ public class Bag extends Item {
         return new Bag(this);
     }
 
-    public String serialize(String delimiter) {
-        String result = String.join(delimiter, "b", serializeItem(delimiter));
-        result += String.join(delimiter, String.valueOf(this.dimension),
-                this.material,
-                String.valueOf(this.releaseDate));
 
-        return result;
-    }
-
-    public void deserialize(String delimiter, String line) {
-        String[] fields = Util.Split(delimiter, line);
-
-        String type = fields[0];
-        if (type.equals("b")) {
-            String[] bag = deserializeItem(fields, 1);
-
-            this.dimension = Util.ToDouble(bag[0]);
-            this.material = bag[1];
-            this.releaseDate = Util.ToDate(bag[2]);
-        } else {
-            // tipo errado!!!!!!
-        }
-    }
 }

@@ -26,21 +26,8 @@ public class View {
         if (!_cont.registerUser(email, name, address, nif, password)) {
             System.out.print("Email already taken! Choose a different one\n");
             result = false;
-            // email = scanner.nextLine();
+            
         }
-        /*
-         * System.out.print("\n");
-         * System.out.print("\n");
-         * System.out.print("\n");
-         * System.out.print("Press 'l' to Login:\n");
-         * System.out.print("Press 'r' to Register a new User:\n");
-         * 
-         * String login_options2 = scanner.nextLine();
-         * if(login_options2.equals("l")){
-         * break;
-         * }
-         * }
-         */
 
         return result;
     }
@@ -68,7 +55,7 @@ public class View {
     }
 
     private void registerItem() {
-        String des, brand, price, score, prevO, date, size, carrier;
+        String des, brand, price, score, date, size, carrier;
         // User cUser = _cont.getCurrentUser();
         // int cID = cUser.getId();
         if (_cont.getCurrentUser() == null) {
@@ -83,6 +70,7 @@ public class View {
             System.out.print("b: Bag:\n");
             System.out.print("t: Tshirt:\n");
             System.out.print("s: Sneaker:\n");
+            System.out.print("a: In case the item was bought in the store:\n");
             String item_regist = scanner.nextLine();
             switch (item_regist) {
                 case "b":
@@ -92,27 +80,32 @@ public class View {
                     brand = scanner.nextLine();
                     System.out.print("Enter Bag Base Price:");
                     price = scanner.nextLine();
-                    System.out.print("Enter Bag Condition Score:");
+                    System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
                     score = scanner.nextLine();
-                    System.out.print("Enter Bag Previous Owners:");
-                    prevO = scanner.nextLine();
                     System.out.print("Enter Bag dimension:");
-                    String dimension = scanner.nextLine();
+                    System.out.print("Width:");
+                    String width = scanner.nextLine();
+                    System.out.print("Height:");
+                    String height = scanner.nextLine();
+                    System.out.print("Depth:");
+                    String depth = scanner.nextLine();
+                    int dimension = Util.ToInteger(width) * Util.ToInteger(height) * Util.ToInteger(depth);
                     System.out.print("Enter Bag material:");
                     String material = scanner.nextLine();
                     System.out.print("Enter Bag Release Date:");
                     date = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
                     System.out.print(_cont.displayCarriers());
+                    System.out.print("\n");
                     carrier = scanner.nextLine();
                     System.out.print("\n");
                     System.out.print("\n");
                     System.out.print("\n");
                     _cont.registItemBag(des, brand, Util.ToDouble(price),
-                            carrier, Util.ToDouble(score),
-                            Util.ToInteger(prevO),
+                            carrier, Util.ToDouble(score)/5,
+                            
                             // cID,
-                            Util.ToInteger(dimension), material, Util.ToDate(date));
+                            dimension, material, Util.ToDate(date));
                     break;
                 // ------------------------------------------------------------------------------------------
                 case "t":
@@ -122,22 +115,20 @@ public class View {
                     brand = scanner.nextLine();
                     System.out.print("Enter Tshirt Base Price:");
                     price = scanner.nextLine();
-                    System.out.print("Enter Tshirt Condition Score:");
+                    System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
                     score = scanner.nextLine();
-                    System.out.print("Enter Tshirt Previous Owners:");
-                    prevO = scanner.nextLine();
-                    System.out.print("Enter Tshirt Size:");
+                    System.out.print("Enter Tshirt Size(S, M, L, XL):");
                     size = scanner.nextLine();
-                    System.out.print("Enter Tshirt Pattern:");
+                    System.out.print("Enter Tshirt Pattern (Smooth, Stripes, PalmTrees):");
                     String pattern = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
                     System.out.print(_cont.displayCarriers());
-                    System.out.print("\n");
-                    System.out.print("\n");
-                    System.out.print("\n");
                     carrier = scanner.nextLine();
+                    System.out.print("\n");
+                    System.out.print("\n");
+                    System.out.print("\n");
                     _cont.registItemTshirt(des, brand, Util.ToDouble(price),
-                            carrier, Util.ToInteger(score), Util.ToInteger(prevO),
+                            carrier, Util.ToDouble(score)/5,
                             // cID,
                             Util.toTshirtSize(size), Util.toTshirtPattern(pattern));
                     break;
@@ -149,13 +140,11 @@ public class View {
                     brand = scanner.nextLine();
                     System.out.print("Enter Sneaker Base Price:");
                     price = scanner.nextLine();
-                    System.out.print("Enter Sneaker Condition Score:");
+                    System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
                     score = scanner.nextLine();
-                    System.out.print("Enter Sneaker Previous Owners:");
-                    prevO = scanner.nextLine();
-                    System.out.print("Enter Sneaker Size:");
+                    System.out.print("Enter Sneaker Size (Eur):");
                     size = scanner.nextLine();
-                    System.out.print("Enter Sneaker Type:");
+                    System.out.print("Enter Sneaker Type(LACES, NOLACES):");
                     String type = scanner.nextLine();
                     System.out.print("Enter Sneaker Color:");
                     String color = scanner.nextLine();
@@ -163,14 +152,23 @@ public class View {
                     date = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
                     System.out.print(_cont.displayCarriers());
-                    System.out.print("\n");
-                    System.out.print("\n");
-                    System.out.print("\n");
                     carrier = scanner.nextLine();
+                    System.out.print("\n");
+                    System.out.print("\n");
+                    System.out.print("\n");
                     _cont.registItemSneaker(des, brand, Util.ToDouble(price),
-                            carrier, Util.ToDouble(score), Util.ToInteger(prevO),
+                            carrier, Util.ToDouble(score)/5,
                             // cID,
                             Util.ToDouble(size), Util.toSneakerType(type), color, Util.ToDate(date));
+                    break;
+                    case "a":
+                    System.out.print("System Items:");
+                    System.out.print(this._cont.getCurrentUserSystemItems());
+                    System.out.print("\n");
+                    System.out.print("\n");
+                    System.out.print("Choose the id of the item you wish to list:\n");
+                    int itemId = scanner.nextInt();
+                    _cont.listSystemItem(itemId);
                     break;
             }
         }
@@ -192,14 +190,63 @@ public class View {
 
     private void checkOrder() {
 
-        System.out.print(_cont.getCurrentUser().getName() + "current Orders");
+        System.out.print(_cont.getCurrentUser().getName() + "'s current Orders");
         System.out.print("\n");
         System.out.print("\n");
-        System.out.print(this._cont.getCurrentUser().getAcquiredOrder());
+        System.out.print(this._cont.getCurrentUserAllOrders());
         System.out.print("\n");
         System.out.print("\n");
+        System.out.print("Do you wich to return an order ? ('y' for yes or 'n' for no)\n");
+        String option = scanner.nextLine();
+        if (option.equals("y")) {
+
+            System.out.print("Type the id of the order:");
+            int orderId = scanner.nextInt();
+           if (!_cont.returnOrderId(orderId))
+           System.out.print("This Order cannot be returned!\n");
+
+           scanner.nextLine();
+        }
+    }
+    private void checkMyItems() {
+
+        System.out.print(_cont.getCurrentUser().getName() + "'s Items");
+        System.out.print("\n");
+        System.out.print("Listed Items:");
+        System.out.print(this._cont.getCurrentUserListedItems());
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.print("System Items:");
+        System.out.print(this._cont.getCurrentUserSystemItems());
+        System.out.print("\n");
+        scanner.nextLine();
+    }
+    private void checkBills() {
+
+        System.out.print(_cont.getCurrentUser().getName() + "' current Bills");
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.print(this._cont.getCurrentUser().getBills());
+        System.out.print("\n");
+        System.out.print("\n");
+        scanner.nextLine();
     }
 
+    private void skipTime(){
+
+        System.out.print("This is the current date of the Simulation:"+_cont.accessDate()+"\n");
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.print("Choose a date in the future to advance the simulation!\n");
+        System.out.print("Format: yyyy-mm-dd\n");
+        String date = scanner.nextLine();
+        _cont.advanceTime(Util.ToDate(date));
+        System.out.print("\n");
+        System.out.print("Date updated!\n");
+    }
+    
     public void mainMenu() {
         boolean quit = false;
 
@@ -215,6 +262,9 @@ public class View {
             System.out.print("o: Make a order:\n");
             System.out.print("i: Register a Item:\n");
             System.out.print("c: To check orders:\n");
+            System.out.print("t: To skip time:\n");
+            System.out.print("b: To check bills:\n");
+            System.out.print("m: To check my items:\n");
             System.out.print("\n");
             if (_cont.getCurrentUser() != null) {
                 System.out.print("User: " + _cont.getCurrentUser().getName());
@@ -228,7 +278,7 @@ public class View {
 
             switch (option) {
                 case "q":
-                    _cont.saveData();
+                System.out.print(_cont.toString());
                     quit = true;
                     break;
 
@@ -250,6 +300,16 @@ public class View {
 
                 case "c":
                     checkOrder();
+                    break;
+                case "t":
+                    skipTime();
+                break;
+
+                case "b":
+                    checkBills();
+                    break;
+                case "m":
+                    checkMyItems();
                     break;
             }
         }

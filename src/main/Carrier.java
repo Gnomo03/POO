@@ -12,6 +12,9 @@ public class Carrier implements Comparable<Carrier> {
     private double taxBig;
     private double totalEarning;
 
+
+    private static double iva = 0.13;
+
     /**
      * Default constructor for the Carrier class.
      */
@@ -86,10 +89,35 @@ public class Carrier implements Comparable<Carrier> {
      * 
      * @return The big tax value of the carrier.
      */
+    public double getTaxBigWithIva() {
+        return this.taxBig+iva;
+    }
+    /**
+     * Returns the small tax value of the carrier.
+     * 
+     * @return The small tax value of the carrier.
+     */
+    public double getTaxSmallWithIva() {
+        return this.taxSmall+iva;
+    }
+
+    /**
+     * Returns the medium tax value of the carrier.
+     * 
+     * @return The medium tax value of the carrier.
+     */
+    public double getTaxMediumWithIva() {
+        return this.taxMedium+iva;
+    }
+
+    /**
+     * Returns the big tax value of the carrier.
+     * 
+     * @return The big tax value of the carrier.
+     */
     public double getTaxBig() {
         return this.taxBig;
     }
-
     /**
      * Returns the total earning value of the carrier.
      * 
@@ -159,12 +187,13 @@ public class Carrier implements Comparable<Carrier> {
      * @return a string representation of the Carrier
      */
     public String toString() {
-        return "Carrier |" +
+        return "Carrier{" +
                 "name='" + getName() + '\'' +
                 ", Small tax value='" + getTaxSmall() + '\'' +
                 ", Medium tax value='" + getTaxMedium() + '\'' +
                 ", Big tax value=" + getTaxBig() +
-                " |";
+                ", Total Earning=" + getTotalEarning() +
+                '}';
     }
 
     /**
@@ -192,34 +221,14 @@ public class Carrier implements Comparable<Carrier> {
         return new Carrier(this);
     }
 
-    public String serialize() {
-        return serialize(null);
-    }
+    public void updateEarnings (int total_items, double final_price){
 
-    public String serialize(String delimiter) {
-        if (delimiter == null) {
-            delimiter = "\t";
-        }
-        String result = String.join(delimiter,
-                this.name,
-                String.valueOf(this.taxSmall),
-                String.valueOf(this.taxMedium),
-                String.valueOf(this.taxBig),
-                String.valueOf(this.totalEarning));
+        if (total_items == 1 )
+        this.totalEarning += final_price *this.taxSmall;
+        if (total_items >= 2 && total_items <= 5 )
+        this.totalEarning += final_price *this.taxMedium;
+        if (total_items > 5  )
+        this.totalEarning += final_price *this.taxBig;
 
-        return result;
-    }
-
-    public void deserialize(String delimiter, String line) {
-        if (delimiter == null) {
-            delimiter = Consts.DELIM_1;
-        }
-
-        String[] fields = Util.Split(delimiter, line);
-        this.name = fields[0];
-        this.taxSmall = Util.ToDouble(fields[1]);
-        this.taxMedium = Util.ToDouble(fields[2]);
-        this.taxBig = Util.ToDouble(fields[3]);
-        this.totalEarning = Util.ToDouble(fields[4]);
-    }
+    }   
 }

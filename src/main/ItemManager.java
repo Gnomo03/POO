@@ -5,18 +5,19 @@ import java.util.List;
 public class ItemManager {
     private HashMap<Integer, Item> soldItemsMap;
     private HashMap<Integer, Item> listedItemsMap;
+    
 
     public ItemManager() {
         this.soldItemsMap = new HashMap<Integer, Item>();
         this.listedItemsMap = new HashMap<Integer, Item>();
-
+        
     }
 
     public Item getItem(int id) {
         if (this.soldItemsMap.containsKey(id)) {
-            return this.soldItemsMap.get(id).clone();
+            return this.soldItemsMap.get(id);
         } else if (this.listedItemsMap.containsKey(id)) {
-            return this.listedItemsMap.get(id).clone();
+            return this.listedItemsMap.get(id);
         } else {
             return null;
         }
@@ -76,23 +77,11 @@ public class ItemManager {
         }
         return null;
     }
+    public void soldToListed(int id) {
 
-    public String serialize() {
-        String result = "";
-        for (Item i : listedItemsMap.values()) {
-            result += i.serialize(Consts.DELIM_1) + "\n";
-        }
-        return result;
-    }
+        Item i = this.soldItemsMap.get(id);
+        this.soldItemsMap.remove(i.getID());
+        this.listedItemsMap.put(i.getID(),i);
 
-    public String deserialize(List<String> Lines) {
-        String result = "";
-
-        this.listedItemsMap.clear();
-        for (String line : Lines) {
-            Item u = Item.deserializeItem(Consts.DELIM_1, line);
-            this.addListedItem(u);
-        }
-        return result;
     }
 }
