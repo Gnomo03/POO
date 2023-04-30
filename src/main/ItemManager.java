@@ -1,8 +1,9 @@
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.Serializable;
 
-public class ItemManager {
+public class ItemManager implements Serializable{
     private HashMap<Integer, Item> soldItemsMap;
     private HashMap<Integer, Item> listedItemsMap;
     

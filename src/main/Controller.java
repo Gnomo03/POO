@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,23 +12,21 @@ public class Controller {
         this.m = m;
     }
 
-    public User getCurrentUser() {
+    public User getCurrentUser() throws NullPointerException,UserIsAdminException {
         return this.m.getCurrentUser();
     }
 
-    public boolean login(String email, String password) {
+    public void login(String email, String password) throws NullPointerException,MissedIdException{
 
         User u = m.lookupUser(email);
-        if (u == null) {
-            return false;
-        }
+        
 
         if (u.getPassword().equals(password)) {
             m.setCurrentUser(u.getId());
-            return true;
+        }else{
+            throw new MissedIdException();
         }
 
-        return false;
     }
 
     public void logout() {
@@ -39,46 +39,44 @@ public class Controller {
      * }
      */
 
-    public boolean registItemBag(String description, String brand, double basePrice,
+    public void registItemBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
-            String material, LocalDate releaseDate) {
+            String material, LocalDate releaseDate) throws UserIsAdminException {
 
-        return m.registBag(description, brand, basePrice,
+                m.registBag(description, brand, basePrice,
                 carrier, conditionScore, dimension, material, releaseDate,
                 this.m.getCurrentUser().getId());
     }
 
-    public boolean registItemTshirt(String description, String brand, double basePrice,
+    public void registItemTshirt(String description, String brand, double basePrice,
             String carrier, double conditionScore,
-            Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) {
-        return m.registTshirt(description, brand, basePrice, carrier,
+            Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) throws UserIsAdminException,NullPointerException  {
+                m.registTshirt(description, brand, basePrice, carrier,
                 conditionScore, size, pattern,
                 this.m.getCurrentUser().getId());
     }
 
-    public boolean registItemSneaker(String description, String brand, double basePrice,
+    public void registItemSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore,
-            double size, Sneaker.SneakerType type, String color, LocalDate releaseDate) {
-        return m.registSneaker(description, brand, basePrice,
+            double size, Sneaker.SneakerType type, String color, LocalDate releaseDate)throws UserIsAdminException,NullPointerException {
+                m.registSneaker(description, brand, basePrice,
                 carrier, conditionScore, size, type, color, releaseDate,
                 this.m.getCurrentUser().getId());
     }
 
-    public boolean registerUser(String email, String name, String address, int nif, String password) {
-
-        if (this.m.reviewCredentials(email)) {
+    public void registerUser(String email, String name, String address, int nif, String password) throws UserAlreadyExistsException {
+            
+            
             User u = new User(email, name, address, nif, password);
             this.m.registsUser(u);
-            return true;
-        } else {
-            return false;
-        }
+            
+        
     }
     public void advanceTime(LocalDate date) {
 
         m.TimeSkip(date);
     }
-    public void placeOrder(List<Integer> order) {
+    public void placeOrder(List<Integer> order) throws UserIsAdminException  {
 
         m.makeOrder(m.getCurrentUser().getId(), order);
 
@@ -92,7 +90,7 @@ public class Controller {
         return result;
     }
 
-    public String displayListedItems() {
+    public String displayListedItems() throws UserIsAdminException  {
         List <Item> items = m.getListedItemsManagerList();
         List <Item> ret = new LinkedList<Item>();
         for (Item item : items) {
@@ -103,21 +101,21 @@ public class Controller {
         return ret.toString();
     }
 
-    public String getCurrentUserListedItems(){
+    public String getCurrentUserListedItems()throws UserIsAdminException {
 
         return m.getCurrentUser().getSellingItems().toString();
     }
-    public String getCurrentUserSystemItems(){
+    public String getCurrentUserSystemItems() throws UserIsAdminException {
 
         return m.getCurrentUser().getSystemItems().toString();
     }
 
-    public void listSystemItem(int item_id){ 
+    public void listSystemItem(int item_id) throws UserIsAdminException { 
 
         m.alterItemState(item_id,m.getCurrentUser().getId());
 
     }
-    public List<Order> getCurrentUserAllOrders(){
+    public List<Order> getCurrentUserAllOrders() throws UserIsAdminException {
 
        return m.checkThisUserOrders(m.getCurrentUser().getId());
 
@@ -125,14 +123,28 @@ public class Controller {
     public LocalDate accessDate(){
         return m.getDate();
     }
-    public boolean returnOrderId(int orderId){
+    public boolean returnOrderId(int orderId)throws UserIsAdminException {
 
       return  m.deleteOrder(orderId,m.getCurrentUser().getId());
 
     }
+    public void save() throws FileNotFoundException,IOException{
+        this.m.save("data.ser");
+    }
+
+    public void load()throws FileNotFoundException,IOException,ClassNotFoundException{
+        this.m = Model.load("data.ser");
+    }
+
     @Override
     public String toString() {
         return m.toString();
+    }
+
+    public void registCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws CarrierAlreadyExistsException{
+
+        m.addCarrier(name, taxSmall, taxMedium, taxBig);
+
     }
 
 }

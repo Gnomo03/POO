@@ -1,12 +1,13 @@
 import java.time.LocalDate;
 import java.util.Stack;
+
 /**
  * Represents a Bag item that extends the Item class.
  * It has instance variables such as dimension, material and releaseDate.
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Bag extends Item {
+public class Bag extends Item{
     private double dimension;
     private String material;
     private LocalDate releaseDate;

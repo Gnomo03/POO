@@ -1,3 +1,4 @@
+import java.io.File;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -93,6 +94,14 @@ public class Util {
     public static String[] Split(String delimiter, String Text) {
         String safeDelim = Pattern.quote(delimiter);
         String[] result = Text.split(safeDelim);
+        return result;
+    }
+    public static boolean FileExists(String filePathString){
+        boolean result = false;
+        File f = new File(filePathString);
+        if(f.exists() && !f.isDirectory()) { 
+            result = true;
+        }
         return result;
     }
 }

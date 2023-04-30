@@ -5,12 +5,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * This class represents a module that manages items, users, orders, and
  * carriers.
  */
-public class Model {
+public class Model implements Serializable {
 
     private ItemManager itemManager;
     private UserManager userManager;
@@ -60,12 +67,16 @@ public class Model {
     }
     /// -------------------
 
-    public User getCurrentUser() {
-        if (this.currentUser != null) {
-            return this.currentUser.clone();
-        } else {
-            return null;
-        }
+    public User getCurrentUser() throws NullPointerException,UserIsAdminException {
+       
+            if (this.currentUser.getEmail().equals("admin")) {
+                throw new UserIsAdminException(this.currentUser);
+            }
+            if (this.currentUser == null){
+                throw new NullPointerException();
+            }
+
+        return this.currentUser;
     }
     public List<Order> checkThisUserOrders(int userId) {
 
@@ -82,7 +93,8 @@ public class Model {
     public void setCurrentUser(int id) {
         this.currentUser = this.userManager.getUser(id);
     }
-    public void addNewItemToUsers(int id_user, int id_item) {
+    public void addNewItemToUsers(int id_user, int id_item) throws NullPointerException{
+
         this.userManager.getUser(id_user).addItem(this.itemManager.getItem(id_item));
     }
 
@@ -102,24 +114,26 @@ public class Model {
         return order.clone();
     }
 
-    private boolean registsItem(Item item,int id_user) {
+    private void registsItem(Item item,int id_user) throws NullPointerException {
         User u = this.userManager.getUser(id_user);
-        if (currentUser == null) {return false;}
+        
     
             this.itemManager.addListedItem(item); // clone no manager
             Item i = this.itemManager.searchItem(item.getID());
             u.addItem(i);
             i.setUserId(u.getId());
-            return true;
+          
         
     }
-    public void registsUser(User u) {
-
+    public void registsUser(User u) throws NullPointerException,UserAlreadyExistsException{
+        if (reviewCredentials(u.getEmail()) != true) {
+            throw new UserAlreadyExistsException();
+        }
         this.userManager.addUser(u);
         
     }
 
-    public boolean registBag(String description, String brand, double basePrice,
+    public void registBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
             String material, LocalDate releaseDate, int userId) {
                 Stack<Integer> previousOwners = new Stack<Integer>();
@@ -129,10 +143,10 @@ public class Model {
        
 
 
-        return registsItem(bag, userId);
+         registsItem(bag, userId);
     }
 
-    public boolean registTshirt(String description, String brand, double basePrice,
+    public void registTshirt(String description, String brand, double basePrice,
             String carrier, double conditionScore, Tshirt.TshirtSize size,
             Tshirt.TshirtPattern pattern, int userId) {
                 Stack<Integer> previousOwners = new Stack<Integer>();
@@ -141,10 +155,10 @@ public class Model {
                 conditionScore, previousOwners, size, pattern, userId);
         
 
-        return registsItem(tshirt, userId);
+       registsItem(tshirt, userId);
     }
 
-    public boolean registSneaker(String description, String brand, double basePrice,
+    public void registSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore, double size,
             Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId) {
                 Stack<Integer> previousOwners = new Stack<Integer>();
@@ -153,12 +167,13 @@ public class Model {
                 conditionScore, previousOwners, size, type, color, releaseDate, userId);
         
 
-        return registsItem(sneaker, userId);
+        registsItem(sneaker, userId);
     }
 
     @Override
     public String toString() {
         return "Module{" +
+                "Current User" + this.currentUser +
                 "soldItemsMap=" + this.itemManager.getSoldItems() +
                 ", listedItemsMap=" + this.itemManager.getListedItems() +
                 ", userMap=" + this.userManager.getUsers() +
@@ -311,5 +326,30 @@ public class Model {
         this.deleteBills(o);
         this.undoItem(o);
         return true;
+    }
+    public void save( String fileName) throws FileNotFoundException,IOException{
+
+        
+            FileOutputStream fs = new FileOutputStream(fileName);
+            ObjectOutputStream os = new ObjectOutputStream(fs);
+            os.writeObject(this);
+            os.flush();
+            os.close();
+ 
+    }
+    
+    public static Model load( String fileName) throws FileNotFoundException,IOException,ClassNotFoundException{
+        
+        FileInputStream fs = new FileInputStream(fileName);
+        ObjectInputStream os = new ObjectInputStream(fs);
+        Model model = (Model) os.readObject();
+        os.close();
+
+        return model;
+    }
+
+    public void addCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws CarrierAlreadyExistsException {
+        
+        this.carrierManager.addCarrier(new Carrier(name, taxSmall, taxMedium, taxBig,0));
     }
 }

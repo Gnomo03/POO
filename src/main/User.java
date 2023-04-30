@@ -3,6 +3,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 
 /**
@@ -12,7 +16,7 @@ import java.util.Map;
  * of orders
  * and items associated with the user.
  */
-public class User implements Comparable<User> {
+public class User implements Serializable,Comparable<User> {
 
     private int id;
     private String email;
@@ -25,7 +29,7 @@ public class User implements Comparable<User> {
     private List<Item> systemItems;
     private List<Item> sellingItems;
 
-    private static int currentID = 1;
+   private static int currentID = 1;
 
     /**
      * Constructs a new user with default values for all fields.
@@ -355,6 +359,7 @@ public class User implements Comparable<User> {
                 ", systemItems=" + systemItems +
                 ", sellingItems=" + sellingItems +
                 ", Bills=" + bills +
+                ", Id giver=" + currentID +
                 '}';
     }
 
@@ -417,5 +422,15 @@ public class User implements Comparable<User> {
 
         return 0;// to be defined
     }
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject(); // default serialization
+        out.writeInt(currentID); // save static variable
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // default deserialization
+        currentID = in.readInt(); // load static variable
+    }
+
 
 }

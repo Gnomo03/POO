@@ -9,6 +9,20 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
+            "projectName": "POO_e7e949ee"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "POO"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
             "projectName": "Projeto_439146c8"
         }
     ]

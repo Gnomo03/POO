@@ -1,8 +1,9 @@
 import java.util.TreeMap;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CarrierManager {
+public class CarrierManager implements Serializable {
     private TreeMap<String, Carrier> carrierMap;
 
     public CarrierManager() {
@@ -34,7 +35,10 @@ public class CarrierManager {
      *
      * @param carrier
      */
-    public void addCarrier(Carrier carrier) {
+    public void addCarrier(Carrier carrier) throws CarrierAlreadyExistsException{
+        if (this.carrierMap.containsKey(carrier.getName()))
+            throw new CarrierAlreadyExistsException();
+            
         this.carrierMap.put(carrier.getName(), carrier.clone());
     }
 

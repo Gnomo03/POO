@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Represents a Carrier class.
  * It has instance variables such as name, type, taxSmall, taxMedium, taxBig and
@@ -5,7 +7,7 @@
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Carrier implements Comparable<Carrier> {
+public class Carrier implements Serializable,Comparable<Carrier> {
     private String name;
     private double taxSmall;
     private double taxMedium;

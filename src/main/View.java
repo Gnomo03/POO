@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class View {
@@ -11,7 +13,7 @@ public class View {
 
     private boolean registerUser() {
         boolean result = true;
-
+        try {
         System.out.print("Enter your name: ");
         String name = scanner.nextLine();
         System.out.print("Enter your email: ");
@@ -23,44 +25,48 @@ public class View {
         System.out.print("Enter your NIF: ");
         int nif = scanner.nextInt();
         scanner.nextLine(); // consume the newline character
-        if (!_cont.registerUser(email, name, address, nif, password)) {
-            System.out.print("Email already taken! Choose a different one\n");
-            result = false;
-            
-        }
+        _cont.registerUser(email, name, address, nif, password);
+        
+    }catch(UserAlreadyExistsException e) {
+        System.out.print("Email already taken!\n");
+        scanner.nextLine(); // consume the newline character
+    }
 
         return result;
     }
 
-    public boolean doLogin() {
+    public void doLogin() {
         System.out.flush();
         System.out.print("Login page\n");
         System.out.print("\n");
         System.out.print("\n");
-
-        boolean login_status = false;
-        while (!login_status) {
+        
+        
+        try {
             System.out.print("Enter your email: ");
             String email_login = scanner.nextLine();
             System.out.print("Enter your password: ");
             String password_login = scanner.nextLine();
-
-            if (_cont.login(email_login, password_login)) {
-                break;
-            } else {
-                System.out.print("Wrong Credentials!\n");
-            }
+            _cont.login(email_login, password_login);
+            
+        }catch(MissedIdException e){
+            System.out.print("Wrong password for the user!\n");
         }
-        return login_status;
+        catch(NullPointerException e){
+            System.out.print("No user with those credentials!\n");
+        }
+    
+        
+        
     }
 
     private void registerItem() {
         String des, brand, price, score, date, size, carrier;
         // User cUser = _cont.getCurrentUser();
         // int cID = cUser.getId();
-        if (_cont.getCurrentUser() == null) {
-            System.out.print("You're not logged in. Pls log in first.\n");
-        } else {
+        try {
+            _cont.getCurrentUser();
+        
             // ....
             System.out.flush();
             System.out.print("Select the Item you wish to register\n");
@@ -172,9 +178,16 @@ public class View {
                     break;
             }
         }
+        catch (NullPointerException e){
+            System.out.print("No user is Logged in!\n");
+        }
+        catch (UserIsAdminException e){
+            System.out.print("Admin cannot register a item!\n");
+        }
     }
 
     private void registerOrder() {
+        try{
         System.out.print("Select the Item you wish to register\n");
         System.out.print("\n");
         System.out.print("\n");
@@ -185,11 +198,37 @@ public class View {
         System.out.print("\n");
         System.out.print("\n");
         String items_list = scanner.nextLine();
-        this._cont.placeOrder(Util.toLinkedList(items_list));
+        this._cont.placeOrder(Util.toLinkedList(items_list));}
+        catch(UserIsAdminException e){
+            System.out.println("Admin cannot make an order!\n");
+        }
     }
+    private void addCarrierMenu(){
 
+        System.out.print("Let´s add a carrier to the system!\n");
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.print("Insert the carrier Name: ");
+        String name = scanner.nextLine();
+        System.out.print("\n");
+        System.out.print("Insert the carrier comission for small orders:");
+        double taxSmall = scanner.nextDouble();
+        System.out.print("\n");
+        System.out.print("Insert the carrier comission for medium orders:");
+        double taxMedium = scanner.nextDouble();
+        System.out.print("\n");
+        System.out.print("Insert the carrier comission for big orders:");
+        double taxBig = scanner.nextDouble();
+        try{
+            _cont.registCarrier(name, taxSmall, taxMedium, taxBig);
+        }catch(CarrierAlreadyExistsException e ){
+            System.out.println("Carrier already in the database!\n");
+        }
+
+
+    }
     private void checkOrder() {
-
+        try{
         System.out.print(_cont.getCurrentUser().getName() + "'s current Orders");
         System.out.print("\n");
         System.out.print("\n");
@@ -201,15 +240,18 @@ public class View {
         if (option.equals("y")) {
 
             System.out.print("Type the id of the order:");
-            int orderId = scanner.nextInt();
+            int orderId = scanner.nextInt(); // MUDAR URGENTE
            if (!_cont.returnOrderId(orderId))
            System.out.print("This Order cannot be returned!\n");
 
            scanner.nextLine();
         }
+    }catch(UserIsAdminException e){
+        System.out.println("Admin dont have orders!\n");
+    }
     }
     private void checkMyItems() {
-
+        try {
         System.out.print(_cont.getCurrentUser().getName() + "'s Items");
         System.out.print("\n");
         System.out.print("Listed Items:");
@@ -221,9 +263,12 @@ public class View {
         System.out.print(this._cont.getCurrentUserSystemItems());
         System.out.print("\n");
         scanner.nextLine();
+    }catch(UserIsAdminException e){
+        System.out.println("Admin dont have items!\n");
+    }
     }
     private void checkBills() {
-
+        try{
         System.out.print(_cont.getCurrentUser().getName() + "' current Bills");
         System.out.print("\n");
         System.out.print("\n");
@@ -231,6 +276,9 @@ public class View {
         System.out.print("\n");
         System.out.print("\n");
         scanner.nextLine();
+        }catch(UserIsAdminException e){
+            System.out.println("Admin dont have bills!\n");
+        }
     }
 
     private void skipTime(){
@@ -252,12 +300,14 @@ public class View {
 
         while (!quit) {
             System.out.flush();
+            try{
+            _cont.getCurrentUser();
             System.out.print("Welcome to Vintage!\n");
             System.out.print("\n");
             System.out.print("\n");
             System.out.print("\n");
             System.out.print("\n");
-            System.out.print("l: Login:\n");
+            System.out.print("l: Login to another User:\n");
             System.out.print("u: Register a User:\n");
             System.out.print("o: Make a order:\n");
             System.out.print("i: Register a Item:\n");
@@ -266,19 +316,24 @@ public class View {
             System.out.print("b: To check bills:\n");
             System.out.print("m: To check my items:\n");
             System.out.print("\n");
-            if (_cont.getCurrentUser() != null) {
-                System.out.print("User: " + _cont.getCurrentUser().getName());
-            } else {
-                System.out.print("No user logged in.");
-            }
             System.out.print("\n");
             System.out.print("Press 'q' to Quit\n");
-
+            System.out.print("User: " + _cont.getCurrentUser().getName());
+            System.out.print("\n");
+            System.out.print("\n");
             String option = scanner.nextLine();
 
             switch (option) {
                 case "q":
                 System.out.print(_cont.toString());
+                try{_cont.save();}
+                catch(FileNotFoundException e){
+                    System.out.println("Save File not Found!");
+                }
+                catch(IOException e){
+                    System.out.println("Error Acessing File!");
+                }
+                
                     quit = true;
                     break;
 
@@ -312,7 +367,110 @@ public class View {
                     checkMyItems();
                     break;
             }
+            }catch(NullPointerException e){
+            System.out.print("Welcome to Vintage!\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("l: Login:\n");
+            System.out.print("u: Register a User:\n");
+            System.out.print("t: To skip time:\n");
+            System.out.print("\n");
+            System.out.print("No user logged in.");
+            System.out.print("\n");
+            System.out.print("Press 'q' to Quit\n");
+            String option = scanner.nextLine();
+
+            switch (option) {
+                case "q":
+                System.out.print(_cont.toString());
+                try{_cont.save();}
+                catch(FileNotFoundException esc){
+                    System.out.println("Save File not Found!");
+                }
+                catch(IOException esc){
+                    System.out.println("Error Acessing File!");
+                }
+                
+                    quit = true;
+                    break;
+
+                case "u":
+                    registerUser();
+                    break;
+
+                case "l":
+                    doLogin();
+                    break;
+                case "t":
+                    skipTime();
+                break;
+
+            }
+            }
+            catch(UserIsAdminException e){
+            System.out.print("Welcome to Vintage Special Admin Menu!\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("\n");
+            System.out.print("l: Login to a diffrent User:\n");
+            System.out.print("u: Register a User:\n");
+            System.out.print("t: To skip time:\n");
+            System.out.print("c: To add Carriers:\n");
+            System.out.print("a: To access the system Queries:\n");
+            System.out.print("\n");
+            System.out.print("No user logged in.");
+            System.out.print("\n");
+            System.out.print("Press 'q' to Quit\n");
+            String option = scanner.nextLine();
+            switch (option) {
+                case "q":
+                System.out.print(_cont.toString());
+                try{_cont.save();}
+                catch(FileNotFoundException esc){
+                    System.out.println("Save File not Found!");
+                }
+                catch(IOException esc){
+                    System.out.println("Error Acessing File!");
+                }
+                
+                    quit = true;
+                    break;
+
+                    case "u":
+
+                    registerUser();
+                    break;
+
+                     case "l":
+
+                    doLogin();
+
+                    break;
+
+                    case "t":
+
+                    skipTime();
+
+                    break;
+
+                    case "c":
+
+                    addCarrierMenu();
+
+                    break;
+                    case "a":
+
+                    // to be implemented
+
+                    break;
+            }
+            
+           
         }
 
     }
+}
 }

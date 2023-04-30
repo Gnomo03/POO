@@ -1,11 +1,16 @@
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Stack;
+
 
 /**
  * Represents an item with a description, brand, reference, base price,
  * price correction, carrier, condition score, previous owners,
  * premium status and ID.
  */
-public abstract class Item {
+public abstract class Item implements Serializable {
     private String description;
     private String brand;
     private String reference;
@@ -290,5 +295,15 @@ public abstract class Item {
      * @return a copy of the current object
      */
     public abstract Item clone();
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject(); // default serialization
+        out.writeInt(currentID); // save static variable
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // default deserialization
+        currentID = in.readInt(); // load static variable
+    }
 
 }

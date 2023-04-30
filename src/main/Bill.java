@@ -1,7 +1,11 @@
 import java.util.Map;
 import java.util.HashMap;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Bill {
+public class Bill implements Serializable {
 
 
     enum TypeBill {
@@ -193,6 +197,15 @@ public class Bill {
     }
     public boolean isSold() {
         return this.type.equals(TypeBill.SOLD);
+    }
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject(); // default serialization
+        out.writeInt(bill_count); // save static variable
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // default deserialization
+        bill_count = in.readInt(); // load static variable
     }
     
 }

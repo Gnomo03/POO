@@ -1,10 +1,11 @@
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.Serializable;
 
 
 
-public class OrderManager {
+public class OrderManager implements Serializable {
     private HashMap<Integer, Order> orderMap; // deve ter de passar a treemap por questões de eficiencia
     
 
