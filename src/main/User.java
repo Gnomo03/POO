@@ -154,6 +154,16 @@ public class User implements Serializable,Comparable<User> {
     public String getAddress() {
         return address;
     }
+    public List<Order> getEmmitedOrder() {
+        List<Order> orders = new LinkedList<Order>();
+        for (Integer b_id : this.bills.keySet()) {
+            Bill b = this.bills.get(b_id);
+            if (b.isSold()) {
+                orders.add(b.getOrder().clone());
+            }
+        }
+        return orders;
+    }
 
     /**
      * Returns the user's NIF (tax identification number).

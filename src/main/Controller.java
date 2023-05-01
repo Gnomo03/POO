@@ -150,7 +150,8 @@ public class Controller {
     public void changeCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws NullPointerException{
         m.changeCarrier(name, taxSmall, taxMedium, taxBig);
     }
-    public String querrierExecution(int query,LocalDate date1, LocalDate date2) throws NullPointerException{
+    @SuppressWarnings("unchecked")
+    public String querrierExecution(int query,LocalDate date1, LocalDate date2,int userID) throws NullPointerException{
         String result = "";
         Querier querier;
         switch(query){
@@ -163,6 +164,11 @@ public class Controller {
             querier = new BiggestCarrier(m.getCarrierManagerCopy());
             Carrier c = (Carrier) querier.execute();
             result = c.toString();
+            break;
+            case(4):
+            querier = new EmmitedOrderList(m.getUserManagerCopy(),userID);
+            List<Order> u2 = (LinkedList<Order>) querier.execute();
+            result = u2.toString();
             break;
             case(7):
             querier = new VintageProfit(m.getVintageProfit());

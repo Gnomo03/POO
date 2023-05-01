@@ -281,11 +281,18 @@ public class View {
         System.out.print("\n");
         System.out.print("\n");
         System.out.print("1.Check the User that made the most amount of Money all time!\n");
-        System.out.print("3.Check the User that made the most amount of Money!\n");
+        System.out.print("3.Check the Carrier that made the most amount of Money!\n");
+        System.out.print("4.Check User Emitted Orders!\n");
         System.out.print("7.Check Vintage Profit!\n");
         int query = scanner.nextInt();
-        String out = _cont.querrierExecution(query, null, null);
+        int id = 0;
+        if (query==4){
+            System.out.print("User you which to see id: ");
+            id = scanner.nextInt();
+        }
+        String out = _cont.querrierExecution(query, null, null,id);
         System.out.println(out);
+        scanner.nextLine();
         scanner.nextLine();
         }
         catch(NullPointerException e){}
