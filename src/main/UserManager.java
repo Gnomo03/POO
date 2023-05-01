@@ -1,20 +1,24 @@
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.io.Serializable;
 
-public class UserManager {
-    private TreeMap<Integer, User> userMap;
+public class UserManager implements Serializable {
+    private Map<Integer, User> userMap;
+    
 
     public UserManager() {
-        this.userMap = new TreeMap<Integer, User>();
-        User u = new User("admin", "admin", "admin", 0, "admin");
-        this.addUser(u);
+        this.userMap = new HashMap<Integer, User>();
     }
 
-    public User getUser(int id) {
-        if (this.userMap.containsKey(id))
-            return this.userMap.get(id);
-        return null;
+    public User getUser(int id) throws NullPointerException {
+        if (!this.userMap.containsKey(id)){
+            throw new NullPointerException();
+        }
+    
+
+        return this.userMap.get(id);
     }
 
     /**
@@ -22,7 +26,10 @@ public class UserManager {
      *
      * @param oneUser to the user map
      */
-    public void addUser(User oneUser) {
+    public void addUser(User oneUser) throws NullPointerException{
+        if (oneUser == null){
+            new NullPointerException();
+        }
         this.userMap.put(oneUser.getId(), oneUser.clone());
     }
 
@@ -33,21 +40,7 @@ public class UserManager {
      * @return the user that was removed
      */
     public User removeUser(int id) {
-        return this.userMap.remove(id).clone();
-    }
-
-    /**
-     * Returns every sales of an user
-     *
-     * @param id of the user
-     * @return the sales of an user in a List
-     */
-    public List<Order> getUserSales(int id) {
-        User u = this.userMap.get(id);
-        List<Order> orders = new LinkedList<Order>();
-        for (Order order : u.getEmittedOrder())
-            orders.add(order.clone());
-        return orders;
+        return this.userMap.remove(id);
     }
 
     public List<User> getUsers() {
@@ -59,9 +52,37 @@ public class UserManager {
         return users;
     }
 
-    public TreeMap<Integer, User> getUserMap() {
+    private Map<Integer, User> getUserMap() {
         return this.userMap;
     }
+    public Map<Integer, User> getUserMapCopy() {
+        Map<Integer, User> userMapCopy = new HashMap<>();
+    
+        for (Map.Entry<Integer, User> entry : userMap.entrySet()) {
+            int id = entry.getKey();
+            User user = entry.getValue();
+            userMapCopy.put(id, user.clone()); // add the copy to the new map
+        }
+    
+        return userMapCopy;
+    }
+   public void deleteBills(Order order) {
+
+        Map<Integer, User> it = this.getUserMap();
+  
+        for (int key : it.keySet()) {
+  
+          User u = it.get(key);
+             for ( int keyBill: u.getBills().keySet()){
+  
+              Bill b = u.getBills().get(keyBill);
+              if (b.getOrder().getID() == order.getID())
+                  u.getBills().remove(keyBill);
+  
+             }
+        }
+  
+      }
 
     public User findUserByEmail(String email) {
         for (Integer user_id : userMap.keySet()) {
@@ -73,24 +94,6 @@ public class UserManager {
         return null;
     }
 
-    public String serialize() {
-        String result = "";
-        for (User u : userMap.values()) {
-            result += u.serialize(Consts.DELIM_1) + "\n";
-        }
-        return result;
-    }
-
-    public String deserialize(List<String> Lines) {
-        String result = "";
-
-        this.userMap.clear();
-        for (String line : Lines) {
-            User u = new User();
-            u.deserialize(Consts.DELIM_1, line);
-            this.addUser(u);
-        }
-        return result;
-    }
+    
 
 }

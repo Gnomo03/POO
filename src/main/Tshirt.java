@@ -1,3 +1,4 @@
+import java.util.Stack;
 /**
  * Represents a Tshirt item that extends the Item class.
  * It has instance variables such as size and pattern.
@@ -10,7 +11,7 @@
  * variables.
  */
 
-public class Tshirt extends Item {
+ public class Tshirt extends Item {
     private TshirtSize size;
     private TshirtPattern pattern;
 
@@ -40,21 +41,23 @@ public class Tshirt extends Item {
     /**
      * Constructor for the Tshirt class with all parameters.
      *
-     * @param description    The description of the tshirt.
-     * @param brand          The brand of the tshirt.
-     * @param basePrice      The base price of the tshirt.
-     * @param carrier        The carrier of the tshirt.
-     * @param conditionScore The condition score of the tshirt.
-     * @param previousOwners The number of previous owners of the tshirt.
-     * @param size           The size of the tshirt (S, M, L or XL).
-     * @param pattern        The pattern of the tshirt (Smooth, Stripes or
-     *                       PalmTrees).
+     * @param description     The description of the tshirt.
+     * @param brand           The brand of the tshirt.
+     * @param reference       The reference of the tshirt.
+     * @param basePrice       The base price of the tshirt.
+     * @param priceCorrection The price correction of the tshirt.
+     * @param carrier         The carrier of the tshirt.
+     * @param conditionScore  The condition score of the tshirt.
+     * @param previousOwners  The number of previous owners of the tshirt.
+     * @param premiumStat     Whether or not the tshirt is premium status.
+     * @param size            The size of the tshirt (S, M, L or XL).
+     * @param pattern         The pattern of the tshirt (Smooth, Stripes or
+     *                        PalmTrees).
      */
     public Tshirt(String description, String brand, double basePrice,
-            Carrier carrier, double conditionScore, int previousOwners, TshirtSize size,
+            Carrier carrier, double conditionScore, Stack<Integer> previousOwners, TshirtSize size,
             TshirtPattern pattern, int userId) {
-        super(description, brand, basePrice, carrier, conditionScore, previousOwners,
-                userId);
+        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
         this.size = size;
         this.pattern = pattern;
     }
@@ -98,7 +101,7 @@ public class Tshirt extends Item {
         if (this.pattern == TshirtPattern.Smooth)
             return this.getBasePrice();
         else {
-            if (this.getPreviousOwners() > 0)
+            if (this.getConditionScore() != 1)
                 return 0.5 * this.getBasePrice();
             else {
                 return this.getBasePrice();
@@ -131,15 +134,18 @@ public class Tshirt extends Item {
      */
     public String toString() {
         return "Tshirt{" +
-                "id=" + getID() + '\'' +
-                "description='" + getDescription() + '\'' +
+                "ID=" + this.getID() + '\'' + 
+                ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
+                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
+                ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
                 ", size=" + this.size +
-                ", pattern=" + this.pattern +
+                ", pattern=" + this.pattern + '\''+
+                ", Price=" + getPrice() +
                 '}';
     }
 
@@ -156,8 +162,8 @@ public class Tshirt extends Item {
             return false;
         Tshirt s = (Tshirt) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
-                && this.getBasePrice() == s.getBasePrice()
-                && this.getCarrier().equals(s.getCarrier())
+                && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
+                && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
                 && this.getPreviousOwners() == s.getPreviousOwners()
                 && this.size == s.getSize() && this.pattern == s.getPattern();
@@ -170,27 +176,5 @@ public class Tshirt extends Item {
      */
     public Tshirt clone() {
         return new Tshirt(this);
-    }
-
-    public String serialize(String delimiter) {
-        String result = String.join(delimiter, "t", serializeItem(delimiter));
-        result += String.join(delimiter, String.valueOf(this.size),
-                String.valueOf(this.pattern));
-
-        return result;
-    }
-
-    public void deserialize(String delimiter, String line) {
-        String[] fields = line.split(delimiter);
-
-        String type = fields[0];
-        if (type.equals("t")) {
-            String[] tshirt = deserializeItem(fields, 1);
-
-            this.size = Util.toTshirtSize(tshirt[0]);
-            this.pattern = Util.toTshirtPattern(tshirt[1]);
-        } else {
-            // tipo errado!!!!!!
-        }
     }
 }

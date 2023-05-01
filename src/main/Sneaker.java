@@ -1,5 +1,5 @@
 import java.time.LocalDate;
-
+import java.util.Stack;
 /**
  * Represents a Sneaker item that extends the Item class.
  * It has instance variables such as size, type, color, and releaseDate.
@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Sneaker extends Item implements Premium {
+public class Sneaker extends Item  {
     private double size;
     private SneakerType type;
     private String color;
@@ -29,28 +29,30 @@ public class Sneaker extends Item implements Premium {
         this.size = 0;
         this.type = null;
         this.color = "n/d";
-        this.releaseDate = null;
+        
     }
 
     /**
      * Constructor for the Sneaker class with all parameters.
      *
-     * @param description    The description of the sneaker.
-     * @param brand          The brand of the sneaker.
-     * @param basePrice      The base price of the sneaker.
-     * @param carrier        The carrier of the sneaker.
-     * @param conditionScore The condition score of the sneaker.
-     * @param previousOwners The number of previous owners of the sneaker.
-     * @param size           The size of the sneaker.
-     * @param type           The type of the sneaker (LACES or NOLACES).
-     * @param color          The color of the sneaker.
-     * @param releaseDate    The release date of the sneaker.
+     * @param description     The description of the sneaker.
+     * @param brand           The brand of the sneaker.
+     * @param reference       The reference of the sneaker.
+     * @param basePrice       The base price of the sneaker.
+     * @param priceCorrection The price correction of the sneaker.
+     * @param carrier         The carrier of the sneaker.
+     * @param conditionScore  The condition score of the sneaker.
+     * @param previousOwners  The number of previous owners of the sneaker.
+     * @param premiumStat     Whether or not the sneaker is premium status.
+     * @param size            The size of the sneaker.
+     * @param type            The type of the sneaker (LACES or NOLACES).
+     * @param color           The color of the sneaker.
+     * @param releaseDate     The release date of the sneaker.
      */
     public Sneaker(String description, String brand, double basePrice,
-            Carrier carrier, double conditionScore, int previousOwners, double size,
+            Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double size,
             SneakerType type, String color, LocalDate releaseDate, int userId) {
-        super(description, brand, basePrice, carrier, conditionScore, previousOwners,
-                userId);
+         super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
         this.size = size;
         this.type = type;
         this.color = color;
@@ -113,13 +115,14 @@ public class Sneaker extends Item implements Premium {
      * @return The price of the sneaker.
      */
     public double getPrice() {
-        return (this.getBasePrice() - (this.getBasePrice() / this.getPreviousOwners() * this.getConditionScore()));
+         if (getPreviousOwners().size() == 0){
+            return this.getPrice();
+         }
+        return (this.getBasePrice() - (this.getBasePrice() / (this.getPreviousOwners().size() + 1 ) * this.getPriceCorrection()));
     } // Seria 1 / this.getConditionScore, caso conditionScore seja pior à medida que
       // aumenta.
 
-    public double getPremiumPrice() {
-        return (10 + (2023 - this.getReleaseDate().getYear())) / 10 * this.getBasePrice();
-    }
+
 
     /**
      * Sets the size of the sneaker.
@@ -164,17 +167,20 @@ public class Sneaker extends Item implements Premium {
      */
     public String toString() {
         return "Sneaker{" +
-                "id=" + getID() + '\'' +
-                "description='" + getDescription() + '\'' +
+                "ID=" + this.getID() + '\'' + 
+                ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
+                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
+                ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
                 ", size=" + this.size +
                 ", type=" + this.type +
                 ", color='" + this.color + '\'' +
-                ", releaseDate=" + this.releaseDate +
+                ", releaseDate=" + this.releaseDate + '\''+
+                ", Price=" + getPrice() +
                 '}';
     }
 
@@ -191,8 +197,8 @@ public class Sneaker extends Item implements Premium {
             return false;
         Sneaker s = (Sneaker) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
-                && this.getBasePrice() == s.getBasePrice()
-                && this.getCarrier().equals(s.getCarrier())
+                && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
+                && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
                 && this.getPreviousOwners() == s.getPreviousOwners()
                 && this.size == s.getSize() && this.type.equals(s.getType()) && this.color.equals(s.getColor())
@@ -208,30 +214,5 @@ public class Sneaker extends Item implements Premium {
         return new Sneaker(this);
     }
 
-    public String serialize(String delimiter) {
-        String result = String.join(delimiter, "s", serializeItem(delimiter));
-        result += String.join(delimiter, String.valueOf(this.size),
-                String.valueOf(this.type),
-                this.color,
-                String.valueOf(this.releaseDate));
-
-        return result;
-    }
-
-    public void deserialize(String delimiter, String line) {
-        String[] fields = line.split(delimiter);
-
-        String type = fields[0];
-        if (type.equals("s")) {
-            String[] sneaker = deserializeItem(fields, 1);
-
-            this.size = Util.ToDouble(sneaker[0]);
-            this.type = Util.toSneakerType(sneaker[1]);
-            this.color = sneaker[2];
-            this.releaseDate = Util.ToDate(sneaker[3]);
-        } else {
-            // tipo errado!!!!!!
-        }
-    }
 
 }

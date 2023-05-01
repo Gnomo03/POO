@@ -1,32 +1,12 @@
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Util {
-    public static Integer ToInteger(String Value) {
-        Integer result = 0;
-        try {
-            result = Integer.parseInt(Value);
-        } catch (Exception ex) {
-            result = 0;
-        }
-        return result;
-    }
-
-    public static Double ToDouble(String Value) {
-        Double result = 0.0;
-        try {
-            result = Double.parseDouble(Value);
-        } catch (Exception ex) {
-            result = 0.0;
-        }
-        return result;
-    }
-
-    public static LocalDate ToDate(String Value) {
+    
+    public static LocalDate toDate(String Value) {
         // Define the expected format of the date string
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -40,42 +20,35 @@ public class Util {
         }
     }
 
-    public static boolean ToBoolean(String Value) {
-        boolean result = false;
-        try {
-            result = Boolean.parseBoolean(Value);
-        } catch (Exception ex) {
-            result = false;
-        }
-        return result;
-    }
 
-    public static Tshirt.TshirtSize toTshirtSize(String Value) {
+    public static Tshirt.TshirtSize toTshirtSize(String Value) throws IllegalArgumentException {
         Tshirt.TshirtSize result = null;
         try {
             result = Tshirt.TshirtSize.valueOf(Value);
         } catch (Exception ex) {
-            result = null;
+           
+            throw new IllegalArgumentException("Tshirt Size must be one of the following: S,M,L,XL\n");
         }
         return result;
     }
 
-    public static Tshirt.TshirtPattern toTshirtPattern(String Value) {
+    public static Tshirt.TshirtPattern toTshirtPattern(String Value) throws IllegalArgumentException {
         Tshirt.TshirtPattern result = null;
         try {
             result = Tshirt.TshirtPattern.valueOf(Value);
         } catch (Exception ex) {
-            result = null;
+            
+            throw new IllegalArgumentException("Tshirt Size must be one of the following: Smooth, Stripes, PalmTrees\n");
         }
         return result;
     }
 
-    public static Sneaker.SneakerType toSneakerType(String Value) {
+    public static Sneaker.SneakerType toSneakerType(String Value)throws IllegalArgumentException {
         Sneaker.SneakerType result = null;
         try {
             result = Sneaker.SneakerType.valueOf(Value);
         } catch (Exception ex) {
-            result = null;
+            throw new IllegalArgumentException("Sneaker must be one of the following: LACES,NOLACES\n");
         }
         return result;
     }
@@ -90,9 +63,6 @@ public class Util {
         return list;
     }
 
-    public static String[] Split(String delimiter, String Text) {
-        String safeDelim = Pattern.quote(delimiter);
-        String[] result = Text.split(safeDelim);
-        return result;
-    }
+
+    
 }
