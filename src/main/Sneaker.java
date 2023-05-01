@@ -1,7 +1,5 @@
 import java.time.LocalDate;
 import java.util.Stack;
-import java.time.LocalDate;
-import java.util.Stack;
 /**
  * Represents a Sneaker item that extends the Item class.
  * It has instance variables such as size, type, color, and releaseDate.

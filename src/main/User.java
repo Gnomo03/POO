@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;
@@ -69,7 +67,7 @@ public class User implements Serializable,Comparable<User> {
      */
     public User(String email, String name, String address, int nif,HashMap <Integer, Bill> bills, String password, ArrayList<Item> systemItems, ArrayList<Item> sellingItems) {
 
-        this.id = userId;
+        this.id = currentID++;
         this.email = email;
         this.name = name;
         this.bills = bills;
@@ -93,7 +91,7 @@ public class User implements Serializable,Comparable<User> {
      */
     public User(String email, String name, String address, int nif, String password) {
 
-        this.id = userId;
+        this.id = currentID++;
         this.email = email;
         this.name = name;
         this.address = address;
