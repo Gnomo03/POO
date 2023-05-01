@@ -123,9 +123,9 @@ public class Controller {
     public LocalDate accessDate(){
         return m.getDate();
     }
-    public boolean returnOrderId(int orderId)throws UserIsAdminException {
+    public void returnOrderId(int orderId)throws UserIsAdminException,OrderNotReturnable {
 
-      return  m.deleteOrder(orderId,m.getCurrentUser().getId());
+        m.deleteOrder(orderId,m.getCurrentUser().getId());
 
     }
     public void save() throws FileNotFoundException,IOException{

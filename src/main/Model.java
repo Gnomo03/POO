@@ -190,7 +190,7 @@ public class Model implements Serializable {
         if (u == null )return null;
         return u.clone();
     }
-    public boolean reviewCredentials(String email) {
+    private boolean reviewCredentials(String email) {
         User u = this.userManager.findUserByEmail(email);
         return u==null;
     }
@@ -308,24 +308,24 @@ public class Model implements Serializable {
 
         }
     }
-    public boolean deleteOrder(int orderId,int userId) { // Para uma order ser returend, nenhum dos items que foram comprados podem estar listados!
+    public void deleteOrder(int orderId,int userId) throws OrderNotReturnable { // Para uma order ser returend, nenhum dos items que foram comprados podem estar listados!
         
         Order o = this.orderManager.getOrder(orderId);
         long daysBetween = ChronoUnit.DAYS.between(o.getDate(), this.date);
         User u = o.getBuyer();
         for (Item i : o.getCollection()) {
             if (u.hasItem(i.getID()) == false) {
-                return false;
+                throw new OrderNotReturnable();
             }
 
         }
         if (daysBetween <= 5 && daysBetween >= 16 || !o.isDispatched())
-            return false;
+            throw new OrderNotReturnable();
 
         this.orderManager.removeOrder(orderId);
         this.deleteBills(o);
         this.undoItem(o);
-        return true;
+
     }
     public void save( String fileName) throws FileNotFoundException,IOException{
 
