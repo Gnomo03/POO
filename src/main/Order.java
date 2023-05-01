@@ -5,13 +5,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-
-
 //import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Order implements Serializable,Comparable<Order> {
+public class Order implements Serializable, Comparable<Order> {
     private List<Item> collection;
     private HashMap<String, Integer> carrierHelper;
     private List<User> sellers;
@@ -46,11 +44,12 @@ public class Order implements Serializable,Comparable<Order> {
         this.endPrice = 0;
         this.buyer = null;
         this.sellers = new LinkedList<User>();
-        
+
     }
 
     public Order(List<Item> collection, HashMap<String, Integer> carrierHelper, TypeOfSize dimension,
-            double satisfactionPrice, double itemPrice, OrderState state, LocalDate date,double endPrice,User buyer,List<User> sellers) {
+            double satisfactionPrice, double itemPrice, OrderState state, LocalDate date, double endPrice, User buyer,
+            List<User> sellers) {
         this.collection = collection;
         this.dimension = dimension;
         this.carrierHelper = carrierHelper;
@@ -77,28 +76,33 @@ public class Order implements Serializable,Comparable<Order> {
         this.buyer = oneOrder.getBuyer();
         this.sellers = oneOrder.getSellers();
     }
-    public double getEndPrice(){
+
+    public double getEndPrice() {
         return this.endPrice;
     }
+
     public double getSatisfactionPrice() {
         return this.satisfactionPrice;
     }
-    public User getBuyer(){
+
+    public User getBuyer() {
         return this.buyer;
     }
-    public List <User> getSellers() {
+
+    public List<User> getSellers() {
         return this.sellers;
     }
-
 
     public HashMap<String, Integer> getCarrierHelper() {
         return this.carrierHelper;
     }
-    public void setDispatched(){
+
+    public void setDispatched() {
         this.state = OrderState.Dispatched;
-        
+
     }
-    public List<Item>  setFinished(){
+
+    public List<Item> setFinished() {
         // gerar faturas
         this.state = OrderState.Finished;
         return this.collection;
@@ -111,13 +115,16 @@ public class Order implements Serializable,Comparable<Order> {
     public TypeOfSize getDimension() {
         return this.dimension;
     }
-    public boolean isPending(){
+
+    public boolean isPending() {
         return this.state.equals(OrderState.Pending);
     }
-    public boolean isFinished(){
+
+    public boolean isFinished() {
         return this.state.equals(OrderState.Finished);
     }
-    public boolean isDispatched(){
+
+    public boolean isDispatched() {
         return this.state.equals(OrderState.Dispatched);
     }
 
@@ -136,9 +143,11 @@ public class Order implements Serializable,Comparable<Order> {
     public int getID() {
         return this.id;
     }
-    public void setEndPrice(double endPrice){
+
+    public void setEndPrice(double endPrice) {
         this.endPrice = endPrice;
     }
+
     public void setCollection(List<Item> collection) {
         this.collection = collection;
     }
@@ -156,7 +165,7 @@ public class Order implements Serializable,Comparable<Order> {
     }
 
     public void setState(OrderState state) {
-        if (state == OrderState.Finished){
+        if (state == OrderState.Finished) {
             this.endPrice = calculateFinalPrice();
         }
 
@@ -166,24 +175,28 @@ public class Order implements Serializable,Comparable<Order> {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
     public void setBuyer(User buyer) {
         this.buyer = buyer;
     }
+
     public void setSeller(LinkedList<User> sellers) {
-      this.sellers = sellers;
+        this.sellers = sellers;
     }
+
     public List<Item> itemPerUser(User user) {
 
         List<Item> list = new LinkedList<Item>();
 
-        for(Item i : this.collection){
-            
+        for (Item i : this.collection) {
+
             if (i.getonePreviousOwners() == user.getId())
                 list.add(i);
         }
-        
+
         return list;
     }
+
     public String toString() {
         return "Order{" +
                 "collection='" + this.collection.toString() + "\'" +
@@ -215,7 +228,7 @@ public class Order implements Serializable,Comparable<Order> {
         return new Order(this);
     }
 
-    public void addItem(Item oneItem,User owner) {
+    public void addItem(Item oneItem, User owner) {
         int nmbr = this.collection.size();
         if (nmbr == 1)
             this.dimension = TypeOfSize.Medium;
@@ -223,7 +236,7 @@ public class Order implements Serializable,Comparable<Order> {
             this.dimension = TypeOfSize.Big;
         this.collection.add(oneItem);
         this.sellers.add(owner);
-        
+
         this.itemPrice += oneItem.getPrice(); // Adicionar valor do pedido
 
         if (this.carrierHelper.containsKey(oneItem.getCarrier().getName()))
@@ -239,7 +252,7 @@ public class Order implements Serializable,Comparable<Order> {
         }
     }
 
-    public void removeItem(Item oneItem,User owner) {
+    public void removeItem(Item oneItem, User owner) {
         int nmbr = this.collection.size();
         if (nmbr == 2)
             this.dimension = TypeOfSize.Little;

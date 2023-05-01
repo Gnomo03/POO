@@ -12,18 +12,17 @@ public class Controller {
         this.m = m;
     }
 
-    public User getCurrentUser() throws NullPointerException,UserIsAdminException {
+    public User getCurrentUser() throws NullPointerException, UserIsAdminException {
         return this.m.getCurrentUser();
     }
 
-    public void login(String email, String password) throws NullPointerException,MissedIdException{
+    public void login(String email, String password) throws NullPointerException, MissedIdException {
 
         User u = m.lookupUser(email);
-        
 
         if (u.getPassword().equals(password)) {
             m.setCurrentUser(u.getId());
-        }else{
+        } else {
             throw new MissedIdException();
         }
 
@@ -43,40 +42,42 @@ public class Controller {
             String carrier, double conditionScore, double dimension,
             String material, LocalDate releaseDate) throws UserIsAdminException {
 
-                m.registBag(description, brand, basePrice,
+        m.registBag(description, brand, basePrice,
                 carrier, conditionScore, dimension, material, releaseDate,
                 this.m.getCurrentUser().getId());
     }
 
     public void registItemTshirt(String description, String brand, double basePrice,
             String carrier, double conditionScore,
-            Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) throws UserIsAdminException,NullPointerException  {
-                m.registTshirt(description, brand, basePrice, carrier,
+            Tshirt.TshirtSize size, Tshirt.TshirtPattern pattern) throws UserIsAdminException, NullPointerException {
+        m.registTshirt(description, brand, basePrice, carrier,
                 conditionScore, size, pattern,
                 this.m.getCurrentUser().getId());
     }
 
     public void registItemSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore,
-            double size, Sneaker.SneakerType type, String color, LocalDate releaseDate)throws UserIsAdminException,NullPointerException {
-                m.registSneaker(description, brand, basePrice,
+            double size, Sneaker.SneakerType type, String color, LocalDate releaseDate)
+            throws UserIsAdminException, NullPointerException {
+        m.registSneaker(description, brand, basePrice,
                 carrier, conditionScore, size, type, color, releaseDate,
                 this.m.getCurrentUser().getId());
     }
 
-    public void registerUser(String email, String name, String address, int nif, String password) throws UserAlreadyExistsException {
-            
-            
-            User u = new User(email, name, address, nif, password);
-            this.m.registsUser(u);
-            
-        
+    public void registerUser(String email, String name, String address, int nif, String password)
+            throws UserAlreadyExistsException {
+
+        User u = new User(email, name, address, nif, password);
+        this.m.registsUser(u);
+
     }
+
     public void advanceTime(LocalDate date) {
 
         m.TimeSkip(date);
     }
-    public void placeOrder(List<Integer> order) throws UserIsAdminException  {
+
+    public void placeOrder(List<Integer> order) throws UserIsAdminException {
 
         m.makeOrder(m.getCurrentUser().getId(), order);
 
@@ -90,49 +91,54 @@ public class Controller {
         return result;
     }
 
-    public String displayListedItems() throws UserIsAdminException  {
-        List <Item> items = m.getListedItemsManagerList();
-        List <Item> ret = new LinkedList<Item>();
+    public String displayListedItems() throws UserIsAdminException {
+        List<Item> items = m.getListedItemsManagerList();
+        List<Item> ret = new LinkedList<Item>();
         for (Item item : items) {
 
             if (item.getUserId() != m.getCurrentUser().getId())
-                    ret.add(item);                
+                ret.add(item);
         }
         return ret.toString();
     }
 
-    public String getCurrentUserListedItems()throws UserIsAdminException {
+    public String getCurrentUserListedItems() throws UserIsAdminException {
 
         return m.getCurrentUser().getSellingItems().toString();
     }
+
     public String getCurrentUserSystemItems() throws UserIsAdminException {
 
         return m.getCurrentUser().getSystemItems().toString();
     }
 
-    public void listSystemItem(int item_id) throws UserIsAdminException { 
+    public void listSystemItem(int item_id) throws UserIsAdminException {
 
-        m.alterItemState(item_id,m.getCurrentUser().getId());
+        m.alterItemState(item_id, m.getCurrentUser().getId());
 
     }
+
     public List<Order> getCurrentUserAllOrders() throws UserIsAdminException {
 
-       return m.checkThisUserOrders(m.getCurrentUser().getId());
+        return m.checkThisUserOrders(m.getCurrentUser().getId());
 
     }
-    public LocalDate accessDate(){
+
+    public LocalDate accessDate() {
         return m.getDate();
     }
-    public void returnOrderId(int orderId)throws UserIsAdminException,OrderNotReturnable {
 
-        m.deleteOrder(orderId,m.getCurrentUser().getId());
+    public void returnOrderId(int orderId) throws UserIsAdminException, OrderNotReturnable {
+
+        m.deleteOrder(orderId, m.getCurrentUser().getId());
 
     }
-    public void save() throws FileNotFoundException,IOException{
+
+    public void save() throws FileNotFoundException, IOException {
         this.m.save("data.ser");
     }
 
-    public void load()throws FileNotFoundException,IOException,ClassNotFoundException{
+    public void load() throws FileNotFoundException, IOException, ClassNotFoundException {
         this.m = Model.load("data.ser");
     }
 
@@ -141,31 +147,38 @@ public class Controller {
         return m.toString();
     }
 
-    public void registCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws CarrierAlreadyExistsException{
+    public void registCarrier(String name, double taxSmall, double taxMedium, double taxBig)
+            throws CarrierAlreadyExistsException {
 
         m.addCarrier(name, taxSmall, taxMedium, taxBig);
 
     }
 
-    public void changeCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws NullPointerException{
+    public void changeCarrier(String name, double taxSmall, double taxMedium, double taxBig)
+            throws NullPointerException {
         m.changeCarrier(name, taxSmall, taxMedium, taxBig);
     }
-    public String querrierExecution(int query,LocalDate date1, LocalDate date2) throws NullPointerException{
+
+    public String querrierExecution(int query, LocalDate date1, LocalDate date2) throws NullPointerException {
         String result = "";
         Querier querier;
-        switch(query){
-            case(1):
-            querier = new BiggestEarnerAllTime(m.getUserManagerCopy());
-            User u = (User) querier.execute();
-            result = u.toString();
-            break;
-            case(3):
-            querier = new BiggestCarrier(m.getCarrierManagerCopy());
-            Carrier c = (Carrier) querier.execute();
-            result = c.toString();
-            break;
+        switch (query) {
+            case (1):
+                querier = new BiggestEarnerAllTime(m.getUserManagerCopy());
+                User u = (User) querier.execute();
+                result = u.toString();
+                break;
+            case (3):
+                querier = new BiggestCarrier(m.getCarrierManagerCopy());
+                Carrier c = (Carrier) querier.execute();
+                result = c.toString();
+                break;
+            case (7):
+                querier = new VintageProfit(m);
+                result = querier.execute().toString();
+                break;
         }
         return result;
     }
-    
+
 }
