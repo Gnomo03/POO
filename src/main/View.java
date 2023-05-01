@@ -284,6 +284,8 @@ public class View {
         System.out.print("2.Check the User that made the most amount of Money in a time frame!\n");
         System.out.print("3.Check the Carrier that made the most amount of Money!\n");
         System.out.print("4.Check User Emitted Orders!\n");
+        System.out.print("5.Check the list of Sellers in a time frame!\n");
+        System.out.print("6.Check the list of Spenders in a time frame!\n");
         System.out.print("7.Check Vintage Profit!\n");
         int query = scanner.nextInt();
         scanner.nextLine();
@@ -293,8 +295,25 @@ public class View {
         if (query==4){
             System.out.print("User you which to see id: ");
             id = scanner.nextInt();
+            scanner.nextLine();
         }
         if (query==2){
+            System.out.print("Choose the Time frame\n");
+            System.out.print("First date:");
+            date1 = scanner.nextLine();
+            System.out.print("\n");
+            System.out.print("Second date:");
+            date2 = scanner.nextLine();
+        }
+        if (query==5){
+            System.out.print("Choose the Time frame\n");
+            System.out.print("First date:");
+            date1 = scanner.nextLine();
+            System.out.print("\n");
+            System.out.print("Second date:");
+            date2 = scanner.nextLine();
+        }
+        if (query==6){
             System.out.print("Choose the Time frame\n");
             System.out.print("First date:");
             date1 = scanner.nextLine();

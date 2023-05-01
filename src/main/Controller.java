@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -174,6 +175,16 @@ public class Controller {
             querier = new EmmitedOrderList(m.getUserManagerCopy(),userID);
             List<Order> l = (LinkedList<Order>) querier.execute();
             result = l.toString();
+            break;
+            case(5):
+            querier = new PodiumSeller(m.getUserManagerCopy(),date1,date2);
+            List<User> l1 = (ArrayList<User>) querier.execute();
+            result = l1.toString();
+            break;
+            case(6):
+            querier = new PodiumSpenders(m.getUserManagerCopy(),date1,date2);
+            List<User> l2 = (ArrayList<User>) querier.execute();
+            result = l2.toString();
             break;
             case(7):
             querier = new VintageProfit(m.getVintageProfit());

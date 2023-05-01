@@ -273,6 +273,16 @@ public class User implements Serializable,Comparable<User> {
         }
         return sum;
     }
+    public double boughtValueFrame(LocalDate date1, LocalDate date2) {
+        double sum = 0;
+        for (Integer i : bills.keySet()) {
+            Bill b = this.bills.get(i);
+            if ( !b.isSold() && b.getOrder().getDate().isAfter(date1) && b.getOrder().getDate().isBefore(date2))
+            sum += b.getAmount();
+        }
+        return sum;
+    }
+
 
     /**
      * @param password
