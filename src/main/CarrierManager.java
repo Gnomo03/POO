@@ -2,6 +2,7 @@ import java.util.TreeMap;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class CarrierManager implements Serializable {
     private TreeMap<String, Carrier> carrierMap;
@@ -52,5 +53,15 @@ public class CarrierManager implements Serializable {
 
     public void removeCarrier(String name) {
         this.carrierMap.remove(name);
+    }
+
+    public Map<String, Carrier> mapCopy() {
+        Map<String, Carrier> copy = new TreeMap<>();
+        for (Map.Entry<String, Carrier> entry : carrierMap.entrySet()) {
+            String id = entry.getKey();
+            Carrier carrier = entry.getValue();
+            copy.put(id, carrier.clone());
+        }
+        return copy;
     }
 }

@@ -7,7 +7,7 @@ public class PremiumBag extends Bag{
     PremiumBag(){
     super();
     }
-
+    @Override
     public double getPrice(){
      LocalDate now = LocalDate.now();
     int yearDiff = Period.between(this.getReleaseDate(), now).getYears();

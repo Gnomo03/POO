@@ -12,8 +12,8 @@ public class View {
         scanner = new Scanner(System.in);
     }
 
-    private boolean registerUser() {
-        boolean result = true;
+    private void registerUser() {
+        
         try {
         System.out.print("Enter your name: ");
         String name = scanner.nextLine();
@@ -31,9 +31,10 @@ public class View {
     }catch(UserAlreadyExistsException e) {
         System.out.print("Email already taken!\n");
         scanner.nextLine(); // consume the newline character
+    }catch(InputMismatchException e) {
+
     }
 
-        return result;
     }
 
     public void doLogin() {
@@ -64,9 +65,9 @@ public class View {
     }
 
     private void registerItem() {
-        String des, brand,carrier,date;
+        String des, brand,carrier,date,type,color,Tsizes,pattern,material;
         double price, score;
-        int size;
+        int size,itemId, width,height,depth,dimension;
         // User cUser = _cont.getCurrentUser();
         // int cID = cUser.getId();
         try {
@@ -95,14 +96,14 @@ public class View {
                     score = scanner.nextDouble();
                     System.out.print("Enter Bag dimension:");
                     System.out.print("Width in cm:");
-                    int width = scanner.nextInt();
+                    width = scanner.nextInt();
                     System.out.print("Height in cm:");
-                    int height = scanner.nextInt();
+                    height = scanner.nextInt();
                     System.out.print("Depth in cm:");
-                    int  depth = scanner.nextInt();
-                    int dimension = width * height * depth;
+                    depth = scanner.nextInt();
+                    dimension = width * height * depth;
                     System.out.print("Enter Bag material:");
-                    String material = scanner.nextLine();
+                    material = scanner.nextLine();
                     System.out.print("Enter Bag Release Date (yyyy-mm-dd):");
                     date = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
@@ -126,10 +127,11 @@ public class View {
                     price = scanner.nextInt();
                     System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
                     score = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("Enter Tshirt Size(S, M, L, XL):");
-                    String Tsizes = scanner.nextLine();
+                    Tsizes = scanner.nextLine();
                     System.out.print("Enter Tshirt Pattern (Smooth, Stripes, PalmTrees):");
-                    String pattern = scanner.nextLine();
+                    pattern = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
                     System.out.print(_cont.displayCarriers());
                     carrier = scanner.nextLine();
@@ -152,10 +154,11 @@ public class View {
                     score = scanner.nextDouble();
                     System.out.print("Enter Sneaker Size (Eur):");
                     size = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("Enter Sneaker Type(LACES, NOLACES):");
-                    String type = scanner.nextLine();
+                    type = scanner.nextLine();
                     System.out.print("Enter Sneaker Color:");
-                    String color = scanner.nextLine();
+                    color = scanner.nextLine();
                     System.out.print("Enter Sneaker Release Date (yyyy-mm-dd):");
                     date = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
@@ -166,7 +169,6 @@ public class View {
                     System.out.print("\n");
                     _cont.registItemSneaker(des, brand, price,
                             carrier,score/5,
-                            // cID,
                             size, Util.toSneakerType(type), color, Util.toDate(date));
                     break;
                     case "a":
@@ -175,7 +177,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     System.out.print("Choose the id of the item you wish to list:\n");
-                    int itemId = scanner.nextInt();
+                    itemId = scanner.nextInt();
                     _cont.listSystemItem(itemId);
                     break;
             }
@@ -272,6 +274,20 @@ public class View {
         }
 
 
+    }
+    private void querierMenu() {
+        try{
+        System.out.print("Querier Menu! Type one of the following numbers to execute a query!\n");
+        System.out.print("\n");
+        System.out.print("\n");
+        System.out.print("1.Check the User that made the most amount of Money all time!\n");
+        System.out.print("3.Check the User that made the most amount of Money!\n");
+        int query = scanner.nextInt();
+        String out = _cont.querrierExecution(query, null, null);
+        System.out.println(out);
+        scanner.nextLine();
+        }
+        catch(NullPointerException e){}
     }
     private void checkOrder() {
         try{
@@ -521,7 +537,7 @@ public class View {
                     break;
                     case "a":
 
-                    // to be implemented
+                    querierMenu();
 
                     break;
             }
@@ -531,4 +547,6 @@ public class View {
 
     }
 }
+
+    
 }

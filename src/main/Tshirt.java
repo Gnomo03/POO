@@ -144,7 +144,8 @@ import java.util.Stack;
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
                 ", size=" + this.size +
-                ", pattern=" + this.pattern +
+                ", pattern=" + this.pattern + '\''+
+                ", Price=" + getPrice() +
                 '}';
     }
 

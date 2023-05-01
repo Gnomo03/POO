@@ -353,13 +353,11 @@ public class User implements Serializable,Comparable<User> {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", nif=" + nif +
-                ", bills=" + bills +
                 ", password='" + password + '\'' +
-                ", bills=" + bills +
                 ", systemItems=" + systemItems +
                 ", sellingItems=" + sellingItems +
                 ", Bills=" + bills +
-                ", Id giver=" + currentID +
+                ", Total Earned=" + soldItemsValue() +
                 '}';
     }
 

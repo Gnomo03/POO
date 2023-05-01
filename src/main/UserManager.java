@@ -52,8 +52,19 @@ public class UserManager implements Serializable {
         return users;
     }
 
-    public Map<Integer, User> getUserMap() {
+    private Map<Integer, User> getUserMap() {
         return this.userMap;
+    }
+    public Map<Integer, User> getUserMapCopy() {
+        Map<Integer, User> userMapCopy = new HashMap<>();
+    
+        for (Map.Entry<Integer, User> entry : userMap.entrySet()) {
+            int id = entry.getKey();
+            User user = entry.getValue();
+            userMapCopy.put(id, user.clone()); // add the copy to the new map
+        }
+    
+        return userMapCopy;
     }
    public void deleteBills(Order order) {
 

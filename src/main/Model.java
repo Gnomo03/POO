@@ -3,6 +3,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,15 +39,19 @@ public class Model implements Serializable {
         this.vintageProfit = 0;
     }
 
-    /// Managers -- Should be on Controller
+  
     public UserManager getUserManager() {
         return this.userManager;
     }
+    public Map<Integer, User> getUserManagerCopy() {
+        return this.userManager.getUserMapCopy();
+    }
+    
     public LocalDate getDate() {
         return this.date;
     }
 
-
+   
     public ItemManager getItemManager() {
         return itemManager;
     }
@@ -347,5 +352,10 @@ public class Model implements Serializable {
         }catch(CarrierAlreadyExistsException e) {}
         
 
+    }
+
+
+    public Map<String, Carrier> getCarrierManagerCopy() {
+        return this.carrierManager.mapCopy();
     }
 }

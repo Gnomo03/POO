@@ -150,5 +150,22 @@ public class Controller {
     public void changeCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws NullPointerException{
         m.changeCarrier(name, taxSmall, taxMedium, taxBig);
     }
-
+    public String querrierExecution(int query,LocalDate date1, LocalDate date2) throws NullPointerException{
+        String result = "";
+        Querier querier;
+        switch(query){
+            case(1):
+            querier = new BiggestEarnerAllTime(m.getUserManagerCopy());
+            User u = (User) querier.execute();
+            result = u.toString();
+            break;
+            case(3):
+            querier = new BiggestCarrier(m.getCarrierManagerCopy());
+            Carrier c = (Carrier) querier.execute();
+            result = c.toString();
+            break;
+        }
+        return result;
+    }
+    
 }
