@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class View {
@@ -51,9 +52,11 @@ public class View {
             
         }catch(MissedIdException e){
             System.out.print("Wrong password for the user!\n");
-        }
+            scanner.nextLine();
+        }   
         catch(NullPointerException e){
             System.out.print("No user with those credentials!\n");
+            scanner.nextLine();
         }
     
         
@@ -61,7 +64,9 @@ public class View {
     }
 
     private void registerItem() {
-        String des, brand, price, score, date, size, carrier;
+        String des, brand,carrier,date;
+        double price, score;
+        int size;
         // User cUser = _cont.getCurrentUser();
         // int cID = cUser.getId();
         try {
@@ -85,20 +90,20 @@ public class View {
                     System.out.print("Enter Bag brand:");
                     brand = scanner.nextLine();
                     System.out.print("Enter Bag Base Price:");
-                    price = scanner.nextLine();
+                    price = scanner.nextDouble();
                     System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
-                    score = scanner.nextLine();
+                    score = scanner.nextDouble();
                     System.out.print("Enter Bag dimension:");
-                    System.out.print("Width:");
-                    String width = scanner.nextLine();
-                    System.out.print("Height:");
-                    String height = scanner.nextLine();
-                    System.out.print("Depth:");
-                    String depth = scanner.nextLine();
-                    int dimension = Util.ToInteger(width) * Util.ToInteger(height) * Util.ToInteger(depth);
+                    System.out.print("Width in cm:");
+                    int width = scanner.nextInt();
+                    System.out.print("Height in cm:");
+                    int height = scanner.nextInt();
+                    System.out.print("Depth in cm:");
+                    int  depth = scanner.nextInt();
+                    int dimension = width * height * depth;
                     System.out.print("Enter Bag material:");
                     String material = scanner.nextLine();
-                    System.out.print("Enter Bag Release Date:");
+                    System.out.print("Enter Bag Release Date (yyyy-mm-dd):");
                     date = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
                     System.out.print(_cont.displayCarriers());
@@ -107,11 +112,9 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     System.out.print("\n");
-                    _cont.registItemBag(des, brand, Util.ToDouble(price),
-                            carrier, Util.ToDouble(score)/5,
-                            
-                            // cID,
-                            dimension, material, Util.ToDate(date));
+                    _cont.registItemBag(des, brand, price,
+                            carrier,score/5,
+                            dimension, material, Util.toDate(date));
                     break;
                 // ------------------------------------------------------------------------------------------
                 case "t":
@@ -120,11 +123,11 @@ public class View {
                     System.out.print("Enter Tshirt brand:");
                     brand = scanner.nextLine();
                     System.out.print("Enter Tshirt Base Price:");
-                    price = scanner.nextLine();
+                    price = scanner.nextInt();
                     System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
-                    score = scanner.nextLine();
+                    score = scanner.nextInt();
                     System.out.print("Enter Tshirt Size(S, M, L, XL):");
-                    size = scanner.nextLine();
+                    String Tsizes = scanner.nextLine();
                     System.out.print("Enter Tshirt Pattern (Smooth, Stripes, PalmTrees):");
                     String pattern = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
@@ -133,10 +136,9 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     System.out.print("\n");
-                    _cont.registItemTshirt(des, brand, Util.ToDouble(price),
-                            carrier, Util.ToDouble(score)/5,
-                            // cID,
-                            Util.toTshirtSize(size), Util.toTshirtPattern(pattern));
+                    _cont.registItemTshirt(des, brand, price,
+                            carrier,score/5,
+                            Util.toTshirtSize(Tsizes), Util.toTshirtPattern(pattern));
                     break;
                 // ------------------------------------------------------------------------------------------
                 case "s":
@@ -145,16 +147,16 @@ public class View {
                     System.out.print("Enter Sneaker brand:");
                     brand = scanner.nextLine();
                     System.out.print("Enter Sneaker Base Price:");
-                    price = scanner.nextLine();
+                    price = scanner.nextDouble();
                     System.out.print("On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
-                    score = scanner.nextLine();
+                    score = scanner.nextDouble();
                     System.out.print("Enter Sneaker Size (Eur):");
-                    size = scanner.nextLine();
+                    size = scanner.nextInt();
                     System.out.print("Enter Sneaker Type(LACES, NOLACES):");
                     String type = scanner.nextLine();
                     System.out.print("Enter Sneaker Color:");
                     String color = scanner.nextLine();
-                    System.out.print("Enter Sneaker Release Date:");
+                    System.out.print("Enter Sneaker Release Date (yyyy-mm-dd):");
                     date = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
                     System.out.print(_cont.displayCarriers());
@@ -162,10 +164,10 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     System.out.print("\n");
-                    _cont.registItemSneaker(des, brand, Util.ToDouble(price),
-                            carrier, Util.ToDouble(score)/5,
+                    _cont.registItemSneaker(des, brand, price,
+                            carrier,score/5,
                             // cID,
-                            Util.ToDouble(size), Util.toSneakerType(type), color, Util.ToDate(date));
+                            size, Util.toSneakerType(type), color, Util.toDate(date));
                     break;
                     case "a":
                     System.out.print("System Items:");
@@ -180,9 +182,18 @@ public class View {
         }
         catch (NullPointerException e){
             System.out.print("No user is Logged in!\n");
+            scanner.nextLine();
         }
         catch (UserIsAdminException e){
             System.out.print("Admin cannot register a item!\n");
+            scanner.nextLine();
+        }
+        catch (InputMismatchException e){
+            System.out.print("The input was not valid!\n");
+            scanner.nextLine();
+        }
+        catch (IllegalArgumentException e){
+            scanner.nextLine();
         }
     }
 
@@ -201,10 +212,11 @@ public class View {
         this._cont.placeOrder(Util.toLinkedList(items_list));}
         catch(UserIsAdminException e){
             System.out.println("Admin cannot make an order!\n");
+            scanner.nextLine();
         }
     }
     private void changeCarrierMenu(){
-
+        try{
         System.out.print("Let´s change a carrier to the system!\n");
         System.out.print("\n");
         System.out.print("\n");
@@ -220,16 +232,20 @@ public class View {
         System.out.print("\n");
         System.out.print("Insert the carrier comission for big orders:");
         double taxBig = scanner.nextDouble();
-        try{
+        
             _cont.changeCarrier(name, taxSmall, taxMedium, taxBig);
         }catch(NullPointerException e ){
             System.out.println("Carrier is not in the database!\n");
+            scanner.nextLine();
+        }catch (InputMismatchException e) {
+            System.out.print("Wrong Input type\n");
+            scanner.nextLine();
         }
 
 
     }
     private void addCarrierMenu(){
-
+        try{
         System.out.print("Let´s add a carrier to the system!\n");
         System.out.print("\n");
         System.out.print("\n");
@@ -244,10 +260,15 @@ public class View {
         System.out.print("\n");
         System.out.print("Insert the carrier comission for big orders:");
         double taxBig = scanner.nextDouble();
-        try{
-            _cont.registCarrier(name, taxSmall, taxMedium, taxBig);
-        }catch(CarrierAlreadyExistsException e ){
+        _cont.registCarrier(name, taxSmall, taxMedium, taxBig);
+
+        } catch (InputMismatchException e) {
+            System.out.print("Wrong Input type\n");
+            scanner.nextLine();
+        }
+         catch(CarrierAlreadyExistsException e ){
             System.out.println("Carrier already in the database!\n");
+            scanner.nextLine();
         }
 
 
@@ -265,14 +286,16 @@ public class View {
         if (option.equals("y")) {
 
             System.out.print("Type the id of the order:");
-            int orderId = scanner.nextInt(); // MUDAR URGENTE
-           if (!_cont.returnOrderId(orderId))
-           System.out.print("This Order cannot be returned!\n");
-
-           scanner.nextLine();
+            int orderId = scanner.nextInt(); 
+            _cont.returnOrderId(orderId);
+            scanner.nextLine();
         }
     }catch(UserIsAdminException e){
         System.out.println("Admin dont have orders!\n");
+        scanner.nextLine();
+    }catch(OrderNotReturnable e){
+        System.out.print("This Order cannot be returned!\n");
+        scanner.nextLine();
     }
     }
     private void checkMyItems() {
@@ -307,7 +330,7 @@ public class View {
     }
 
     private void skipTime(){
-
+        try{
         System.out.print("This is the current date of the Simulation:"+_cont.accessDate()+"\n");
         System.out.print("\n");
         System.out.print("\n");
@@ -315,9 +338,13 @@ public class View {
         System.out.print("Choose a date in the future to advance the simulation!\n");
         System.out.print("Format: yyyy-mm-dd\n");
         String date = scanner.nextLine();
-        _cont.advanceTime(Util.ToDate(date));
+        _cont.advanceTime(Util.toDate(date));
         System.out.print("\n");
         System.out.print("Date updated!\n");
+        }
+        catch (IllegalArgumentException e) {
+            
+        }
     }
     
     public void mainMenu() {
