@@ -160,6 +160,11 @@ public class Controller {
             User u = (User) querier.execute();
             result = u.toString();
             break;
+            case(2):
+            querier = new BiggestEarnerAllTimeFrame(m.getUserManagerCopy(),date1,date2);
+            User u2 = (User) querier.execute();
+            result = u2.toString();
+            break;
             case(3):
             querier = new BiggestCarrier(m.getCarrierManagerCopy());
             Carrier c = (Carrier) querier.execute();
@@ -167,8 +172,8 @@ public class Controller {
             break;
             case(4):
             querier = new EmmitedOrderList(m.getUserManagerCopy(),userID);
-            List<Order> u2 = (LinkedList<Order>) querier.execute();
-            result = u2.toString();
+            List<Order> l = (LinkedList<Order>) querier.execute();
+            result = l.toString();
             break;
             case(7):
             querier = new VintageProfit(m.getVintageProfit());

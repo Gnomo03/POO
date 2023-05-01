@@ -114,6 +114,7 @@ public class Model implements Serializable {
         }
         User buyer = this.userManager.getUser(id_user);
         order.setBuyer(buyer);
+        order.setDate(date);
         this.orderManager.addOrder(order);
         return order.clone();
     }
