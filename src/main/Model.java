@@ -243,7 +243,7 @@ public class Model implements Serializable {
                         for (String carrier_name : carrierHelper.keySet()){
 
                             Carrier c = this.carrierManager.getCarrier(carrier_name);
-                            c.updateEarnings(carrierHelper.get(carrier_name),o.getItemPrice());
+                            c.updateEarnings(carrierHelper.get(carrier_name),o.getItemPricePerCarrier(carrier_name));
 
                         }
                         HashMap<String, Integer> carrierHashMap = o.getCarrierHelper();
