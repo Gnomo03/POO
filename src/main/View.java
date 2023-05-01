@@ -277,10 +277,11 @@ public class View {
             System.out.print("\n");
             System.out.print("1.Check the User that made the most amount of Money all time!\n");
             System.out.print("3.Check the User that made the most amount of Money!\n");
-            System.out.print("3.Check the Vintage's Profit!\n");
+            System.out.print("4.Check the User Emitted Orders\n");
+            System.out.print("5.Check the Vintage's Profit!\n");
             int query = scanner.nextInt();
             if (query == 4) {
-                System.out.println("Insert an ID:\n");
+                System.out.println("Insert User's ID:\n");
                 int id = scanner.nextInt();
                 String out = _cont.querrierExecution(query, null, null, id);
                 System.out.println(out);
