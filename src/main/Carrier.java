@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Represents a Carrier class.
  * It has instance variables such as name, type, taxSmall, taxMedium, taxBig and
@@ -5,12 +7,15 @@
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Carrier implements Comparable<Carrier>, java.io.Serializable {
+public class Carrier implements Serializable,Comparable<Carrier> {
     private String name;
     private double taxSmall;
     private double taxMedium;
     private double taxBig;
     private double totalEarning;
+
+
+    private static double iva = 0.13;
 
     /**
      * Default constructor for the Carrier class.
@@ -86,10 +91,35 @@ public class Carrier implements Comparable<Carrier>, java.io.Serializable {
      * 
      * @return The big tax value of the carrier.
      */
+    public double getTaxBigWithIva() {
+        return this.taxBig+iva;
+    }
+    /**
+     * Returns the small tax value of the carrier.
+     * 
+     * @return The small tax value of the carrier.
+     */
+    public double getTaxSmallWithIva() {
+        return this.taxSmall+iva;
+    }
+
+    /**
+     * Returns the medium tax value of the carrier.
+     * 
+     * @return The medium tax value of the carrier.
+     */
+    public double getTaxMediumWithIva() {
+        return this.taxMedium+iva;
+    }
+
+    /**
+     * Returns the big tax value of the carrier.
+     * 
+     * @return The big tax value of the carrier.
+     */
     public double getTaxBig() {
         return this.taxBig;
     }
-
     /**
      * Returns the total earning value of the carrier.
      * 
@@ -193,7 +223,7 @@ public class Carrier implements Comparable<Carrier>, java.io.Serializable {
         return new Carrier(this);
     }
 
-    public void updateEarnings (Integer total_items, double final_price){
+    public void updateEarnings (int total_items, double final_price){
 
         if (total_items == 1 )
         this.totalEarning += final_price *this.taxSmall;

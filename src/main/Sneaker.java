@@ -1,5 +1,7 @@
 import java.time.LocalDate;
 import java.util.Stack;
+import java.time.LocalDate;
+import java.util.Stack;
 /**
  * Represents a Sneaker item that extends the Item class.
  * It has instance variables such as size, type, color, and releaseDate.
@@ -8,7 +10,7 @@ import java.util.Stack;
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Sneaker extends Item { //implements java.io.Serializable{
+public class Sneaker extends Item  {
     private double size;
     private SneakerType type;
     private String color;
@@ -49,10 +51,10 @@ public class Sneaker extends Item { //implements java.io.Serializable{
      * @param color           The color of the sneaker.
      * @param releaseDate     The release date of the sneaker.
      */
-    public Sneaker(Integer itemId, String description, String brand, double basePrice,
+    public Sneaker(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double size,
             SneakerType type, String color, LocalDate releaseDate, int userId) {
-         super(itemId, description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+         super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
         this.size = size;
         this.type = type;
         this.color = color;
@@ -115,7 +117,8 @@ public class Sneaker extends Item { //implements java.io.Serializable{
      * @return The price of the sneaker.
      */
     public double getPrice() {
-        return (this.getBasePrice() - (this.getBasePrice() / this.getPreviousOwners().size() * this.getConditionScore()));
+         
+        return (this.getBasePrice() - (this.getBasePrice() / (this.getPreviousOwners().size() + 1 ) * this.getConditionScore()));
     } // Seria 1 / this.getConditionScore, caso conditionScore seja pior à medida que
       // aumenta.
 
@@ -176,7 +179,8 @@ public class Sneaker extends Item { //implements java.io.Serializable{
                 ", size=" + this.size +
                 ", type=" + this.type +
                 ", color='" + this.color + '\'' +
-                ", releaseDate=" + this.releaseDate +
+                ", releaseDate=" + this.releaseDate + '\''+
+                ", Price=" + getPrice() +
                 '}';
     }
 

@@ -1,10 +1,9 @@
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.Serializable;
 
-public class ItemManager {
+public class ItemManager implements Serializable{
     private HashMap<Integer, Item> soldItemsMap;
     private HashMap<Integer, Item> listedItemsMap;
     
@@ -12,6 +11,7 @@ public class ItemManager {
     public ItemManager() {
         this.soldItemsMap = new HashMap<Integer, Item>();
         this.listedItemsMap = new HashMap<Integer, Item>();
+        
     }
 
     public Item getItem(int id) {
@@ -78,36 +78,11 @@ public class ItemManager {
         }
         return null;
     }
+    public void soldToListed(int id) {
 
-    public Integer getNewId(){
-        Integer newId = 0;
-        for (Integer i : this.listedItemsMap.keySet()) {
-            if( i > newId ){
-                newId = i;
-            }
-        }
-        return newId+1;
-    }
+        Item i = this.soldItemsMap.get(id);
+        this.soldItemsMap.remove(i.getID());
+        this.listedItemsMap.put(i.getID(),i);
 
-    public void save( ObjectOutputStream os ){
-        try{
-            os.writeObject( this.listedItemsMap );
-        }
-        catch( Exception ex){
-            //TODO: Remove
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    public void load( ObjectInputStream is ){
-        HashMap<Integer, Item> temp = null;
-        try{
-            temp =  (HashMap<Integer, Item>) is.readObject();
-            this.listedItemsMap = temp;
-        }
-        catch( Exception ex){
-            //TODO: Remove
-            System.out.println(ex.getMessage());
-        }
     }
 }

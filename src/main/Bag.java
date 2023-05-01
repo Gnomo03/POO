@@ -1,12 +1,13 @@
 import java.time.LocalDate;
 import java.util.Stack;
+
 /**
  * Represents a Bag item that extends the Item class.
  * It has instance variables such as dimension, material and releaseDate.
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Bag extends Item {//implements java.io.Serializable {
+public class Bag extends Item{
     private double dimension;
     private String material;
     private LocalDate releaseDate;
@@ -36,10 +37,10 @@ public class Bag extends Item {//implements java.io.Serializable {
      * @param material        The material of the bag.
      * @param releaseDate     The release date of the bag.
      */
-    public Bag( Integer itemId, String description, String brand, double basePrice,
-                Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double dimension,
-                String material, LocalDate releaseDate, int userId) {
-        super(itemId, description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+    public Bag(String description, String brand, double basePrice,
+            Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double dimension,
+            String material, LocalDate releaseDate, int userId) {
+        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
         this.dimension = dimension;
         this.material = material;
         this.releaseDate = releaseDate;

@@ -96,8 +96,6 @@ public class Util {
         String[] result = Text.split(safeDelim);
         return result;
     }
-
-
     public static boolean FileExists(String filePathString){
         boolean result = false;
         File f = new File(filePathString);

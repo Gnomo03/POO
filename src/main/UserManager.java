@@ -1,23 +1,23 @@
 import java.util.TreeMap;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.Serializable;
 
-public class UserManager {
+public class UserManager implements Serializable {
     private TreeMap<Integer, User> userMap;
     
 
     public UserManager() {
         this.userMap = new TreeMap<Integer, User>();
-        User u = new User(0, "admin", "admin", "admin", 0, "admin");
-        this.addUser(u);
     }
 
-    public User getUser(int id) {
-        if (this.userMap.containsKey(id))
-            return this.userMap.get(id);
-        return null;
+    public User getUser(int id) throws NullPointerException {
+        if (!this.userMap.containsKey(id)){
+            throw new NullPointerException();
+        }
+    
+
+        return this.userMap.get(id);
     }
 
     /**
@@ -25,7 +25,10 @@ public class UserManager {
      *
      * @param oneUser to the user map
      */
-    public void addUser(User oneUser) {
+    public void addUser(User oneUser) throws NullPointerException{
+        if (oneUser == null){
+            new NullPointerException();
+        }
         this.userMap.put(oneUser.getId(), oneUser.clone());
     }
 
@@ -36,7 +39,7 @@ public class UserManager {
      * @return the user that was removed
      */
     public User removeUser(int id) {
-        return this.userMap.remove(id).clone();
+        return this.userMap.remove(id);
     }
 
     public List<User> getUsers() {
@@ -52,6 +55,7 @@ public class UserManager {
         return this.userMap;
     }
 
+
     public User findUserByEmail(String email) {
         for (Integer user_id : userMap.keySet()) {
 
@@ -62,31 +66,6 @@ public class UserManager {
         return null;
     }
 
-    public Integer getNewId(){
-        Integer newId = 0;
-        for (Integer i : this.userMap.keySet()) {
-            if( i > newId ){
-                newId = i;
-            }
-        }
-        return newId+1;
-    }
+    
 
-    public void save( ObjectOutputStream os ){
-        try{
-            os.writeObject( this.userMap );
-        }
-        catch( Exception ex){
-        }
-    }
-
-    public void load( ObjectInputStream is ){
-        TreeMap<Integer,User> temp = null;
-        try{
-            temp =  (TreeMap<Integer,User>) is.readObject();
-            this.userMap = temp;
-        }
-        catch( Exception ex){
-        }
-    }
 }

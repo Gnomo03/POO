@@ -1,3 +1,4 @@
-public class Query {
+public abstract class Query implements Querier {
+    
     
 }

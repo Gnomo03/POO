@@ -1,8 +1,14 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 
 /**
@@ -12,7 +18,7 @@ import java.util.Map;
  * of orders
  * and items associated with the user.
  */
-public class User implements Comparable<User>, java.io.Serializable {
+public class User implements Serializable,Comparable<User> {
 
     private int id;
     private String email;
@@ -22,12 +28,14 @@ public class User implements Comparable<User>, java.io.Serializable {
     private String password;
 
     private Map <Integer, Bill> bills;
-    private List<Item> sistemItems;
+    private List<Item> systemItems;
     private List<Item> sellingItems;
     //TODO: To Review
     private int soldItemsValue;
 
     //private static int currentID = 0;
+
+   private static int currentID = 1;
 
     /**
      * Constructs a new user with default values for all fields.
@@ -41,7 +49,7 @@ public class User implements Comparable<User>, java.io.Serializable {
         this.nif = 0;
         this.password = "n/d";
         this.bills = new HashMap<Integer,Bill>();
-        this.sistemItems = new ArrayList<Item>();
+        this.systemItems = new ArrayList<Item>();
         this.sellingItems = new ArrayList<Item>();
 
     }
@@ -59,7 +67,7 @@ public class User implements Comparable<User>, java.io.Serializable {
      * @param emittedOrder   the orders emitted by the user
      * @param sellingItems   the items being sold by the user
      */
-    public User( Integer userId, String email, String name, String address, int nif,HashMap <Integer, Bill> bills, String password, ArrayList<Item> sistemItems, ArrayList<Item> sellingItems) {
+    public User(String email, String name, String address, int nif,HashMap <Integer, Bill> bills, String password, ArrayList<Item> systemItems, ArrayList<Item> sellingItems) {
 
         this.id = userId;
         this.email = email;
@@ -69,7 +77,7 @@ public class User implements Comparable<User>, java.io.Serializable {
         this.nif = nif;
         this.password = password;
         this.bills = bills;
-        this.sistemItems = new ArrayList<>(sistemItems);
+        this.systemItems = new ArrayList<>(systemItems);
         this.sellingItems = new ArrayList<>(sellingItems);
 
     }
@@ -83,7 +91,7 @@ public class User implements Comparable<User>, java.io.Serializable {
      * @param nif      the user's tax identification number
      * @param password the user's password
      */
-    public User( Integer userId, String email, String name, String address, int nif, String password) {
+    public User(String email, String name, String address, int nif, String password) {
 
         this.id = userId;
         this.email = email;
@@ -92,7 +100,7 @@ public class User implements Comparable<User>, java.io.Serializable {
         this.nif = nif;
         this.password = password;
         this.bills = new HashMap<>();
-        this.sistemItems = new ArrayList<>();
+        this.systemItems = new ArrayList<>();
         this.bills = new HashMap<>();
         this.sellingItems = new ArrayList<>();
 
@@ -111,9 +119,8 @@ public class User implements Comparable<User>, java.io.Serializable {
         this.address = oneUser.getAddress();
         this.nif = oneUser.getNif();
         this.password = oneUser.getPassword();
-
         this.bills = oneUser.getBills();
-        this.sistemItems = oneUser.getSistemItems();
+        this.systemItems = oneUser.getSystemItems();
         this.sellingItems = oneUser.getSellingItems();
 
     }
@@ -201,10 +208,10 @@ public class User implements Comparable<User>, java.io.Serializable {
      *
      * @return the user's emitted orders
      */
-    public List<Item> getSistemItems () {
-        return new ArrayList<>(this.sistemItems );
+    public List<Item> getSystemItems () {
+        return new ArrayList<>(this.systemItems );
     }
-
+    
     /**
      * Returns the user's items.
      *
@@ -268,13 +275,20 @@ public class User implements Comparable<User>, java.io.Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    public void listASystemItem(int item_id) {
+
+      Item i =  this.searchItem(item_id);
+      this.systemItems.remove(i);
+      this.sellingItems.add(i);
+
+    }
 
     /**
      * @param emittedOrder
      *                     Set the user's emitted orders.
      */
-    public void setEmittedOrder(List<Item> sistemItems) {
-        this.sistemItems = new ArrayList<>(sistemItems);
+    public void setEmittedOrder(List<Item> systemItems) {
+        this.systemItems = new ArrayList<>(systemItems);
     }
 
     /**
@@ -293,7 +307,7 @@ public class User implements Comparable<User>, java.io.Serializable {
      */
     @Override
     public int compareTo(User otherUser) {
-        return Double.compare(this.soldItemsValue, otherUser.soldItemsValue);
+        return Double.compare(this.soldItemsValue(), otherUser.soldItemsValue());
     }
 
     /**
@@ -327,7 +341,7 @@ public class User implements Comparable<User>, java.io.Serializable {
                 && u.getAddress().equals(this.getAddress()) && u.getNif() == this.getNif()
                 && u.getBills() == this.getBills()
                 && u.getPassword().equals(this.getPassword())
-                && u.getSistemItems().equals(this.getSistemItems())
+                && u.getSystemItems().equals(this.getSystemItems())
                 && u.getSellingItems().equals(this.getSellingItems());
 
     }
@@ -348,9 +362,10 @@ public class User implements Comparable<User>, java.io.Serializable {
                 ", bills=" + bills +
                 ", password='" + password + '\'' +
                 ", bills=" + bills +
-                ", sistemItems=" + sistemItems +
+                ", systemItems=" + systemItems +
                 ", sellingItems=" + sellingItems +
                 ", Bills=" + bills +
+                ", Id giver=" + currentID +
                 '}';
     }
 
@@ -361,6 +376,9 @@ public class User implements Comparable<User>, java.io.Serializable {
     public void addItem(Item oneItem) {
         this.sellingItems.add(oneItem);
     }
+    public void addSystemItem (Item oneItem){
+        this.systemItems.add(oneItem);
+    }
 
     /**
      * @param oneItem
@@ -368,7 +386,11 @@ public class User implements Comparable<User>, java.io.Serializable {
      */
     public void removeItem(Item oneItem) {
         this.sellingItems.remove(oneItem);
-    }
+        oneItem.addPreviousOwner(this.id);
+     }
+     public void removeSystemItem(Item oneItem) {
+        this.systemItems.remove(oneItem);
+     }
     /**
      * Check´s if user has the item
      * 
@@ -379,23 +401,42 @@ public class User implements Comparable<User>, java.io.Serializable {
         return this.sellingItems.contains(oneItem);
     }
 
+    public boolean hasItem(int item_id) {
+
+        for (Item oneItem : this.systemItems){
+                if (oneItem.getID() == item_id){
+                    return true;
+                }
+        }
+        return false;
+
+    }
 
     public Item searchItem(int item_id) {
         for (Item i : this.sellingItems) {
             if (i.getID() == item_id)
                 return i;
         }
+        for (Item i : this.systemItems) {
+            if (i.getID() == item_id)
+                return i;
+        }
         return null;
     }
 
-    public void itemUpdate(int item_id) {
+    public double soldItemsValue() {
 
-        Item i = searchItem(item_id);
-        if (i != null) {
+        return 0;// to be defined
+    }
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject(); // default serialization
+        out.writeInt(currentID); // save static variable
+    }
 
-            this.soldItemsValue += i.getPrice() * 0.988; // 0.122 Comissão por item da vintage
-            i.addPreviousOwner(this.getId());
-            removeItem(i);
-        }
-    }    
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // default deserialization
+        currentID = in.readInt(); // load static variable
+    }
+
+
 }

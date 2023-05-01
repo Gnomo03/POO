@@ -1,17 +1,23 @@
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import java.util.TreeMap;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * This class represents a module that manages items, users, orders, and
  * carriers.
  */
-public class Model {
+public class Model implements Serializable {
 
     private ItemManager itemManager;
     private UserManager userManager;
@@ -61,18 +67,35 @@ public class Model {
     }
     /// -------------------
 
-    public User getCurrentUser() {
-        if (this.currentUser != null) {
-            return this.currentUser.clone();
-        } else {
-            return null;
+    public User getCurrentUser() throws NullPointerException,UserIsAdminException {
+       
+            if (this.currentUser.getEmail().equals("admin")) {
+                throw new UserIsAdminException(this.currentUser);
+            }
+            if (this.currentUser == null){
+                throw new NullPointerException();
+            }
+
+        return this.currentUser;
+    }
+    public List<Order> checkThisUserOrders(int userId) {
+
+        List<Order> pointers = this.orderManager.getThisUserOrders(userId);
+
+        List <Order> orders = new LinkedList<Order>();
+
+        for (Order order : pointers) {
+
+            orders.add(order.clone());
         }
+        return orders;
     }
     public void setCurrentUser(int id) {
         this.currentUser = this.userManager.getUser(id);
     }
-    public void addNewItemToUsers(int id_user, int id_item) {
-        this.userManager.getUser(id_user).addItem(this.itemManager.getListedItems().get(id_item));
+    public void addNewItemToUsers(int id_user, int id_item) throws NullPointerException{
+
+        this.userManager.getUser(id_user).addItem(this.itemManager.getItem(id_item));
     }
 
     public Order makeOrder(int id_user, List<Integer> items_keys) { // change
@@ -85,89 +108,72 @@ public class Model {
             order.addItem(i,u);
             this.itemManager.updateItem(i.getID());
         }
-       HashMap<String, Integer> carrierHashMap = order.getCarrierHelper();
-       
-        for (User u : order.getSellers()){ 
-            List<Item> items = order.itemPerUser(u);
-            Bill bill = new Bill();
-                for(Item item : items){
-
-                    bill.addItem(item,carrierHashMap.get(item.getCarrier().getName()));
-                }
-                bill.setSold();
-                bill.setOrder(order);
-                u.addBills(bill.clone());
-        }
         User buyer = this.userManager.getUser(id_user);
         order.setBuyer(buyer);
-        Bill billBuyer = new Bill();
-            for (Item item : order.getCollection()){
-
-                billBuyer.addItem(item,carrierHashMap.get(item.getCarrier().getName()));
-
-            }
-            billBuyer.setBought();
-            billBuyer.setOrder(order);
-            order.setBuyer(buyer);
-            buyer.addBills(billBuyer.clone());
         this.orderManager.addOrder(order);
         return order.clone();
     }
 
-    private boolean registsItem(Item item, int id_user) {
+    private void registsItem(Item item,int id_user) throws NullPointerException {
         User u = this.userManager.getUser(id_user);
-        if (currentUser == null) {return false;}
+        
     
-            this.itemManager.addListedItem(item);
-            //Item i = this.itemManager.searchItem(item.getID());
-            u.addItem(item);
-            return true;
+            this.itemManager.addListedItem(item); // clone no manager
+            Item i = this.itemManager.searchItem(item.getID());
+            u.addItem(i);
+            i.setUserId(u.getId());
+          
         
     }
-    public void registsUser(User u) {
-
+    public void registsUser(User u) throws NullPointerException,UserAlreadyExistsException{
+        if (reviewCredentials(u.getEmail()) != true) {
+            throw new UserAlreadyExistsException();
+        }
         this.userManager.addUser(u);
         
     }
 
-    // Add a non-existing bag
-    public boolean registBag(String description, String brand, double basePrice,
-                             String carrier, double conditionScore, double dimension,
-                             String material, LocalDate releaseDate, int userId) {
-                             Stack<Integer> previousOwners = new Stack<Integer>();
-        
-        Integer newItemId = this.itemManager.getNewId();
-        Bag bag = new Bag(newItemId, description, brand, basePrice,
+    public void registBag(String description, String brand, double basePrice,
+            String carrier, double conditionScore, double dimension,
+            String material, LocalDate releaseDate, int userId) {
+                Stack<Integer> previousOwners = new Stack<Integer>();
+        Bag bag = new Bag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, dimension, material, releaseDate, userId);
-        return registsItem(bag, userId);
+       
+
+
+         registsItem(bag, userId);
     }
 
-    /// Add a non-existing Tshirt
-    public boolean registTshirt(String description, String brand, double basePrice,
-                                String carrier, double conditionScore, Tshirt.TshirtSize size,
-                                Tshirt.TshirtPattern pattern, int userId) {
-                                Stack<Integer> previousOwners = new Stack<Integer>();
-        Tshirt tshirt = new Tshirt( this.itemManager.getNewId(), description, brand, basePrice,
+    public void registTshirt(String description, String brand, double basePrice,
+            String carrier, double conditionScore, Tshirt.TshirtSize size,
+            Tshirt.TshirtPattern pattern, int userId) {
+                Stack<Integer> previousOwners = new Stack<Integer>();
+        Tshirt tshirt = new Tshirt(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, pattern, userId);
-        return registsItem(tshirt, userId);
+        
+
+       registsItem(tshirt, userId);
     }
 
-    /// Add a non-existing Tshirt
-    public boolean registSneaker(String description, String brand, double basePrice,
-                                 String carrier, double conditionScore, double size,
-                                 Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId) {
-                                 Stack<Integer> previousOwners = new Stack<Integer>();
-        Sneaker sneaker = new Sneaker( this.itemManager.getNewId(), description, brand, basePrice,
+    public void registSneaker(String description, String brand, double basePrice,
+            String carrier, double conditionScore, double size,
+            Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId) {
+                Stack<Integer> previousOwners = new Stack<Integer>();
+        Sneaker sneaker = new Sneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, type, color, releaseDate, userId);
-        return registsItem(sneaker, userId);
+        
+
+        registsItem(sneaker, userId);
     }
 
     @Override
     public String toString() {
         return "Module{" +
+                "Current User" + this.currentUser +
                 "soldItemsMap=" + this.itemManager.getSoldItems() +
                 ", listedItemsMap=" + this.itemManager.getListedItems() +
                 ", userMap=" + this.userManager.getUsers() +
@@ -195,30 +201,39 @@ public class Model {
         if (i != null) {
 
             this.vintageProfit += i.getPrice() * 0.112; // 0.122 Comissão por item da vintage
-            i.addPreviousOwner(this.getCurrentUser().getId());
+            
             this.itemManager.updateItem(item_id);
         }
 
     }
+    public void alterItemState(int item_id, int user_id){  
 
+        User u = this.userManager.getUser(user_id);
+        u.listASystemItem(item_id);
+        this.itemManager.soldToListed(item_id);
+    }
     public void TimeSkip (LocalDate newDate){
 
-            while (this.date.equals(newDate)){
+            while (this.date.isBefore(newDate)){
                 
                List <Order> orders = this.orderManager.getOrders();
                 for ( Order o : orders){
-                    if (o.isPending()){
+                    if (o.isPending() && o.getDate().isBefore(newDate)){
                         List<Item> items = o.setFinished();
                         for (Item i : items){
                             
-                            User u = this.userManager.getUserMap().get(i.getUserId());
-                            u.itemUpdate(i.getID()); // o dinheiro só cai no utilizador apartir do momento que a encomenda é dispatched
+                            User u = this.userManager.getUser(i.getUserId());
+                            u.removeItem(i); // o dinheiro só cai no utilizador apartir do momento que a encomenda é dispatched
+                            User uBuy = o.getBuyer();
+                            uBuy.addSystemItem(i);
                             updateItemModel(i.getID());
+                            i.setUserId(uBuy.getId());
 
                         }
                         o.setFinished();
                     }
-                    if (o.isFinished()){
+                    long daysBetween = ChronoUnit.DAYS.between(this.date, newDate);
+                    if (o.isFinished() && daysBetween>=3){
 
                         HashMap<String, Integer> carrierHelper = o.getCarrierHelper();
                         for (String carrier_name : carrierHelper.keySet()){
@@ -227,52 +242,127 @@ public class Model {
                             c.updateEarnings(carrierHelper.get(carrier_name),o.getItemPrice());
 
                         }
-                        o.setDispatched();
+                        HashMap<String, Integer> carrierHashMap = o.getCarrierHelper();
+       
+                        for (User u : o.getSellers()){ 
+                            List<Item> items = o.itemPerUser(u);
+                            
+                           
+                                for(Item item : items){
+                                    Bill bill = new Bill();
+                                    bill.addItem(item,carrierHashMap.get(item.getCarrier().getName()));
+                                    bill.setSold();
+                                    bill.setOrder(o);
+                                    u.addBills(bill.clone());
+                                }
+                            
+                         }
+        
+                    Bill billBuyer = new Bill();
+                    for (Item item : o.getCollection()){
+
+                        billBuyer.addItem(item,carrierHashMap.get(item.getCarrier().getName()));
+
+                     }
+                    billBuyer.setBought();
+                    billBuyer.setOrder(o);
+                    o.getBuyer().addBills(billBuyer.clone());
+                    o.setDispatched();
+
                     }
 
-                    
-                    
-                    // update vintage
-
                 }
-               
+              this.date = this.date.plusDays(1);
+            }
+            this.date = newDate;
+    } 
+    private void deleteBills(Order order) {
+
+      TreeMap<Integer, User> it = this.userManager.getUserMap();
+
+      for (int key : it.keySet()) {
+
+        User u = it.get(key);
+           for ( int keyBill: u.getBills().keySet()){
+
+            Bill b = u.getBills().get(keyBill);
+            if (b.getOrder().getID() == order.getID())
+                u.getBills().remove(keyBill);
+
+           }
+      }
+
+    }
+    private void undoItem(Order o){
+
+        List<Item> col = o.getCollection();
+
+        for (Item item : col){
+            User u = this.userManager.getUser(item.getUserId());
+            u.removeSystemItem(item);
+            
+            item.returnOwnership();
+            this.vintageProfit-=item.getPrice()*0.112;
+            this.addNewItemToUsers(item.getUserId(),item.getID());
+            this.itemManager.soldToListed(item.getID());
+
+        }
+    }
+    public boolean deleteOrder(int orderId,int userId) { // Para uma order ser returend, nenhum dos items que foram comprados podem estar listados!
+        
+        Order o = this.orderManager.getOrder(orderId);
+        long daysBetween = ChronoUnit.DAYS.between(o.getDate(), this.date);
+        User u = o.getBuyer();
+        for (Item i : o.getCollection()) {
+            if (u.hasItem(i.getID()) == false) {
+                return false;
             }
 
-    } 
-    public int save( String fileName){
+        }
+        if (daysBetween <= 5 && daysBetween >= 16 || !o.isDispatched())
+            return false;
 
-        int result = 1;
-        try{
+        this.orderManager.removeOrder(orderId);
+        this.deleteBills(o);
+        this.undoItem(o);
+        return true;
+    }
+    public void save( String fileName) throws FileNotFoundException,IOException{
+
+        
             FileOutputStream fs = new FileOutputStream(fileName);
             ObjectOutputStream os = new ObjectOutputStream(fs);
-            this.getUserManager().save(os);
-            this.getItemManager().save(os);
-            // acrescentar os outros
+            os.writeObject(this);
+            os.flush();
             os.close();
-            fs.close();
-        }
-        catch(Exception ex){
-            result = 0;
-        }
-        return result;
+ 
     }
     
-    public int load( String fileName){
-        int result = 1;
-        try{
-            if( Util.FileExists(fileName) ){
-                FileInputStream fs = new FileInputStream(fileName);
-                ObjectInputStream os = new ObjectInputStream(fs);
-                this.getUserManager().load(os);
-                this.getItemManager().load(os);
-                //ler os outros
-                os.close();
-                fs.close();
-            }
-        }
-        catch(Exception ex){
-            result = 0;
-        }
-        return result;
+    public static Model load( String fileName) throws FileNotFoundException,IOException,ClassNotFoundException{
+        
+        FileInputStream fs = new FileInputStream(fileName);
+        ObjectInputStream os = new ObjectInputStream(fs);
+        Model model = (Model) os.readObject();
+        os.close();
+
+        return model;
+    }
+
+    public void addCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws CarrierAlreadyExistsException {
+        
+        this.carrierManager.addCarrier(new Carrier(name, taxSmall, taxMedium, taxBig,0));
+    }
+
+    public void changeCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws NullPointerException {
+        Carrier c = this.carrierManager.getCarrier(name);
+        this.carrierManager.removeCarrier(name);
+        c.setTaxSmall(taxSmall);
+        c.setTaxMedium(taxMedium);
+        c.setTaxBig(taxBig);
+        try {
+            this.carrierManager.addCarrier(c);
+        }catch(CarrierAlreadyExistsException e) {}
+        
+
     }
 }

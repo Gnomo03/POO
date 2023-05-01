@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.Stack;
 /**
  * Represents a Tshirt item that extends the Item class.
  * It has instance variables such as size and pattern.
@@ -11,7 +12,7 @@ import java.util.Stack;
  * variables.
  */
 
- public class Tshirt extends Item { // implements java.io.Serializable {
+ public class Tshirt extends Item {
     private TshirtSize size;
     private TshirtPattern pattern;
 
@@ -54,10 +55,10 @@ import java.util.Stack;
      * @param pattern         The pattern of the tshirt (Smooth, Stripes or
      *                        PalmTrees).
      */
-    public Tshirt( Integer itemId, String description, String brand, double basePrice,
+    public Tshirt(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, Stack<Integer> previousOwners, TshirtSize size,
             TshirtPattern pattern, int userId) {
-        super( itemId, description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
         this.size = size;
         this.pattern = pattern;
     }

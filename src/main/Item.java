@@ -1,11 +1,16 @@
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Stack;
+
 
 /**
  * Represents an item with a description, brand, reference, base price,
  * price correction, carrier, condition score, previous owners,
  * premium status and ID.
  */
-public abstract class Item implements Price, java.io.Serializable {
+public abstract class Item implements Serializable {
     private String description;
     private String brand;
     private String reference;
@@ -19,7 +24,7 @@ public abstract class Item implements Price, java.io.Serializable {
 
 
 
-    //private static int currentID = 0;
+    private static int currentID = 1;
 
     /**
      * Default constructor for Item class.
@@ -33,8 +38,8 @@ public abstract class Item implements Price, java.io.Serializable {
         this.priceCorrection = 0;
         this.conditionScore = 0;
         this.previousOwners = new Stack<Integer>();
-        this.id = 0;    //currentID;
-        //currentID++;
+        this.id = currentID;
+        currentID++;
         this.userId = 0; // admin id
     }
 
@@ -51,8 +56,8 @@ public abstract class Item implements Price, java.io.Serializable {
      * @param previousOwners  the number of previous owners of the item
      * @param premiumStat     whether or not the item has premium status
      */
-    public Item( Integer itemID, String description, String brand, double basePrice,
-                 Carrier carrier, double conditionScore, int userId,Stack<Integer>previousOwners) {
+    public Item(String description, String brand, double basePrice,
+            Carrier carrier, double conditionScore, int userId,Stack<Integer>previousOwners) {
         this.description = description;
         this.brand = brand;
         this.basePrice = basePrice;
@@ -60,8 +65,7 @@ public abstract class Item implements Price, java.io.Serializable {
         this.conditionScore = conditionScore;
         this.priceCorrection = 1-this.conditionScore;
         this.previousOwners = previousOwners;
-        this.id = itemID;   // currentID;
-        //currentID++;
+        this.id = currentID++;
         this.userId = userId;
     }
 
@@ -80,7 +84,6 @@ public abstract class Item implements Price, java.io.Serializable {
         this.conditionScore = oneItem.getConditionScore();
         this.previousOwners = oneItem.getPreviousOwners();
         this.id = oneItem.getID();
-        //currentID++; // Acho que isto está a mais
         this.userId = oneItem.getUserId();
     }
     /**
@@ -99,7 +102,9 @@ public abstract class Item implements Price, java.io.Serializable {
     public String getDescription() {
         return this.description;
     }
-
+    public int getonePreviousOwners() {
+        return this.previousOwners.peek();
+    }
     /**
      * Returns the brand of the item.
      *
@@ -261,9 +266,14 @@ public abstract class Item implements Price, java.io.Serializable {
     public void setPreviousOwners(Stack<Integer> previousOwners) {
         this.previousOwners = previousOwners;
     }
-    public void addPreviousOwner(int user_id){
-        this.previousOwners.push(user_id);
+    public void addPreviousOwner(int user_id2){
+        this.previousOwners.push(user_id2);
     }
+    public void returnOwnership(){
+        this.userId = this.previousOwners.pop();
+    
+    }
+    
     /**
      * Returns a string representation of the item.
      *
@@ -285,5 +295,15 @@ public abstract class Item implements Price, java.io.Serializable {
      * @return a copy of the current object
      */
     public abstract Item clone();
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject(); // default serialization
+        out.writeInt(currentID); // save static variable
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // default deserialization
+        currentID = in.readInt(); // load static variable
+    }
 
 }

@@ -1,5 +1,9 @@
 import java.time.LocalDate;
 import java.util.List;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 
 
@@ -7,7 +11,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Order implements Comparable<Order> {
+public class Order implements Serializable,Comparable<Order> {
     private List<Item> collection;
     private HashMap<String, Integer> carrierHelper;
     private List<User> sellers;
@@ -173,8 +177,8 @@ public class Order implements Comparable<Order> {
         List<Item> list = new LinkedList<Item>();
 
         for(Item i : this.collection){
-
-            if (i.getUserId() == user.getId())
+            
+            if (i.getonePreviousOwners() == user.getId())
                 list.add(i);
         }
         
@@ -255,11 +259,11 @@ public class Order implements Comparable<Order> {
             int many = this.carrierHelper.get(i.getCarrier().getName());
 
             if (many == 1)
-                tax += i.getPrice() * i.getCarrier().getTaxSmall();
+                tax += i.getPrice() * i.getCarrier().getTaxSmallWithIva();
             if (many >= 2 && many <= 5)
-                tax += i.getPrice() * i.getCarrier().getTaxMedium();
+                tax += i.getPrice() * i.getCarrier().getTaxMediumWithIva();
             if (many > 5)
-                tax += i.getPrice() * i.getCarrier().getTaxBig();
+                tax += i.getPrice() * i.getCarrier().getTaxBigWithIva();
 
         }
         return this.itemPrice + this.satisfactionPrice + tax;
@@ -270,6 +274,16 @@ public class Order implements Comparable<Order> {
         LocalDate date1 = this.getDate();
         LocalDate date2 = o.getDate();
         return date1.compareTo(date2);
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject(); // default serialization
+        out.writeInt(currentID); // save static variable
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // default deserialization
+        currentID = in.readInt(); // load static variable
     }
 
 }
