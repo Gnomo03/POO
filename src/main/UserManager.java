@@ -1,14 +1,15 @@
-import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.io.Serializable;
 
 public class UserManager implements Serializable {
-    private TreeMap<Integer, User> userMap;
+    private Map<Integer, User> userMap;
     
 
     public UserManager() {
-        this.userMap = new TreeMap<Integer, User>();
+        this.userMap = new HashMap<Integer, User>();
     }
 
     public User getUser(int id) throws NullPointerException {
@@ -51,10 +52,26 @@ public class UserManager implements Serializable {
         return users;
     }
 
-    public TreeMap<Integer, User> getUserMap() {
+    public Map<Integer, User> getUserMap() {
         return this.userMap;
     }
+   public void deleteBills(Order order) {
 
+        Map<Integer, User> it = this.getUserMap();
+  
+        for (int key : it.keySet()) {
+  
+          User u = it.get(key);
+             for ( int keyBill: u.getBills().keySet()){
+  
+              Bill b = u.getBills().get(keyBill);
+              if (b.getOrder().getID() == order.getID())
+                  u.getBills().remove(keyBill);
+  
+             }
+        }
+  
+      }
 
     public User findUserByEmail(String email) {
         for (Integer user_id : userMap.keySet()) {

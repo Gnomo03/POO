@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
-import java.util.TreeMap;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -276,23 +275,7 @@ public class Model implements Serializable {
             }
             this.date = newDate;
     } 
-    private void deleteBills(Order order) {
-
-      TreeMap<Integer, User> it = this.userManager.getUserMap();
-
-      for (int key : it.keySet()) {
-
-        User u = it.get(key);
-           for ( int keyBill: u.getBills().keySet()){
-
-            Bill b = u.getBills().get(keyBill);
-            if (b.getOrder().getID() == order.getID())
-                u.getBills().remove(keyBill);
-
-           }
-      }
-
-    }
+   
     private void undoItem(Order o){
 
         List<Item> col = o.getCollection();
@@ -323,7 +306,7 @@ public class Model implements Serializable {
             throw new OrderNotReturnable();
 
         this.orderManager.removeOrder(orderId);
-        this.deleteBills(o);
+        this.userManager.deleteBills(o);
         this.undoItem(o);
 
     }

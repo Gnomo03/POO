@@ -406,7 +406,7 @@ public class User implements Serializable,Comparable<User> {
 
     }
 
-    public Item searchItem(int item_id) {
+    public Item searchItem(int item_id) throws NullPointerException {
         for (Item i : this.sellingItems) {
             if (i.getID() == item_id)
                 return i;
@@ -419,8 +419,22 @@ public class User implements Serializable,Comparable<User> {
     }
 
     public double soldItemsValue() {
-
-        return 0;// to be defined
+        double ret =0;
+        for (int b_key : bills.keySet()){
+            Bill b = bills.get(b_key);
+            if ( b.isSold())
+                ret+=b.getAmount();
+        }
+        return ret;
+    }
+    public double spendValue() {
+        double ret =0;
+        for (int b_key : bills.keySet()){
+            Bill b = bills.get(b_key);
+            if ( !b.isSold())
+                ret+=b.getAmount();
+        }
+        return ret;
     }
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject(); // default serialization
