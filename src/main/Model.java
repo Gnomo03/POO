@@ -358,4 +358,9 @@ public class Model implements Serializable {
     public Map<String, Carrier> getCarrierManagerCopy() {
         return this.carrierManager.mapCopy();
     }
+
+
+    public Double getVintageProfit() {
+        return this.vintageProfit;
+    }
 }

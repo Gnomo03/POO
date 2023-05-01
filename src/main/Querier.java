@@ -5,7 +5,7 @@ public interface Querier {
     // public List<Order> emittedOrderList(Map<Integer,User> hm, int userId);
     // public List<User> podiumSeller(Map<Integer,User> hm,LocalDate date1, LocalDate date2);
     // public List<User> podiumSpenders(Map<Integer,User> hm,LocalDate date1, LocalDate date2);
-    // public double vintageProfit();
+    // public double vintageProfit(); done
     public Object execute();
 
 }

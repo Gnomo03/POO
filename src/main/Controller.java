@@ -164,6 +164,11 @@ public class Controller {
             Carrier c = (Carrier) querier.execute();
             result = c.toString();
             break;
+            case(7):
+            querier = new VintageProfit(m.getVintageProfit());
+            double d = (double) querier.execute();
+            result = String.format("%f", d);
+            break;
         }
         return result;
     }

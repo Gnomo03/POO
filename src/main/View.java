@@ -282,6 +282,7 @@ public class View {
         System.out.print("\n");
         System.out.print("1.Check the User that made the most amount of Money all time!\n");
         System.out.print("3.Check the User that made the most amount of Money!\n");
+        System.out.print("7.Check Vintage Profit!\n");
         int query = scanner.nextInt();
         String out = _cont.querrierExecution(query, null, null);
         System.out.println(out);
