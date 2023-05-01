@@ -7,7 +7,7 @@ public class PremiumSneaker extends Sneaker {
     public PremiumSneaker(){
     super();
     }
-
+   @Override
    public double getPrice(){
      LocalDate now = LocalDate.now();
     int yearDiff = Period.between(this.getReleaseDate(), now).getYears();

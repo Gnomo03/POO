@@ -92,7 +92,7 @@ public class Bag extends Item{
      * @return The price of the bag.
      */
     public double getPrice() {
-        return (this.getBasePrice() / this.dimension);
+        return this.getBasePrice() - (this.getBasePrice() * (this.dimension/10000)) - (this.getBasePrice() * this.getPriceCorrection());
     }
 
     /**
@@ -140,7 +140,8 @@ public class Bag extends Item{
                 ", previousOwners=" + getPreviousOwners() +
                 ", dimension=" + this.dimension +
                 ", material=" + this.material +
-                ", releaseDate=" + this.releaseDate +
+                ", releaseDate=" + this.releaseDate + '\''+
+                ", Price=" + getPrice() +
                 '}';
     }
 

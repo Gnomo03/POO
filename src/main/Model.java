@@ -3,8 +3,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
-import java.util.TreeMap;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -39,15 +39,19 @@ public class Model implements Serializable {
         this.vintageProfit = 0;
     }
 
-    /// Managers -- Should be on Controller
+  
     public UserManager getUserManager() {
         return this.userManager;
     }
+    public Map<Integer, User> getUserManagerCopy() {
+        return this.userManager.getUserMapCopy();
+    }
+    
     public LocalDate getDate() {
         return this.date;
     }
 
-
+   
     public ItemManager getItemManager() {
         return itemManager;
     }
@@ -276,23 +280,7 @@ public class Model implements Serializable {
             }
             this.date = newDate;
     } 
-    private void deleteBills(Order order) {
-
-      TreeMap<Integer, User> it = this.userManager.getUserMap();
-
-      for (int key : it.keySet()) {
-
-        User u = it.get(key);
-           for ( int keyBill: u.getBills().keySet()){
-
-            Bill b = u.getBills().get(keyBill);
-            if (b.getOrder().getID() == order.getID())
-                u.getBills().remove(keyBill);
-
-           }
-      }
-
-    }
+   
     private void undoItem(Order o){
 
         List<Item> col = o.getCollection();
@@ -323,7 +311,7 @@ public class Model implements Serializable {
             throw new OrderNotReturnable();
 
         this.orderManager.removeOrder(orderId);
-        this.deleteBills(o);
+        this.userManager.deleteBills(o);
         this.undoItem(o);
 
     }
@@ -364,5 +352,10 @@ public class Model implements Serializable {
         }catch(CarrierAlreadyExistsException e) {}
         
 
+    }
+
+
+    public Map<String, Carrier> getCarrierManagerCopy() {
+        return this.carrierManager.mapCopy();
     }
 }
