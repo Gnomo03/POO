@@ -159,7 +159,7 @@ public class Controller {
         m.changeCarrier(name, taxSmall, taxMedium, taxBig);
     }
 
-    public String querrierExecution(int query, LocalDate date1, LocalDate date2) throws NullPointerException {
+    public String querrierExecution(int query, LocalDate date1, LocalDate date2, int id) throws NullPointerException {
         String result = "";
         Querier querier;
         switch (query) {
@@ -173,7 +173,12 @@ public class Controller {
                 Carrier c = (Carrier) querier.execute();
                 result = c.toString();
                 break;
-            case (7):
+            case (4):
+                querier = new EmmitedOrderList(m.getUserManagerCopy(), id);
+                List<Order> o = (List<Order>) querier.execute();
+                result = o.toString();
+                break;
+            case (5):
                 querier = new VintageProfit(m);
                 result = querier.execute().toString();
                 break;
