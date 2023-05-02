@@ -189,6 +189,7 @@ public class Carrier implements Serializable,Comparable<Carrier> {
      * @return a string representation of the Carrier
      */
     public String toString() {
+        
         return "Carrier{" +
                 "name='" + getName() + '\'' +
                 ", Small tax value='" + getTaxSmall() + '\'' +
