@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 
 /**
@@ -158,6 +159,16 @@ public class User implements Serializable,Comparable<User> {
     public String getAddress() {
         return address;
     }
+    public List<Order> getEmmitedOrder() {
+        List<Order> orders = new LinkedList<Order>();
+        for (Integer b_id : this.bills.keySet()) {
+            Bill b = this.bills.get(b_id);
+            if (b.isSold()) {
+                orders.add(b.getOrder().clone());
+            }
+        }
+        return orders;
+    }
 
     /**
      * Returns the user's NIF (tax identification number).
@@ -256,15 +267,26 @@ public class User implements Serializable,Comparable<User> {
      * @param soldItemsValue
      *                       Set the user's total sold items value.
      */
-    public double getSoldItemsValue(HashMap <Integer, Bill> bills) {
+    
+    public double soldItemsValueFrame(LocalDate date1, LocalDate date2) {
         double sum = 0;
         for (Integer i : bills.keySet()) {
             Bill b = this.bills.get(i);
-            if ( b.isSold())
+            if ( b.isSold() && b.getOrder().getDate().isAfter(date1) && b.getOrder().getDate().isBefore(date2))
             sum += b.gettotalCost();
         }
         return sum;
     }
+    public double boughtValueFrame(LocalDate date1, LocalDate date2) {
+        double sum = 0;
+        for (Integer i : bills.keySet()) {
+            Bill b = this.bills.get(i);
+            if ( !b.isSold() && b.getOrder().getDate().isAfter(date1) && b.getOrder().getDate().isBefore(date2))
+            sum += b.getAmount();
+        }
+        return sum;
+    }
+
 
     /**
      * @param password

@@ -114,6 +114,7 @@ public class Model implements Serializable {
         }
         User buyer = this.userManager.getUser(id_user);
         order.setBuyer(buyer);
+        order.setDate(date);
         this.orderManager.addOrder(order);
         return order.clone();
     }
@@ -243,7 +244,7 @@ public class Model implements Serializable {
                         for (String carrier_name : carrierHelper.keySet()){
 
                             Carrier c = this.carrierManager.getCarrier(carrier_name);
-                            c.updateEarnings(carrierHelper.get(carrier_name),o.getItemPrice());
+                            c.updateEarnings(carrierHelper.get(carrier_name),o.getItemPricePerCarrier(carrier_name));
 
                         }
                         HashMap<String, Integer> carrierHashMap = o.getCarrierHelper();
@@ -357,5 +358,10 @@ public class Model implements Serializable {
 
     public Map<String, Carrier> getCarrierManagerCopy() {
         return this.carrierManager.mapCopy();
+    }
+
+
+    public Double getVintageProfit() {
+        return this.vintageProfit;
     }
 }

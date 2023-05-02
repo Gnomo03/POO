@@ -187,11 +187,12 @@ public class Order implements Serializable,Comparable<Order> {
     public String toString() {
         return "Order{" +
                 "collection='" + this.collection.toString() + "\'" +
-                "dimension='" + this.dimension +
-                "Final Price='" + this.itemPrice +
-                "Satisfaction Price='" + this.satisfactionPrice +
-                "State='" + this.state +
-                "Date='" + this.date.toString() + "\'" +
+                " dimension='" + this.dimension +
+                " Final Price='" + this.itemPrice +
+                " Satisfaction Price='" + this.satisfactionPrice +
+                " State='" + this.state +
+                " Date='" + this.date.toString() + "\'" +
+                " Iva= 13%'" + "\'" +
                 "ID='" + this.id + "}";
     }
 
@@ -284,6 +285,19 @@ public class Order implements Serializable,Comparable<Order> {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject(); // default deserialization
         currentID = in.readInt(); // load static variable
+    }
+
+    public double getItemPricePerCarrier(String carrier_name) {
+        
+        double total = 0;
+        for (Item i : this.collection){
+
+            if (i.getCarrier().getName().equals(carrier_name)){
+                total += i.getPrice();
+            }
+
+        }
+        return total;
     }
 
 }

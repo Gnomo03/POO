@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -150,7 +151,8 @@ public class Controller {
     public void changeCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws NullPointerException{
         m.changeCarrier(name, taxSmall, taxMedium, taxBig);
     }
-    public String querrierExecution(int query,LocalDate date1, LocalDate date2) throws NullPointerException{
+    @SuppressWarnings("unchecked")
+    public String querrierExecution(int query,LocalDate date1, LocalDate date2,int userID) throws NullPointerException{
         String result = "";
         Querier querier;
         switch(query){
@@ -159,10 +161,35 @@ public class Controller {
             User u = (User) querier.execute();
             result = u.toString();
             break;
+            case(2):
+            querier = new BiggestEarnerAllTimeFrame(m.getUserManagerCopy(),date1,date2);
+            User u2 = (User) querier.execute();
+            result = u2.toString();
+            break;
             case(3):
             querier = new BiggestCarrier(m.getCarrierManagerCopy());
             Carrier c = (Carrier) querier.execute();
             result = c.toString();
+            break;
+            case(4):
+            querier = new EmmitedOrderList(m.getUserManagerCopy(),userID);
+            List<Order> l = (LinkedList<Order>) querier.execute();
+            result = l.toString();
+            break;
+            case(5):
+            querier = new PodiumSeller(m.getUserManagerCopy(),date1,date2);
+            List<User> l1 = (ArrayList<User>) querier.execute();
+            result = l1.toString();
+            break;
+            case(6):
+            querier = new PodiumSpenders(m.getUserManagerCopy(),date1,date2);
+            List<User> l2 = (ArrayList<User>) querier.execute();
+            result = l2.toString();
+            break;
+            case(7):
+            querier = new VintageProfit(m.getVintageProfit());
+            double d = (double) querier.execute();
+            result = String.format("%f", d);
             break;
         }
         return result;

@@ -281,9 +281,47 @@ public class View {
         System.out.print("\n");
         System.out.print("\n");
         System.out.print("1.Check the User that made the most amount of Money all time!\n");
-        System.out.print("3.Check the User that made the most amount of Money!\n");
+        System.out.print("2.Check the User that made the most amount of Money in a time frame!\n");
+        System.out.print("3.Check the Carrier that made the most amount of Money!\n");
+        System.out.print("4.Check User Emitted Orders!\n");
+        System.out.print("5.Check the list of Sellers in a time frame!\n");
+        System.out.print("6.Check the list of Spenders in a time frame!\n");
+        System.out.print("7.Check Vintage Profit!\n");
         int query = scanner.nextInt();
-        String out = _cont.querrierExecution(query, null, null);
+        scanner.nextLine();
+        int id = 0;
+        String date1,date2;
+        date1 = date2 = "1999-01-01";
+        if (query==4){
+            System.out.print("User you which to see id: ");
+            id = scanner.nextInt();
+            scanner.nextLine();
+        }
+        if (query==2){
+            System.out.print("Choose the Time frame\n");
+            System.out.print("First date:");
+            date1 = scanner.nextLine();
+            System.out.print("\n");
+            System.out.print("Second date:");
+            date2 = scanner.nextLine();
+        }
+        if (query==5){
+            System.out.print("Choose the Time frame\n");
+            System.out.print("First date:");
+            date1 = scanner.nextLine();
+            System.out.print("\n");
+            System.out.print("Second date:");
+            date2 = scanner.nextLine();
+        }
+        if (query==6){
+            System.out.print("Choose the Time frame\n");
+            System.out.print("First date:");
+            date1 = scanner.nextLine();
+            System.out.print("\n");
+            System.out.print("Second date:");
+            date2 = scanner.nextLine();
+        }
+        String out = _cont.querrierExecution(query, Util.toDate(date1), Util.toDate(date2),id);
         System.out.println(out);
         scanner.nextLine();
         }
