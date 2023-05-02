@@ -42,11 +42,11 @@ public class Controller {
 
     public void registItemBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
-            String material, LocalDate releaseDate) throws UserIsAdminException {
+            String material, LocalDate releaseDate, String premium) throws UserIsAdminException {
 
                 m.registBag(description, brand, basePrice,
                 carrier, conditionScore, dimension, material, releaseDate,
-                this.m.getCurrentUser().getId());
+                this.m.getCurrentUser().getId(),premium);
     }
 
     public void registItemTshirt(String description, String brand, double basePrice,
@@ -59,10 +59,10 @@ public class Controller {
 
     public void registItemSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore,
-            double size, Sneaker.SneakerType type, String color, LocalDate releaseDate)throws UserIsAdminException,NullPointerException {
+            double size, Sneaker.SneakerType type, String color, LocalDate releaseDate, String premium)throws UserIsAdminException,NullPointerException {
                 m.registSneaker(description, brand, basePrice,
                 carrier, conditionScore, size, type, color, releaseDate,
-                this.m.getCurrentUser().getId());
+                this.m.getCurrentUser().getId(),premium);
     }
 
     public void registerUser(String email, String name, String address, int nif, String password) throws UserAlreadyExistsException {
@@ -82,11 +82,48 @@ public class Controller {
         m.makeOrder(m.getCurrentUser().getId(), order);
 
     }
-
-    public String displayCarriers() {
+    private String displayNormalCarriers(){
         String result = "\n";
         for (Carrier c : m.getCarrierManagerList()) {
-            result += c.toString() + "\n";
+            if (c instanceof Premium){
+                
+            }else{
+                result += c.toString() + "\n";
+            }
+
+            
+        }
+        return result;
+
+    }
+    private String displayPremiumCarriers(){
+        String result = "\n";
+        for (Carrier c : m.getCarrierManagerList()) {
+            if (c instanceof Premium){
+                PremiumCarrier c1 = (PremiumCarrier) c;
+                result += c1.toString() + "\n";
+            }
+                
+        }
+        return result;
+
+    }
+    public String displayCarriers(String premium) {
+        if (premium.equals("y"))
+        return displayPremiumCarriers();
+        else
+        return displayNormalCarriers();
+    }
+    public String displayAllCarriers() {
+        String result = "\n";
+        for (Carrier c : m.getCarrierManagerList()) {
+            System.out.println(c instanceof Premium);
+            if (c instanceof Premium){
+                PremiumCarrier c1 = (PremiumCarrier) c;
+                result += c1.toString() + "\n";
+            }else{
+                result += c.toString() + "\n";
+            }
         }
         return result;
     }
@@ -142,9 +179,9 @@ public class Controller {
         return m.toString();
     }
 
-    public void registCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws CarrierAlreadyExistsException{
+    public void registCarrier(String name, double taxSmall, double taxMedium, double taxBig,String premium) throws CarrierAlreadyExistsException{
 
-        m.addCarrier(name, taxSmall, taxMedium, taxBig);
+        m.addCarrier(name, taxSmall, taxMedium, taxBig,premium);
 
     }
 

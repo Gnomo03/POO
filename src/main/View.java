@@ -65,7 +65,7 @@ public class View {
     }
 
     private void registerItem() {
-        String des, brand,carrier,date,type,color,Tsizes,pattern,material;
+        String des, brand,carrier,date,type,color,Tsizes,pattern,material,premium;
         double price, score;
         int size,itemId, width,height,depth,dimension;
         // User cUser = _cont.getCurrentUser();
@@ -106,8 +106,10 @@ public class View {
                     material = scanner.nextLine();
                     System.out.print("Enter Bag Release Date (yyyy-mm-dd):");
                     date = scanner.nextLine();
-                    System.out.print("Choose one of the following Carrier's:");
-                    System.out.print(_cont.displayCarriers());
+                    System.out.print("Is this a Premium Item ? ('y' for yes or 'n' for no)");
+                    premium = scanner.nextLine();
+                    System.out.print("Choose one of the following Carrier's:"); 
+                    System.out.print(_cont.displayCarriers(premium));
                     System.out.print("\n");
                     carrier = scanner.nextLine();
                     System.out.print("\n");
@@ -115,7 +117,7 @@ public class View {
                     System.out.print("\n");
                     _cont.registItemBag(des, brand, price,
                             carrier,score/5,
-                            dimension, material, Util.toDate(date));
+                            dimension, material, Util.toDate(date),premium);
                     break;
                 // ------------------------------------------------------------------------------------------
                 case "t":
@@ -133,7 +135,7 @@ public class View {
                     System.out.print("Enter Tshirt Pattern (Smooth, Stripes, PalmTrees):");
                     pattern = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
-                    System.out.print(_cont.displayCarriers());
+                    System.out.print(_cont.displayCarriers("n"));
                     carrier = scanner.nextLine();
                     System.out.print("\n");
                     System.out.print("\n");
@@ -161,15 +163,17 @@ public class View {
                     color = scanner.nextLine();
                     System.out.print("Enter Sneaker Release Date (yyyy-mm-dd):");
                     date = scanner.nextLine();
+                    System.out.print("Is this a Premium Item ? ('y' for yes or 'n' for no)");
+                    premium = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
-                    System.out.print(_cont.displayCarriers());
+                    System.out.print(_cont.displayCarriers(premium));
                     carrier = scanner.nextLine();
                     System.out.print("\n");
                     System.out.print("\n");
                     System.out.print("\n");
                     _cont.registItemSneaker(des, brand, price,
                             carrier,score/5,
-                            size, Util.toSneakerType(type), color, Util.toDate(date));
+                            size, Util.toSneakerType(type), color, Util.toDate(date),premium);
                     break;
                     case "a":
                     System.out.print("System Items:");
@@ -222,7 +226,7 @@ public class View {
         System.out.print("Let´s change a carrier to the system!\n");
         System.out.print("\n");
         System.out.print("\n");
-        System.out.print(_cont.displayCarriers());
+        System.out.print(_cont.displayAllCarriers());
         System.out.print("Insert the carrier Name: ");
         String name = scanner.nextLine();
         System.out.print("\n");
@@ -253,6 +257,8 @@ public class View {
         System.out.print("\n");
         System.out.print("Insert the carrier Name: ");
         String name = scanner.nextLine();
+        System.out.print("Is it a premium Carrier ? ('y' for yes): ");
+        String premium = scanner.nextLine();
         System.out.print("\n");
         System.out.print("Insert the carrier comission for small orders:");
         double taxSmall = scanner.nextDouble();
@@ -262,7 +268,7 @@ public class View {
         System.out.print("\n");
         System.out.print("Insert the carrier comission for big orders:");
         double taxBig = scanner.nextDouble();
-        _cont.registCarrier(name, taxSmall, taxMedium, taxBig);
+        _cont.registCarrier(name, taxSmall, taxMedium, taxBig,premium);
 
         } catch (InputMismatchException e) {
             System.out.print("Wrong Input type\n");

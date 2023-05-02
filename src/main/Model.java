@@ -140,15 +140,24 @@ public class Model implements Serializable {
 
     public void registBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
-            String material, LocalDate releaseDate, int userId) {
+            String material, LocalDate releaseDate, int userId,String premium) {
                 Stack<Integer> previousOwners = new Stack<Integer>();
-        Bag bag = new Bag(description, brand, basePrice,
+        
+
+        if (premium.equals("y")){
+            PremiumBag bag = new PremiumBag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, dimension, material, releaseDate, userId);
+            
+                registsItem(bag, userId);
+        }else{
+            Bag bag = new Bag(description, brand, basePrice,
+                this.carrierManager.getCarrier(carrier),
+                conditionScore, previousOwners, dimension, material, releaseDate, userId);
+                registsItem(bag, userId);
+        }
+        
        
-
-
-         registsItem(bag, userId);
     }
 
     public void registTshirt(String description, String brand, double basePrice,
@@ -165,14 +174,25 @@ public class Model implements Serializable {
 
     public void registSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore, double size,
-            Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId) {
+            Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId, String premium) {
                 Stack<Integer> previousOwners = new Stack<Integer>();
-        Sneaker sneaker = new Sneaker(description, brand, basePrice,
+
+        if(premium.equals(premium)){
+            PremiumSneaker sneaker = new PremiumSneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
                 conditionScore, previousOwners, size, type, color, releaseDate, userId);
         
 
         registsItem(sneaker, userId);
+
+        }else{
+            Sneaker sneaker = new Sneaker(description, brand, basePrice,
+                this.carrierManager.getCarrier(carrier),
+                conditionScore, previousOwners, size, type, color, releaseDate, userId);
+        
+
+        registsItem(sneaker, userId);
+        }
     }
 
     @Override
@@ -337,9 +357,17 @@ public class Model implements Serializable {
         return model;
     }
 
-    public void addCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws CarrierAlreadyExistsException {
-        
-        this.carrierManager.addCarrier(new Carrier(name, taxSmall, taxMedium, taxBig,0));
+    public void addCarrier(String name, double taxSmall, double taxMedium, double taxBig,String premium) throws CarrierAlreadyExistsException {
+
+        if (premium.equals("y")){
+            System.out.println("Here\n");
+            this.carrierManager.addCarrier(new PremiumCarrier(name, taxSmall, taxMedium, taxBig,0));
+        }
+          else {
+            this.carrierManager.addCarrier(new Carrier(name, taxSmall, taxMedium, taxBig,0));
+          }
+
+    
     }
 
     public void changeCarrier(String name, double taxSmall, double taxMedium, double taxBig) throws NullPointerException {
