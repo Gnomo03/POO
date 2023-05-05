@@ -471,5 +471,22 @@ public class User implements Serializable,Comparable<User> {
         currentID = in.readInt(); // load static variable
     }
 
+    public boolean oneOfHis(List<Integer> items_keys) {
+
+        for (Item i : this.sellingItems){
+
+            int id = i.getID();
+
+            for (int buyId:items_keys){
+
+                if (id == buyId)
+                    return true;
+            }
+
+        }
+
+        return false;
+    }
+
 
 }

@@ -86,4 +86,16 @@ public class ItemManager implements Serializable{
         this.listedItemsMap.put(i.getID(),i);
 
     }
+
+    public boolean areAllThisForSale(List<Integer> items_keys) {
+
+        for (int i : items_keys){
+
+            Item oneItem = this.listedItemsMap.get(i);
+            if (oneItem == null)
+                    return false;
+        }
+
+        return true;
+    }
 }

@@ -234,5 +234,16 @@ public class Carrier implements Serializable,Comparable<Carrier> {
         if (total_items > 5  )
         this.totalEarning += final_price *this.taxBig;
 
+    }
+
+    public void revertProfit(double final_price,int total_items) {
+
+        if (total_items == 1 )
+        this.totalEarning -= final_price *this.taxSmall;
+        if (total_items >= 2 && total_items <= 5 )
+        this.totalEarning -= final_price *this.taxMedium;
+        if (total_items > 5  )
+        this.totalEarning -= final_price *this.taxBig;
+
     }   
 }

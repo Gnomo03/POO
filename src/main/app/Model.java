@@ -28,6 +28,7 @@ public class Model implements Serializable {
     private double vintageProfit;
     private  User currentUser;
 
+
     /**
      * Constructs a new Module object with Managers.
      */
@@ -48,8 +49,8 @@ public class Model implements Serializable {
         return this.userManager.getUserMapCopy();
     }
     
-    public LocalDate getDate() {
-        return this.date;
+    public String getDate() {
+        return this.date.toString();
     }
 
    
@@ -72,7 +73,7 @@ public class Model implements Serializable {
     }
     /// -------------------
 
-    public User getCurrentUser() throws NullPointerException,UserIsAdminException {
+    private User getCurrentUser() throws NullPointerException,UserIsAdminException {
        
             if (this.currentUser.getEmail().equals("admin")) {
                 throw new UserIsAdminException(this.currentUser);
@@ -83,8 +84,28 @@ public class Model implements Serializable {
 
         return this.currentUser;
     }
-    public List<Order> checkThisUserOrders(int userId) {
+    public User CurrentUser() throws NullPointerException,UserIsAdminException {
+       
+        if (this.currentUser.getEmail().equals("admin")) {
+            throw new UserIsAdminException(this.currentUser);
+        }
+        if (this.currentUser == null){
+            throw new NullPointerException();
+        }
 
+    return this.currentUser.clone();
+}
+    public String currentUserSystemItems() throws UserIsAdminException {// !!
+
+        return getCurrentUser().getSystemItems().toString();
+    }
+    public String currentUserListedItems()throws UserIsAdminException { // !!
+
+        return getCurrentUser().getSellingItems().toString();
+    }
+    public String checkThisUserOrders() {
+
+        int userId = this.currentUser.getId();
         List<Order> pointers = this.orderManager.getThisUserOrders(userId);
 
         List <Order> orders = new LinkedList<Order>();
@@ -93,27 +114,97 @@ public class Model implements Serializable {
 
             orders.add(order.clone());
         }
-        return orders;
+        return orders.toString();
     }
-    public void setCurrentUser(int id) {
+    private void setCurrentUser(int id) {
         this.currentUser = this.userManager.getUser(id);
     }
-    public void addNewItemToUsers(int id_user, int id_item) throws NullPointerException{
+    private void addNewItemToUsers(int id_user, int id_item) throws NullPointerException{
 
         this.userManager.getUser(id_user).addItem(this.itemManager.getItem(id_item));
     }
+    public void loginModel(String email, String password) throws NullPointerException,MissedIdException{
 
-    public Order makeOrder(int id_user, List<Integer> items_keys) { // change
-
-        Order order = new Order();
+        User u = lookupUser(email);
         
+
+        if (u.getPassword().equals(password)) {
+            setCurrentUser(u.getId());
+        }else{
+            throw new MissedIdException();
+        }
+
+    }
+    private String displayNormalCarriers(){ // !!
+        String result = "\n";
+        for (Carrier c : getCarrierManagerList()) {
+            if (c instanceof Premium){
+                
+            }else{
+                result += c.toString() + "\n";
+            }
+
+            
+        }
+        return result;
+
+    }
+    private String displayPremiumCarriers(){ // !!
+        String result = "\n"; 
+        for (Carrier c : getCarrierManagerList()) {
+            if (c instanceof Premium){
+                PremiumCarrier c1 = (PremiumCarrier) c;
+                result += c1.toString() + "\n";
+            }
+                
+        }
+        return result;
+
+    }
+    public String showCarriers(String premium) { // !!
+        if (premium.equals("y"))
+        return displayPremiumCarriers();
+        else
+        return displayNormalCarriers();
+    }
+    public String displayListedItems() throws UserIsAdminException  { // !!
+        List <Item> items = getListedItemsManagerList();
+        List <Item> ret = new LinkedList<Item>();
+        for (Item item : items) {
+
+            if (item.getUserId() != getCurrentUser().getId())
+                    ret.add(item);                
+        }
+        return ret.toString();
+    }
+    public String displayAllCarriers() { // !!
+        String result = "\n";
+        for (Carrier c : getCarrierManagerList()) {
+            System.out.println(c instanceof Premium);
+            if (c instanceof Premium){
+                PremiumCarrier c1 = (PremiumCarrier) c;
+                result += c1.toString() + "\n";
+            }else{
+                result += c.toString() + "\n";
+            }
+        }
+        return result;
+    }
+
+    public Order makeOrder(List<Integer> items_keys)throws InvalidId { // change
+
+
+        if (this.currentUser.oneOfHis(items_keys) || !this.itemManager.areAllThisForSale(items_keys) || items_keys.isEmpty())
+            throw new InvalidId();
+
+        Order order = new Order();        
         for (Integer current_key : items_keys) {
             Item i = this.itemManager.getItem(current_key);
             User u = this.userManager.getUser(i.getUserId());
             order.addItem(i,u);
             this.itemManager.updateItem(i.getID());
         }
-        User buyer = this.userManager.getUser(id_user);
+        User buyer = this.userManager.getUser(this.currentUser.getId());
         order.setBuyer(buyer);
         order.setDate(date);
         this.orderManager.addOrder(order);
@@ -121,9 +212,8 @@ public class Model implements Serializable {
     }
 
     private void registsItem(Item item,int id_user) throws NullPointerException {
-        User u = this.userManager.getUser(id_user);
-        
-    
+
+            User u = this.userManager.getUser(id_user);
             this.itemManager.addListedItem(item); // clone no manager
             Item i = this.itemManager.searchItem(item.getID());
             u.addItem(i);
@@ -131,31 +221,35 @@ public class Model implements Serializable {
           
         
     }
-    public void registsUser(User u) throws NullPointerException,UserAlreadyExistsException{
-        if (reviewCredentials(u.getEmail()) != true) {
+    public void registsUser(String email, String name, String address, int nif, String password)throws NullPointerException,UserAlreadyExistsException{
+
+        if (reviewCredentials(email) != true) {
             throw new UserAlreadyExistsException();
         }
+        User u = new User(email, name, address, nif, password);
         this.userManager.addUser(u);
         
     }
 
     public void registBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
-            String material, LocalDate releaseDate, int userId,String premium) {
+            String material, LocalDate releaseDate,String premium) throws NullPointerException {
                 Stack<Integer> previousOwners = new Stack<Integer>();
         
+                if (currentUser == null)
+                    throw new NullPointerException();
 
         if (premium.equals("y")){
             PremiumBag bag = new PremiumBag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, dimension, material, releaseDate, userId);
+                conditionScore, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
             
-                registsItem(bag, userId);
+                registsItem(bag, this.currentUser.getId());
         }else{
             Bag bag = new Bag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, dimension, material, releaseDate, userId);
-                registsItem(bag, userId);
+                conditionScore, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
+                registsItem(bag, this.currentUser.getId());
         }
         
        
@@ -163,36 +257,46 @@ public class Model implements Serializable {
 
     public void registTshirt(String description, String brand, double basePrice,
             String carrier, double conditionScore, Tshirt.TshirtSize size,
-            Tshirt.TshirtPattern pattern, int userId) {
+            Tshirt.TshirtPattern pattern) throws NullPointerException{
+
+                if (currentUser == null)
+                    throw new NullPointerException();
+
                 Stack<Integer> previousOwners = new Stack<Integer>();
         Tshirt tshirt = new Tshirt(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, size, pattern, userId);
-        
+                conditionScore, previousOwners, size, pattern, this.currentUser.getId());
+                
+                
 
-       registsItem(tshirt, userId);
+       registsItem(tshirt, this.currentUser.getId());
     }
 
     public void registSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore, double size,
-            Sneaker.SneakerType type, String color, LocalDate releaseDate, int userId, String premium) {
+            Sneaker.SneakerType type, String color, LocalDate releaseDate, String premium) throws NullPointerException {
+
+                if (currentUser == null)
+                throw new NullPointerException();
+
                 Stack<Integer> previousOwners = new Stack<Integer>();
 
+                
         if(premium.equals(premium)){
             PremiumSneaker sneaker = new PremiumSneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, size, type, color, releaseDate, userId);
+                conditionScore, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
         
 
-        registsItem(sneaker, userId);
+        registsItem(sneaker, this.currentUser.getId());
 
         }else{
             Sneaker sneaker = new Sneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, size, type, color, releaseDate, userId);
+                conditionScore, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
         
 
-        registsItem(sneaker, userId);
+        registsItem(sneaker,this.currentUser.getId());
         }
     }
 
@@ -232,8 +336,8 @@ public class Model implements Serializable {
         }
 
     }
-    public void alterItemState(int item_id, int user_id){  
-
+    public void alterItemState(int item_id){  
+        int user_id = currentUser.getId();
         User u = this.userManager.getUser(user_id);
         u.listASystemItem(item_id);
         this.itemManager.soldToListed(item_id);
@@ -315,10 +419,12 @@ public class Model implements Serializable {
             this.vintageProfit-=item.getPrice()*0.112;
             this.addNewItemToUsers(item.getUserId(),item.getID());
             this.itemManager.soldToListed(item.getID());
+            Carrier c = item.getCarrier();
+            c.revertProfit(item.getPrice(),o.getCarrierHelper().get(c.getName()));
 
         }
     }
-    public void deleteOrder(int orderId,int userId) throws OrderNotReturnable { // Para uma order ser returend, nenhum dos items que foram comprados podem estar listados!
+    public void deleteOrder(int orderId) throws OrderNotReturnable { // Para uma order ser returend, nenhum dos items que foram comprados podem estar listados!
         
         Order o = this.orderManager.getOrder(orderId);
         long daysBetween = ChronoUnit.DAYS.between(o.getDate(), this.date);
@@ -361,7 +467,7 @@ public class Model implements Serializable {
     public void addCarrier(String name, double taxSmall, double taxMedium, double taxBig,String premium) throws CarrierAlreadyExistsException {
 
         if (premium.equals("y")){
-            System.out.println("Here\n");
+
             this.carrierManager.addCarrier(new PremiumCarrier(name, taxSmall, taxMedium, taxBig,0));
         }
           else {
@@ -393,4 +499,11 @@ public class Model implements Serializable {
     public Double getVintageProfit() {
         return this.vintageProfit;
     }
+
+
+    public void nullCurrentUser() {
+        this.currentUser = null;
+    }
+
+    
 }

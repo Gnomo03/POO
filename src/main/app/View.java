@@ -210,7 +210,7 @@ public class View {
         System.out.print("\n");
         System.out.print("\n");
         System.out.print("\n");
-        System.out.print(this._cont.displayListedItems());
+        System.out.print(this._cont.showListedItems());
         System.out.print("\n");
         System.out.print("Type the id´s of the item you wish to order seperated by a ','\n");
         System.out.print("\n");
@@ -221,13 +221,22 @@ public class View {
             System.out.println("Admin cannot make an order!\n");
             scanner.nextLine();
         }
+        catch(InvalidId e){
+            System.out.println("Invalid Id of the item\n");
+            scanner.nextLine();
+        }
+        catch(NumberFormatException e){
+            System.out.println("Id numbers only!\n");
+            scanner.nextLine();
+        }
+        
     }
     private void changeCarrierMenu(){
         try{
         System.out.print("Let´s change a carrier to the system!\n");
         System.out.print("\n");
         System.out.print("\n");
-        System.out.print(_cont.displayAllCarriers());
+        System.out.print(_cont.showAllCarriers());
         System.out.print("Insert the carrier Name: ");
         String name = scanner.nextLine();
         System.out.print("\n");
@@ -356,6 +365,10 @@ public class View {
         scanner.nextLine();
     }catch(OrderNotReturnable e){
         System.out.print("This Order cannot be returned!\n");
+        scanner.nextLine();
+    }
+    catch(InputMismatchException e){
+        System.out.print("Type the id of the order!\n");
         scanner.nextLine();
     }
     }
