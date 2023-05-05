@@ -1,5 +1,6 @@
 package app;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -614,7 +615,8 @@ public class Model implements Serializable {
             case "AlterarTransportadora":
             String[] arguments4 = substrings[2].split(";");
             try{
-                changeCarrier(arguments4[0], Double.parseDouble(arguments4[2]), Double.parseDouble(arguments4[3]), Double.parseDouble(arguments4[4]));
+
+                changeCarrier(arguments4[0], Double.parseDouble(arguments4[1]), Double.parseDouble(arguments4[2]), Double.parseDouble(arguments4[3]));
 
             }catch(NullPointerException e){
 
@@ -633,6 +635,9 @@ public class Model implements Serializable {
     }
     catch(IllegalArgumentException e){
         throw new IllegalArgumentException();
+    }
+    catch(DateTimeParseException e){
+        throw new InvalidCommand("Unidentified",line);
     }
 
     }

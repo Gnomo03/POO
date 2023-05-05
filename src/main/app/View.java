@@ -1,6 +1,7 @@
 package app;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -419,6 +420,9 @@ public class View {
         catch (IllegalArgumentException e) {
             System.out.print("Invalid Date!\n");
         }
+        catch (DateTimeParseException e) {
+            System.out.print("Invalid Date!\n");
+        }
     }
     
     public void mainMenu() {
@@ -550,6 +554,8 @@ public class View {
                     System.out.println("Error reading .txt File!");
                 }catch (InvalidCommand esc) {
                     System.out.println(esc.getMessage()); // prints the custom error message
+                }catch (DateTimeParseException esc) {
+                    System.out.print("Invalid Date!\n");
                 }
                 break;
 

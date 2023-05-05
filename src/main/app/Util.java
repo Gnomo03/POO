@@ -7,18 +7,15 @@ import java.time.format.DateTimeParseException;
 
 public class Util {
     
-    public static LocalDate toDate(String Value) throws IllegalArgumentException {
+    public static LocalDate toDate(String Value) throws IllegalArgumentException,DateTimeParseException {
         // Define the expected format of the date string
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        try {
+
 
             LocalDate date = LocalDate.parse(Value, formatter);
             return date;
-        } catch (DateTimeParseException e) {
-
-            throw new IllegalArgumentException();
-        }
+       
         
     }
 
