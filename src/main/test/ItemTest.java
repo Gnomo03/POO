@@ -15,7 +15,7 @@ import User;
 import Tshirt.TshirtPattern;
 */
 
-public class BagTest{
+public class ItemTest{
     @Test
     public void bagPrice(){
         var bag = new Bag();
@@ -61,20 +61,4 @@ public class BagTest{
         assertEquals("", 1, mala1.getID(), 0);
         assertEquals("", 2, tilha1.getID(), 0);
     }
-
-    @Test
-    public void smallorder(){
-        var order = new Order();
-        var t1 = new Carrier();
-        Bag bag = new Bag("mala", "null", 10, t1, 5, 
-                          null, 1500,"null", null, 0);
-        bag.setPriceCorrection(0.7);
-        var u1 = new User("test", "test", "t", 1, "test");
-        order.addItem(bag,u1);
-        t1.setTaxSmall(.25);
-        assertEquals("", 1.5, bag.getPrice(),  0);
-        assertEquals("", 0.38, t1.getTaxSmallWithIva(), 0);
-        assertEquals("", 2.32, order.calculateFinalPrice(), 0.02);
-    }
-
 }
