@@ -417,7 +417,7 @@ public class View {
         System.out.print("Date updated!\n");
         }
         catch (IllegalArgumentException e) {
-            
+            System.out.print("Invalid Date!\n");
         }
     }
     
@@ -441,6 +441,7 @@ public class View {
             System.out.print("t: To skip time:\n");
             System.out.print("b: To check bills:\n");
             System.out.print("m: To check my items:\n");
+            System.out.print("x: Logout:\n");
             System.out.print("\n");
             System.out.print("\n");
             System.out.print("Press 'q' to Quit\n");
@@ -492,6 +493,10 @@ public class View {
                 case "m":
                     checkMyItems();
                     break;
+                case "x":
+                    _cont.logout();
+                    
+                    break;
             }
             }catch(NullPointerException e){
             System.out.print("Welcome to Vintage!\n");
@@ -502,6 +507,7 @@ public class View {
             System.out.print("l: Login:\n");
             System.out.print("u: Register a User:\n");
             System.out.print("t: To skip time:\n");
+            System.out.print("s: To execute a simulation (will require a .txt file and a path):\n");
             System.out.print("\n");
             System.out.print("No user logged in.");
             System.out.print("\n");
@@ -532,6 +538,20 @@ public class View {
                 case "t":
                     skipTime();
                 break;
+                case "s":
+                try{
+                    System.out.print("Write the path for the simulation file: ");
+                    String path = scanner.nextLine();
+                    _cont.simulation(path);  
+                }catch(FileNotFoundException esc){
+                    System.out.println("Error reaching .txt File!");
+                }
+                catch(IOException esc){
+                    System.out.println("Error reading .txt File!");
+                }catch (InvalidCommand esc) {
+                    System.out.println(esc.getMessage()); // prints the custom error message
+                }
+                break;
 
             }
             }
@@ -547,6 +567,7 @@ public class View {
             System.out.print("r: To add Carriers:\n");
             System.out.print("c: To change Carriers:\n");
             System.out.print("a: To access the system Queries:\n");
+            System.out.print("x: Logout:\n");
             System.out.print("\n");
             System.out.print("No user logged in.");
             System.out.print("\n");
@@ -592,6 +613,10 @@ public class View {
 
                     changeCarrierMenu();
 
+                    break;
+                    case "x":
+                    _cont.logout();
+                    
                     break;
                     case "a":
 

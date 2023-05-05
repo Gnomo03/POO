@@ -1,0 +1,45 @@
+// Data,Comando,argumentos
+// Os argumentos são separados por um ";"
+// Comentários são possíveis, basta adcionar "//" na linha que é suposto ignorar
+// Exceção: Registar um Item tem um argumento a mais a dizer que tipo de item é: Bag,Tshirt,Sneaker
+// Yes para Premium, No para normal
+// Setup de Carriers não precisa de Login do admin, apenas as funções de registar items,Fazer encomendas etc.
+// Os valores DOuble devem aparecer separadas por um "."
+// Lista de Comandos:
+// SetupDate:LocalDate --> Serve para colocar uma Data de simulação
+// RegistarUtilizador:Email,Nome,Endreço,Nif,Password --> Regista um Utilizador
+// RegistarTransportadora:Nome,PremiumStatus,TaxaPequena,TaxaMédia,TaxaGrande --> Regista uma Transportadora
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Fase Setup
+
+
+SetupDate,2023-05-05
+
+2023-05-05,RegistarUtilizador,admin;admin;admin;0;admin
+2023-05-05,RegistarTransportadora,Ups;No;0.02;0.03;0.04
+2023-05-05,RegistarTransportadora,CTT;No;0.1;0.05;0.09
+2023-05-05,RegistarTransportadora,CTTExpresso;Yes;0.1;0.05;0.09
+
+2023-05-05,RegistarUtilizador,a;Jhon Doe;Boston;123456789;a
+2023-05-05,RegistarUtilizador,email2@gmail.com;Marry Jane;New York;987654321;password
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Fase Simulação
+
+
+2023-05-05,Login,a;a
+2023-05-05,RegistarItem,Bag;Cool Bag;Channel;200;5;12;12;2;Cotton;2010-10-10;No;Ups
+2023-05-05,RegistarItem,Sneaker;Cool Sneaker;Nike;110;4;42;LACES;White and Brown;2020-07-12;No;Ups
+2023-05-05,RegistarItem,Sneaker;Premium Sneaker;Jordan;160;5;40;NOLACES;White and Brown;2020-07-12;Yes;CTTExpresso
+2023-05-05,RegistarItem,Tshirt;Cool Tshirt;Puma;22;5;S;Smooth;Ups
+//2023-05-05,RegistarItem,Myitem;1
+
+
+2023-05-05,Login,email2@gmail.com;password
+// Id desta order vai ser 1
+2023-05-05,FazerEncomenda,1;2
+2023-05-07,TimeSkip
+2023-05-10,AlterarTransportadora,Ups;0.02;0.03;0.04

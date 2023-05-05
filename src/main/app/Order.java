@@ -249,7 +249,11 @@ public class Order implements Serializable,Comparable<Order> {
             this.dimension = TypeOfSize.Medium;
         this.collection.remove(oneItem);
         this.itemPrice -= oneItem.getPrice();
-
+        if ( oneItem.getConditionScore() == 1){
+            this.satisfactionPrice-=0.5;
+        }else{
+            this.satisfactionPrice-=0.25;
+        }
         this.carrierHelper.put(oneItem.getCarrier().getName(),
                 this.carrierHelper.get(oneItem.getCarrier().getName()) - 1);
     }
