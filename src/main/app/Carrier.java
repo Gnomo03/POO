@@ -240,9 +240,17 @@ public class Carrier implements Serializable,Comparable<Carrier> {
 
         if (total_items == 1 )
         this.totalEarning -= final_price *this.taxSmall;
-        if (total_items >= 2 && total_items <= 5 )
+        if (total_items == 2){
+            this.totalEarning -= final_price *this.taxMedium;
+            this.totalEarning = (this.totalEarning/this.taxMedium)*this.taxSmall;
+        }
+        if (total_items > 2 && total_items <= 5 )
         this.totalEarning -= final_price *this.taxMedium;
-        if (total_items > 5  )
+        if (total_items == 6){
+            this.totalEarning -= final_price *this.taxBig;
+            this.totalEarning = (this.totalEarning/this.taxBig)*this.taxMedium;
+        }
+        if (total_items > 6  )
         this.totalEarning -= final_price *this.taxBig;
 
     }   
