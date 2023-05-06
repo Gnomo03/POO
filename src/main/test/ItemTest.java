@@ -1,21 +1,14 @@
 package test;
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
 import java.util.Stack;
 
 import org.junit.jupiter.api.Test;
 import app.*;
-/* 
-import Bag;
-import Carrier;
-import Order;
-import Sneaker;
-import Tshirt;
-import User;
-import Tshirt.TshirtPattern;
-*/
 
 public class ItemTest{
+
     @Test
     public void bagPrice(){
         var bag = new Bag();
@@ -55,10 +48,39 @@ public class ItemTest{
     }
 
     @Test
-    public void itemID(){
-        var mala1 = new Bag();
-        var tilha1 = new Sneaker();
-        assertEquals("", 1, mala1.getID(), 0);
-        assertEquals("", 2, tilha1.getID(), 0);
+    public void premiumBag(){
+        var malaNP = new Bag();
+        malaNP.setBasePrice(10);
+        malaNP.setDimension(1500);
+        malaNP.setPriceCorrection(0.7);
+        malaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
+        var malaP = new PremiumBag(malaNP);
+        assertEquals("", 1.5, malaNP.getPrice(),  0);
+        assertEquals("", 10.75, malaP.getPrice(), 0);
+    }
+
+    @Test
+    public void premiumSneakerNoOwners(){
+        var tilhaNP = new Sneaker();
+        tilhaNP.setBasePrice(20);
+        tilhaNP.setPriceCorrection(.7);
+        tilhaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
+        var tilhaP = new PremiumSneaker(tilhaNP);
+        assertEquals("", 20, tilhaNP.getPrice(),  0);
+        assertEquals("", 21.5, tilhaP.getPrice(), 0);
+    }
+
+    @Test
+    public void premiumSneakerWithOwners(){
+        var tilhaNP = new Sneaker();
+        var pO = new Stack<Integer>();
+        pO.add(1);
+        tilhaNP.setPreviousOwners(pO);       
+        tilhaNP.setBasePrice(20);
+        tilhaNP.setPriceCorrection(.7);
+        tilhaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
+        var tilhaP = new PremiumSneaker(tilhaNP);
+        assertEquals("", 13, tilhaNP.getPrice(),  0);
+        assertEquals("", 21.5, tilhaP.getPrice(), 0);
     }
 }

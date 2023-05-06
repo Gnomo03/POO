@@ -42,7 +42,7 @@ public class User implements Serializable,Comparable<User> {
      */
     public User() {
 
-        this.id = 0;
+        this.id = currentID++;
         this.email = "n/d";
         this.name = "n/d";
         this.address = "n/d";

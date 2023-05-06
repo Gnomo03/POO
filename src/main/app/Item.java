@@ -39,8 +39,7 @@ public abstract class Item implements Serializable {
         this.priceCorrection = 0;
         this.conditionScore = 0;
         this.previousOwners = new Stack<Integer>();
-        this.id = currentID;
-        currentID++;
+        this.id = currentID++;
         this.userId = 0; // admin id
     }
 
