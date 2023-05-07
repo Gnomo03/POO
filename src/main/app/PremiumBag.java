@@ -1,7 +1,9 @@
 package app;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Stack;
+
 
 
 public class PremiumBag extends Bag implements Premium{
@@ -10,27 +12,26 @@ public class PremiumBag extends Bag implements Premium{
     super();
     }
 
-
     public PremiumBag(String description, String brand, double basePrice,
-    Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double dimension,
-    String material, LocalDate releaseDate, int userId) {
-    super( description, brand,  basePrice,
-     carrier,  conditionScore,previousOwners, dimension,
-     material, releaseDate,userId);
+            Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double dimension,
+            String material, LocalDate releaseDate, int userId) {
+        super(description, brand, basePrice,
+                carrier, conditionScore, previousOwners, dimension,
+                material, releaseDate, userId);
 
     }
 
-/**
-* Copy constructor for the Bag class.
-* 
-* @param oneBag The Bag object to be copied.
-*/
+    /**
+     * Copy constructor for the Bag class.
+     * 
+     * @param oneBag The Bag object to be copied.
+     */
     public PremiumBag(Bag oneBag) {
-    super(oneBag);
+        super(oneBag);
     }
 
     @Override
-    public PremiumBag clone(){
+    public PremiumBag clone() {
 
         return new PremiumBag(this);
     }
@@ -38,7 +39,7 @@ public class PremiumBag extends Bag implements Premium{
     @Override
     public String toString() {
         return "Bag{" +
-                "ID=" + this.getID() + '\'' + 
+                "ID=" + this.getID() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
@@ -49,17 +50,17 @@ public class PremiumBag extends Bag implements Premium{
                 ", previousOwners=" + getPreviousOwners() +
                 ", dimension=" + getDimension() +
                 ", material=" + getMaterial() +
-                ", releaseDate=" + getReleaseDate() + '\''+
-                ", Price=" + getPrice() + '\''+
+                ", releaseDate=" + getReleaseDate() + '\'' +
+                ", Price=" + getPrice() + '\'' +
                 ", Premium Status" +
                 '}';
     }
 
     @Override
-    public double getPrice(){
-     LocalDate now = LocalDate.now();
-    int yearDiff = Period.between(this.getReleaseDate(), now).getYears();
+    public double getPrice() {
+        LocalDate now = LocalDate.now();
+        int yearDiff = Period.between(this.getReleaseDate(), now).getYears();
 
-            return this.getBasePrice() * (1 + (yearDiff * 0.025));
+        return this.getBasePrice() * (1 + (yearDiff * 0.025));
     }
 }
