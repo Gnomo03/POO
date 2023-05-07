@@ -4,7 +4,7 @@ import java.time.Period;
 import java.util.Stack;
 
 
-public class PremiumSneaker extends Sneaker {
+public class PremiumSneaker extends Sneaker implements Premium{
 
     public PremiumSneaker(){
     super();

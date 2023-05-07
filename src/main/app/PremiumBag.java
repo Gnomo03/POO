@@ -4,7 +4,7 @@ import java.time.Period;
 import java.util.Stack;
 
 
-public class PremiumBag extends Bag{
+public class PremiumBag extends Bag implements Premium{
 
     PremiumBag(){
     super();
