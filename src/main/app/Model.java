@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+
+
 import java.io.*;
 
 /**
@@ -230,22 +232,27 @@ public class Model implements Serializable {
 
     public void registBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
-            String material, LocalDate releaseDate,String premium) throws NullPointerException {
+            String material, LocalDate releaseDate,String premium) throws NullPointerException,IllegalArgumentException {
                 Stack<Integer> previousOwners = new Stack<Integer>();
         
                 if (currentUser == null)
                     throw new NullPointerException();
 
+
+                    if (conditionScore > 5)
+                    throw new IllegalArgumentException();
+        
+
         if (premium.equals("y")){
             PremiumBag bag = new PremiumBag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
+                conditionScore/5, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
             
                 registsItem(bag, this.currentUser.getId());
         }else{
             Bag bag = new Bag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
+                conditionScore/5, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
                 registsItem(bag, this.currentUser.getId());
         }
         
@@ -254,15 +261,19 @@ public class Model implements Serializable {
 
     public void registTshirt(String description, String brand, double basePrice,
             String carrier, double conditionScore, Tshirt.TshirtSize size,
-            Tshirt.TshirtPattern pattern) throws NullPointerException{
+            Tshirt.TshirtPattern pattern) throws NullPointerException,IllegalArgumentException{
 
                 if (currentUser == null)
                     throw new NullPointerException();
 
+                if (conditionScore > 5)
+                    throw new IllegalArgumentException();
+        
+
                 Stack<Integer> previousOwners = new Stack<Integer>();
         Tshirt tshirt = new Tshirt(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, size, pattern, this.currentUser.getId());
+                conditionScore/5, previousOwners, size, pattern, this.currentUser.getId());
                 
                 
 
@@ -271,18 +282,21 @@ public class Model implements Serializable {
 
     public void registSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore, double size,
-            Sneaker.SneakerType type, String color, LocalDate releaseDate, String premium) throws NullPointerException {
+            Sneaker.SneakerType type, String color, LocalDate releaseDate, String premium) throws NullPointerException,IllegalArgumentException {
 
                 if (currentUser == null)
                 throw new NullPointerException();
 
                 Stack<Integer> previousOwners = new Stack<Integer>();
 
-                
+            if (conditionScore > 5)
+            throw new IllegalArgumentException();
+
+
         if(premium.equals("y")){
             PremiumSneaker sneaker = new PremiumSneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
+                conditionScore/5, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
         
 
         registsItem(sneaker, this.currentUser.getId());
@@ -290,7 +304,7 @@ public class Model implements Serializable {
         }else{
             Sneaker sneaker = new Sneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
+                conditionScore/5, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
         
 
         registsItem(sneaker,this.currentUser.getId());
@@ -333,7 +347,7 @@ public class Model implements Serializable {
         }
 
     }
-    public void alterItemState(int item_id){  
+    public void alterItemState(int item_id) throws NullPointerException{  
         int user_id = currentUser.getId();
         User u = this.userManager.getUser(user_id);
         u.listASystemItem(item_id);
@@ -634,7 +648,7 @@ public class Model implements Serializable {
         }
     }
     catch(IllegalArgumentException e){
-        throw new IllegalArgumentException();
+        throw new InvalidCommand("Unidentified",line);
     }
     catch(DateTimeParseException e){
         throw new InvalidCommand("Unidentified",line);

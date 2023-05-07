@@ -118,7 +118,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     _cont.registItemBag(des, brand, price,
-                            carrier,score/5,
+                            carrier,score,
                             dimension, material, Util.toDate(date),premium);
                     break;
                 // ------------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     _cont.registItemTshirt(des, brand, price,
-                            carrier,score/5,
+                            carrier,score,
                             Util.toTshirtSize(Tsizes), Util.toTshirtPattern(pattern));
                     break;
                 // ------------------------------------------------------------------------------------------
@@ -174,7 +174,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     _cont.registItemSneaker(des, brand, price,
-                            carrier,score/5,
+                            carrier,score,
                             size, Util.toSneakerType(type), color, Util.toDate(date),premium);
                     break;
                     case "a":
@@ -201,6 +201,7 @@ public class View {
             scanner.nextLine();
         }
         catch (IllegalArgumentException e){
+            System.out.print("The input was not valid!\n");
             scanner.nextLine();
         }
     }

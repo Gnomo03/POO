@@ -89,7 +89,7 @@ public class Controller {
         return m.currentUserSystemItems();
     }
 
-    public void listSystemItem(int item_id) throws UserIsAdminException {
+    public void listSystemItem(int item_id) throws UserIsAdminException,NullPointerException {
 
         m.alterItemState(item_id);
 
