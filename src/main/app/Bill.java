@@ -169,12 +169,25 @@ public class Bill implements Serializable {
         if (many_tax > 5)  
             tax = c.getTaxBigWithIva();
 
-        this.portsTax = tax * item.getBasePrice();
+        this.portsTax += tax * item.getBasePrice();
         calculateTotalCostItems();
     }
 
-    public void removeItem(Item Item){
-        this.items.remove(Item.getID());
+    public void removeItem(Item item, int many_tax){
+        this.items.remove(item.getID());
+        Carrier c = item.getCarrier();
+        double tax = 0;
+        if (many_tax == 1)
+            tax = c.getTaxSmallWithIva();
+        if (many_tax>=2 && many_tax<= 5)  
+            tax = c.getTaxMediumWithIva();
+        if (many_tax > 5)  
+            tax = c.getTaxBigWithIva();
+
+        this.portsTax -= tax * item.getBasePrice();
+        if (many_tax == 2) this.portsTax = (this.portsTax * c.getTaxSmallWithIva())/c.getTaxMediumWithIva();
+        if (many_tax == 6) this.portsTax = (this.portsTax * c.getTaxMediumWithIva())/c.getTaxBigWithIva();
+        calculateTotalCostItems();
     }
 
     public void calculateTotalCostItems() {

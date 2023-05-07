@@ -8,7 +8,7 @@ import java.util.Stack;
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Bag extends Item{
+public class Bag extends Item {
     private double dimension;
     private String material;
     private LocalDate releaseDate;
