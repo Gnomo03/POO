@@ -15,8 +15,9 @@ public class BillTest{
         var hm = new HashMap<Integer,Item>();
         var t1 = new Carrier();
         t1.setTaxSmall(.25);
-        Bag bag = new Bag("mala", "null", 10, t1, 3.5, 
+        Bag bag = new Bag("mala", "null", 10, t1, 0.5, 
                           null, 1500,"null", null, 0);
+
         var u1 = new User("test", "test", "t", 1, "test");
         order.addItem(bag,u1);
 
@@ -27,8 +28,8 @@ public class BillTest{
         bill.calculateTotalCostItems();
 
         assertEquals("", 3.8, bill.getportsTax(), 0);
-        assertEquals("", 1.5, bill.gettotalCost(), 0.02);
-        assertEquals("", 5.3, bill.getAmount(), 0);
+        assertEquals("", 3.5, bill.gettotalCost(), 0.02);
+        assertEquals("", 7.3, bill.getAmount(), 0);
     }
 
     @Test
@@ -37,13 +38,11 @@ public class BillTest{
         var order = new Order();
         var t1 = new Carrier();
 
-        Bag bag = new Bag(null, null, 10, t1, 5, 
+        Bag bag = new Bag(null, null, 10, t1, 0.5, 
                           null, 1500,"null", null, 0);
-        bag.setPriceCorrection(0.7);
 
-        var camisa = new Tshirt("null", "null", 30, t1, 2.5,
+        var camisa = new Tshirt("null", "null", 30, t1, 0.7,
                                 null, Util.toTshirtSize("M"), Util.toTshirtPattern("Smooth"), 0);
-        camisa.setPriceCorrection(1.7);
 
         var u1 = new User("test", "test", "t", 1, "test");
         t1.setTaxSmall(.25);
@@ -59,14 +58,14 @@ public class BillTest{
         bill.calculateTotalCostItems();
 
         assertEquals("", 25.2, bill.getportsTax(), 0);
-        assertEquals("", 31.5, bill.gettotalCost(), 0.02);
-        assertEquals("", 56.7, bill.getAmount(), 0);
+        assertEquals("", 33.5, bill.gettotalCost(), 0.02);
+        assertEquals("", 58.7, bill.getAmount(), 0);
         
         bill.removeItem(camisa, 2);
 
         assertEquals("", 3.8, bill.getportsTax(), 0.02);
-        assertEquals("", 1.5, bill.gettotalCost(), 0.02);
-        assertEquals("", 5.3, bill.getAmount(), 0.02);
+        assertEquals("", 3.5, bill.gettotalCost(), 0.02);
+        assertEquals("", 7.3, bill.getAmount(), 0.02);
     }
 
     @Test
@@ -76,13 +75,11 @@ public class BillTest{
         var t1 = new Carrier();
         var t2 = new Carrier();
 
-        Bag bag = new Bag(null, null, 10, t1, 5, 
+        Bag bag = new Bag(null, null, 10, t1, 0.5, 
                           null, 1500,"null", null, 0);
-        bag.setPriceCorrection(0.7);
 
-        var camisa = new Tshirt("null", "null", 30, t2, 2.5,
+        var camisa = new Tshirt("null", "null", 30, t2, 0.7,
                                 null, Util.toTshirtSize("M"), Util.toTshirtPattern("Smooth"), 0);
-        camisa.setPriceCorrection(1.7);
 
         var u1 = new User("test", "test", "t", 1, "test");
         t1.setTaxSmall(.25);
@@ -98,8 +95,8 @@ public class BillTest{
         bill.calculateTotalCostItems();
 
         assertEquals("", 22.7, bill.getportsTax(), 0.02);
-        assertEquals("", 31.5, bill.gettotalCost(), 0.02);
-        assertEquals("", 54.2, bill.getAmount(), 0.02);
+        assertEquals("", 33.5, bill.gettotalCost(), 0.02);
+        assertEquals("", 56.2, bill.getAmount(), 0.02);
     }
 
     @Test
@@ -110,19 +107,16 @@ public class BillTest{
         var pO = new Stack<Integer>();
         pO.add(1);
 
-        var bag = new Bag(null, null, 10, t1, 5, null,
+        var bag = new Bag(null, null, 10, t1, 0.5, null,
                           1500, null, LocalDate.of(2021, 1, 8), 0);
-        bag.setPriceCorrection(.5);
 
         var sneak = new Sneaker(null, null, 20, t1, 1, pO,
                                 41, Util.toSneakerType("LACES"), null, LocalDate.of(2005, 1, 8), 0);
-        sneak.setPriceCorrection(.3);
 
         var camisa = new Tshirt(null, null, 30, t1, 0, null,
                                null, Util.toTshirtPattern("Stripes"), 0);
-        camisa.setPriceCorrection(.25);
 
-        var Pbag = new PremiumBag(null, null, 10, t1, 5, null,
+        var Pbag = new PremiumBag(null, null, 10, t1, .5, null,
                                   1500, null, LocalDate.of(2021, 1, 8), 0);
 
         var Psneak = new PremiumSneaker(null, null, 20, t1, 1, pO, 41,
@@ -130,7 +124,6 @@ public class BillTest{
 
         var ts = new Tshirt(null, null, 20, t1, 1, null,
                             null, Util.toTshirtPattern("PalmTrees"), 0);
-        ts.setPriceCorrection(.69);
 
         var u1 = new User("test", "test", "t", 1, "test");
         t1.setTaxSmall(.25);
@@ -154,27 +147,27 @@ public class BillTest{
 
         assertEquals("", 3.5, bag.getPrice(), 0);
         assertEquals("", 15, camisa.getPrice(), 0);
-        assertEquals("", 17, sneak.getPrice(), 0);
+        assertEquals("", 20, sneak.getPrice(), 0);
         assertEquals("", 10.5, Pbag.getPrice(),  0);
         assertEquals("", 29, Psneak.getPrice(),  0);
         assertEquals("", 20, ts.getPrice(), 0);
 
         assertEquals("", 96.8, bill.getportsTax(), 0.1);
-        assertEquals("", 95, bill.gettotalCost(), 0.01);
-        assertEquals("", 191.8, bill.getAmount(), 0);
+        assertEquals("", 98, bill.gettotalCost(), 0.01);
+        assertEquals("", 194.8, bill.getAmount(), 0);
         
         bill.removeItem(camisa, 6);
 
         assertEquals("", 50.4, bill.getportsTax(), 0.02);
-        assertEquals("", 80, bill.gettotalCost(), 0.02);
-        assertEquals("", 130.4, bill.getAmount(), 0.02);
+        assertEquals("", 83, bill.gettotalCost(), 0.02);
+        assertEquals("", 133.4, bill.getAmount(), 0.02);
 
         bill.removeItem(Psneak, 5);
         bill.removeItem(Pbag, 4);
 
         assertEquals("", 31.5, bill.getportsTax(), 0.02);
-        assertEquals("", 40.5, bill.gettotalCost(), 0.02);
-        assertEquals("", 72, bill.getAmount(), 0.02);
+        assertEquals("", 43.5, bill.gettotalCost(), 0.02);
+        assertEquals("", 75, bill.getAmount(), 0.02);
     }
 
     @Test
@@ -183,9 +176,9 @@ public class BillTest{
         var hm = new HashMap<Integer,Item>();
         var t1 = new Carrier();
         t1.setTaxSmall(.25);
-        Bag bag = new Bag("mala", "null", 10, t1, 5, 
+        Bag bag = new Bag("mala", "null", 10, t1, .5, 
                           null, 1500,"null", null, 0);
-        bag.setPriceCorrection(0.7);
+
         var u1 = new User("test", "test", "t", 1, "test");
         order.addItem(bag,u1);
 
@@ -196,8 +189,8 @@ public class BillTest{
         bill.calculateTotalCostItems();
 
         assertEquals("", 0, bill.getportsTax(), 0);
-        assertEquals("", 1.5, bill.gettotalCost(), 0.02);
-        assertEquals("", 1.482, bill.getAmount(), 0.001);
+        assertEquals("", 3.5, bill.gettotalCost(), 0.02);
+        assertEquals("", 3.458, bill.getAmount(), 0.001);
     }
     
     @Test
@@ -206,13 +199,11 @@ public class BillTest{
         var order = new Order();
         var t1 = new Carrier();
 
-        Bag bag = new Bag(null, null, 10, t1, 5, 
+        Bag bag = new Bag(null, null, 10, t1, 0.5, 
                           null, 1500,"null", null, 0);
-        bag.setPriceCorrection(0.7);
 
-        var camisa = new Tshirt("null", "null", 30, t1, 2.5,
+        var camisa = new Tshirt("null", "null", 30, t1, 0.7,
                                 null, Util.toTshirtSize("M"), Util.toTshirtPattern("Smooth"), 0);
-        camisa.setPriceCorrection(1.7);
 
         var u1 = new User("test", "test", "t", 1, "test");
         t1.setTaxSmall(.25);
@@ -228,14 +219,14 @@ public class BillTest{
         bill.calculateTotalCostItems();
 
         assertEquals("", 0, bill.getportsTax(), 0);
-        assertEquals("", 31.5, bill.gettotalCost(), 0.02);
-        assertEquals("", 31.122, bill.getAmount(), 0.001);
+        assertEquals("", 33.5, bill.gettotalCost(), 0.02);
+        assertEquals("", 33.098, bill.getAmount(), 0.001);
         
         bill.removeItem(camisa, 2);
 
         assertEquals("", 0, bill.getportsTax(), 0.02);
-        assertEquals("", 1.5, bill.gettotalCost(), 0.02);
-        assertEquals("", 1.482, bill.getAmount(), 0.001);
+        assertEquals("", 3.5, bill.gettotalCost(), 0.02);
+        assertEquals("", 3.458, bill.getAmount(), 0.001);
     } 
 
     @Test
@@ -246,19 +237,16 @@ public class BillTest{
         var pO = new Stack<Integer>();
         pO.add(1);
 
-        var bag = new Bag(null, null, 10, t1, 5, null,
+        var bag = new Bag(null, null, 10, t1, 0.5, null,
                           1500, null, LocalDate.of(2021, 1, 8), 0);
-        bag.setPriceCorrection(.5);
 
         var sneak = new Sneaker(null, null, 20, t1, 1, pO,
                                 41, Util.toSneakerType("LACES"), null, LocalDate.of(2005, 1, 8), 0);
-        sneak.setPriceCorrection(.3);
 
         var camisa = new Tshirt(null, null, 30, t1, 0, null,
                                null, Util.toTshirtPattern("Stripes"), 0);
-        camisa.setPriceCorrection(.25);
 
-        var Pbag = new PremiumBag(null, null, 10, t1, 5, null,
+        var Pbag = new PremiumBag(null, null, 10, t1, 0.5, null,
                                   1500, null, LocalDate.of(2021, 1, 8), 0);
 
         var Psneak = new PremiumSneaker(null, null, 20, t1, 1, pO, 41,
@@ -266,7 +254,6 @@ public class BillTest{
 
         var ts = new Tshirt(null, null, 20, t1, 1, null,
                             null, Util.toTshirtPattern("PalmTrees"), 0);
-        ts.setPriceCorrection(.69);
 
         var u1 = new User("test", "test", "t", 1, "test");
         t1.setTaxSmall(.25);
@@ -289,21 +276,21 @@ public class BillTest{
         bill.calculateTotalCostItems();
 
         assertEquals("", 0, bill.getportsTax(), 0.1);
-        assertEquals("", 95, bill.gettotalCost(), 0.01);
-        assertEquals("", 93.86, bill.getAmount(), 0.01);
+        assertEquals("", 98, bill.gettotalCost(), 0.01);
+        assertEquals("", 96.824, bill.getAmount(), 0.001);
         
         bill.removeItem(camisa, 6);
 
         assertEquals("", 0, bill.getportsTax(), 0.02);
-        assertEquals("", 80, bill.gettotalCost(), 0.02);
-        assertEquals("", 79.04, bill.getAmount(), 0.02);
+        assertEquals("", 83, bill.gettotalCost(), 0.02);
+        assertEquals("", 82.004, bill.getAmount(), 0.001);
 
         bill.removeItem(Psneak, 5);
         bill.removeItem(Pbag, 4);
 
         assertEquals("", 0, bill.getportsTax(), 0.02);
-        assertEquals("", 40.5, bill.gettotalCost(), 0.02);
-        assertEquals("", 40.014, bill.getAmount(), 0.001);
+        assertEquals("", 43.5, bill.gettotalCost(), 0.02);
+        assertEquals("", 42.978, bill.getAmount(), 0.001);
     }
 
 }
