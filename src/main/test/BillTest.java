@@ -88,8 +88,6 @@ public class BillTest {
         t2.setTaxSmall(.5);
         order.addItem(bag, u1);
         order.addItem(camisa, u1);
-        double a = bag.getPrice();
-        double b = camisa.getPrice();
         var bill = new Bill(null, hm, 0, order);
         bill.setBought();
 
