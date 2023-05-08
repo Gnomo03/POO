@@ -4,12 +4,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Stack;
 
+public class PremiumBag extends Bag implements Premium {
 
-
-public class PremiumBag extends Bag implements Premium{
-
-    PremiumBag(){
-    super();
+    PremiumBag() {
+        super();
     }
 
     public PremiumBag(String description, String brand, double basePrice,
@@ -45,7 +43,7 @@ public class PremiumBag extends Bag implements Premium{
                 ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", priceCorrection=" + getPriceCorrection() +
-                ", carrier='" + getCarrier() + '\'' +
+                ", carrier='" + getCarrier().getName() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
                 ", dimension=" + getDimension() +
@@ -54,6 +52,30 @@ public class PremiumBag extends Bag implements Premium{
                 ", Price=" + getPrice() + '\'' +
                 ", Premium Status" +
                 '}';
+    }
+
+    @Override
+    public String showItem() {
+
+        StringBuilder sb = new StringBuilder();
+        int boxWidth = 30;
+
+        // Create the top border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        // Append the student information
+        sb.append("|" + Util.formatCell("Description: " + getDescription(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Brand: " + getBrand(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Price: " + getPrice(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Material: " + getMaterial(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Dimension: " + getDimension(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Carrier: " + getCarrier().getName(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("This is a Premium Item", boxWidth) + "|\n");
+
+        // Create the bottom border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        return sb.toString();
     }
 
     @Override

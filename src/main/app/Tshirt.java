@@ -1,5 +1,7 @@
 package app;
+
 import java.util.Stack;
+
 /**
  * Represents a Tshirt item that extends the Item class.
  * It has instance variables such as size and pattern.
@@ -12,7 +14,7 @@ import java.util.Stack;
  * variables.
  */
 
- public class Tshirt extends Item {
+public class Tshirt extends Item {
     private TshirtSize size;
     private TshirtPattern pattern;
 
@@ -58,7 +60,7 @@ import java.util.Stack;
     public Tshirt(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, Stack<Integer> previousOwners, TshirtSize size,
             TshirtPattern pattern, int userId) {
-        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+        super(description, brand, basePrice, carrier, conditionScore, userId, previousOwners);
         this.size = size;
         this.pattern = pattern;
     }
@@ -135,19 +137,42 @@ import java.util.Stack;
      */
     public String toString() {
         return "Tshirt{" +
-                "ID=" + this.getID() + '\'' + 
+                "ID=" + this.getID() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", priceCorrection=" + getPriceCorrection() +
-                ", carrier='" + getCarrier() + '\'' +
+                ", carrier='" + getCarrier().getName() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
                 ", size=" + this.size +
-                ", pattern=" + this.pattern + '\''+
+                ", pattern=" + this.pattern + '\'' +
                 ", Price=" + getPrice() +
                 '}';
+    }
+
+    public String showItem() {
+
+        StringBuilder sb = new StringBuilder();
+        int boxWidth = 30;
+
+        // Create the top border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        // Append the student information
+        sb.append("|" + Util.formatCell("Description: " + getDescription(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Brand: " + getBrand(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Price: " + getPrice(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Pattern: " + getPattern(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Size: " + getSize(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Pattern: " + getPattern(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Carrier: " + getCarrier().getName(), boxWidth) + "|\n");
+
+        // Create the bottom border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        return sb.toString();
     }
 
     /**

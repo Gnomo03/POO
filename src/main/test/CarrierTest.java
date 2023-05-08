@@ -1,4 +1,5 @@
 package test;
+
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
@@ -7,13 +8,12 @@ import java.util.Stack;
 import org.junit.jupiter.api.Test;
 import app.*;
 
-public class CarrierTest{
+public class CarrierTest {
     @Test
-    public void smallCarrier(){
+    public void smallCarrier() {
         var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);
-        var bag = new Bag(null, null, 10, carrier, 5, null,
-                          1500, null, null, 0);
-        bag.setConditionScore(0.5);
+        var bag = new Bag(null, null, 10, carrier, .5, null,
+                1500, null, null, 0);
         double final_price = bag.getPrice();
         assertEquals("", 3.5, final_price, 0);
         carrier.updateEarnings(1, final_price);
@@ -21,60 +21,54 @@ public class CarrierTest{
     }
 
     @Test
-    public void mediumCarrier(){
+    public void mediumCarrier() {
         var pO = new Stack<Integer>();
         pO.add(1);
         var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);
 
-        var bag = new Bag(null, null, 10, carrier, 5, null,
-                          1500, null, null, 0);
-        bag.setConditionScore(0.5);
+        var bag = new Bag(null, null, 10, carrier, 0.5, null,
+                1500, null, null, 0);
 
-        var sneak = new Sneaker(null, null, 20, carrier, 1, pO,
-                                41, Util.toSneakerType("LACES"), null, null, 0);
-        sneak.setConditionScore(0.);
+        var sneak = new Sneaker(null, null, 20, carrier, 0, pO,
+                41, Util.toSneakerType("LACES"), null, null, 0);
 
         assertEquals("", 3.5, bag.getPrice(), 0);
-        assertEquals("", 17, sneak.getPrice(), 0);
+        assertEquals("", 10, sneak.getPrice(), 0);
         carrier.updateEarnings(2, bag.getPrice());
         carrier.updateEarnings(2, sneak.getPrice());
-        assertEquals("", 10.25, carrier.getTotalEarning(), 0);
+        assertEquals("", 6.75, carrier.getTotalEarning(), 0);
         carrier.revertProfit(sneak.getPrice(), 2);
         assertEquals("", 0.875, carrier.getTotalEarning(), 0);
     }
 
     @Test
-    public void BigCarrier(){
+    public void BigCarrier() {
         var pO = new Stack<Integer>();
         pO.add(1);
         var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);
 
-        var bag = new Bag(null, null, 10, carrier, 5, null,
-                          1500, null, LocalDate.of(2021, 1, 8), 0);
-        bag.setConditionScore(0.3);
+        var bag = new Bag(null, null, 10, carrier, 0.5, null,
+                1500, null, LocalDate.of(2021, 1, 8), 0);
 
         var sneak = new Sneaker(null, null, 20, carrier, 1, pO,
-                                41, Util.toSneakerType("LACES"), null, LocalDate.of(2005, 1, 8), 0);
-        sneak.setConditionScore(0.7);
+                41, Util.toSneakerType("LACES"), null, LocalDate.of(2005, 1, 8), 0);
 
-        var tshirt = new Tshirt(null, null, 30, carrier, 0, null,
-                               null, Util.toTshirtPattern("Stripes"), 0);
-        tshirt.setConditionScore(0.75);
+        var tshirt = new Tshirt(null, null, 30, carrier, 0.7, null,
+                null, Util.toTshirtPattern("Stripes"), 0);
 
         var Pbag = new PremiumBag(bag);
 
         var Psneak = new PremiumSneaker(sneak);
 
-        var ts = new Tshirt(null, null, 20, carrier, 1, null,
-                     null, Util.toTshirtPattern("PalmTrees"), 0);
-        ts.setConditionScore(0.31);
+        var ts = new Tshirt(null, null, 20, carrier, 0.31, null,
+                null, Util.toTshirtPattern("PalmTrees"), 0);
 
         assertEquals("", 3.5, bag.getPrice(), 0);
-        assertEquals("", 17, sneak.getPrice(), 0);
+        assertEquals("", 20, sneak.getPrice(), 0);
         assertEquals("", 15, tshirt.getPrice(), 0);
         assertEquals("", 10.5, Pbag.getPrice(), 0);
         assertEquals("", 29, Psneak.getPrice(), 0);
-        assertEquals("", 20, ts.getPrice(), 0);
+        assertEquals("", 10, ts.getPrice(), 0);
 
         carrier.updateEarnings(6, bag.getPrice());
         carrier.updateEarnings(6, sneak.getPrice());
@@ -82,10 +76,10 @@ public class CarrierTest{
         carrier.updateEarnings(6, Pbag.getPrice());
         carrier.updateEarnings(6, Psneak.getPrice());
         carrier.updateEarnings(6, ts.getPrice());
-        assertEquals("", 71.25, carrier.getTotalEarning(), 0.01);
+        assertEquals("", 66, carrier.getTotalEarning(), 0.01);
         carrier.revertProfit(sneak.getPrice(), 6);
-        assertEquals("", 39, carrier.getTotalEarning(), 0);
+        assertEquals("", 34, carrier.getTotalEarning(), 0);
         carrier.revertProfit(Psneak.getPrice(), 5);
-        assertEquals("", 24.5, carrier.getTotalEarning(), 0);
+        assertEquals("", 19.5, carrier.getTotalEarning(), 0);
     }
 }

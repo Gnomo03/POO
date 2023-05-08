@@ -1,6 +1,8 @@
 package app;
+
 import java.time.LocalDate;
 import java.util.Stack;
+
 /**
  * Represents a Sneaker item that extends the Item class.
  * It has instance variables such as size, type, color, and releaseDate.
@@ -9,7 +11,7 @@ import java.util.Stack;
  * The class has constructors, getters, and setters for its instance
  * variables.
  */
-public class Sneaker extends Item  {
+public class Sneaker extends Item {
     private double size;
     private SneakerType type;
     private String color;
@@ -30,7 +32,7 @@ public class Sneaker extends Item  {
         this.size = 0;
         this.type = null;
         this.color = "n/d";
-        
+
     }
 
     /**
@@ -53,7 +55,7 @@ public class Sneaker extends Item  {
     public Sneaker(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double size,
             SneakerType type, String color, LocalDate releaseDate, int userId) {
-         super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+        super(description, brand, basePrice, carrier, conditionScore, userId, previousOwners);
         this.size = size;
         this.type = type;
         this.color = color;
@@ -116,14 +118,13 @@ public class Sneaker extends Item  {
      * @return The price of the sneaker.
      */
     public double getPrice() {
-         if (getPreviousOwners().size() == 0){
+        if (getPreviousOwners().size() == 0) {
             return this.getBasePrice();
-         }
-        return (this.getBasePrice() - (this.getBasePrice() / (this.getPreviousOwners().size() + 1 )) * this.getPriceCorrection());
+        }
+        return (this.getBasePrice()
+                - (this.getBasePrice() / (this.getPreviousOwners().size() + 1)) * this.getPriceCorrection());
     } // Seria 1 / this.getConditionScore, caso conditionScore seja pior à medida que
       // aumenta.
-
-
 
     /**
      * Sets the size of the sneaker.
@@ -168,21 +169,44 @@ public class Sneaker extends Item  {
      */
     public String toString() {
         return "Sneaker{" +
-                "ID=" + this.getID() + '\'' + 
+                "ID=" + this.getID() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", priceCorrection=" + getPriceCorrection() +
-                ", carrier='" + getCarrier() + '\'' +
+                ", carrier='" + getCarrier().getName() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
                 ", size=" + this.size +
                 ", type=" + this.type +
                 ", color='" + this.color + '\'' +
-                ", releaseDate=" + this.releaseDate + '\''+
+                ", releaseDate=" + this.releaseDate + '\'' +
                 ", Price=" + getPrice() +
                 '}';
+    }
+
+    public String showItem() {
+
+        StringBuilder sb = new StringBuilder();
+        int boxWidth = 30;
+
+        // Create the top border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        // Append the student information
+        sb.append("|" + Util.formatCell("Description: " + getDescription(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Brand: " + getBrand(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Price: " + getPrice(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Type: " + getType(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Size: " + getSize(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Color: " + getColor(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Carrier: " + getCarrier().getName(), boxWidth) + "|\n");
+
+        // Create the bottom border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        return sb.toString();
     }
 
     /**
@@ -214,6 +238,5 @@ public class Sneaker extends Item  {
     public Sneaker clone() {
         return new Sneaker(this);
     }
-
 
 }
