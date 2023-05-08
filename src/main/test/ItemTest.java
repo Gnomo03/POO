@@ -14,7 +14,7 @@ public class ItemTest{
         var bag = new Bag();
         bag.setBasePrice(10);
         bag.setDimension(1500);
-        bag.setPriceCorrection(0.7);
+        bag.setConditionScore(0.3);
         assertEquals("", 1.5, bag.getPrice(),  0);
     }
 
@@ -43,7 +43,7 @@ public class ItemTest{
         pO.add(1);
         sneaker.setPreviousOwners(pO);
         sneaker.setBasePrice(20);
-        sneaker.setPriceCorrection(.7);
+        sneaker.setConditionScore(0.3);
         assertEquals("", 13, sneaker.getPrice(), 0);
     }
 
@@ -52,7 +52,7 @@ public class ItemTest{
         var malaNP = new Bag();
         malaNP.setBasePrice(10);
         malaNP.setDimension(1500);
-        malaNP.setPriceCorrection(0.7);
+        malaNP.setConditionScore(0.3);
         malaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
         var malaP = new PremiumBag(malaNP);
         assertEquals("", 1.5, malaNP.getPrice(),  0);
@@ -63,7 +63,7 @@ public class ItemTest{
     public void premiumSneakerNoOwners(){
         var tilhaNP = new Sneaker();
         tilhaNP.setBasePrice(20);
-        tilhaNP.setPriceCorrection(.7);
+        tilhaNP.setConditionScore(0.3);
         tilhaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
         var tilhaP = new PremiumSneaker(tilhaNP);
         assertEquals("", 20, tilhaNP.getPrice(),  0);
@@ -77,7 +77,7 @@ public class ItemTest{
         pO.add(1);
         tilhaNP.setPreviousOwners(pO);       
         tilhaNP.setBasePrice(20);
-        tilhaNP.setPriceCorrection(.7);
+        tilhaNP.setConditionScore(0.3);
         tilhaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
         var tilhaP = new PremiumSneaker(tilhaNP);
         assertEquals("", 13, tilhaNP.getPrice(),  0);

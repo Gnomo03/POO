@@ -26,12 +26,9 @@ public class Controller {
     public void logout() {
         m.nullCurrentUser();
     }
-
-    /*
-     * public void userRegistsItems(Item oneItem) {
-     * 
-     * }
-     */
+    public void simulation(String path) throws FileNotFoundException,IOException,InvalidCommand{
+        this.m.Parser(path);
+    }
 
     public void registItemBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
@@ -61,7 +58,7 @@ public class Controller {
             this.m.registsUser(email, name, address, nif, password);
             
     }
-    public void advanceTime(LocalDate date) {
+    public void advanceTime(LocalDate date) throws IllegalArgumentException {
 
         m.TimeSkip(date);
     }
@@ -92,7 +89,7 @@ public class Controller {
         return m.currentUserSystemItems();
     }
 
-    public void listSystemItem(int item_id) throws UserIsAdminException {
+    public void listSystemItem(int item_id) throws UserIsAdminException,NullPointerException {
 
         m.alterItemState(item_id);
 
@@ -133,7 +130,7 @@ public class Controller {
         m.changeCarrier(name, taxSmall, taxMedium, taxBig);
     }
     @SuppressWarnings("unchecked")
-    public String querrierExecution(int query,LocalDate date1, LocalDate date2,int userID) throws NullPointerException{ // !!
+    public String querrierExecution(int query,LocalDate date1, LocalDate date2,int userID) throws NullPointerException{
         String result = "";
         Querier querier;
         switch(query){

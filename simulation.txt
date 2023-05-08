@@ -1,0 +1,32 @@
+// Data,Comando,argumentos
+// Os argumentos são separados por um ";"
+// Comentários são possíveis, basta adcionar "//" na linha que é suposto ignorar
+// Exceção: Registar um Item tem um argumento a mais a dizer que tipo de item é: Bag,Tshirt,Sneaker
+// Yes para Premium, No para normal
+// Setup de Carriers não precisa de Login do admin, apenas as funções de registar items,Fazer encomendas etc.
+// Os valores Double devem aparecer separadas por um "."
+// Lista de Comandos:
+// SetupDate:LocalDate --> Serve para colocar uma Data de simulação
+// RegistarUtilizador:Email,Nome,Endreço,Nif,Password --> Regista um Utilizador
+// RegistarTransportadora:Nome,PremiumStatus,TaxaPequena,TaxaMédia,TaxaGrande --> Regista uma Transportadora
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Fase Setup
+
+
+SetupDate,2023-05-05
+2023-05-05,RegistarUtilizador,admin;admin;admin;0;admin
+2023-05-05,RegistarTransportadora,Ups;No;0.02;0.03;0.04
+2023-05-05,RegistarTransportadora,CTT;No;0.1;0.05;0.09
+2023-05-05,RegistarTransportadora,CTTExpresso;Yes;0.1;0.05;0.09
+
+2023-05-05,RegistarUtilizador,a;Jhon Doe;Boston;123456789;a
+2023-05-05,RegistarUtilizador,email2@gmail.com;Marry Jane;New York;987654321;password
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Fase Simulação
+
+2023-05-05,Login,a;a
+2023-05-05,RegistarItem,Bag;Cool Bag;Channel;200;5;12;12;2;Cotton;2010-10-10;No;Ups

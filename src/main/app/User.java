@@ -299,6 +299,8 @@ public class User implements Serializable,Comparable<User> {
     public void listASystemItem(int item_id) {
 
       Item i =  this.searchItem(item_id);
+      if ( i == null)
+        throw new NullPointerException();
       this.systemItems.remove(i);
       this.sellingItems.add(i);
 

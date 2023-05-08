@@ -13,7 +13,7 @@ public class OrderTest{
         var t1 = new Carrier();
         Bag bag = new Bag("mala", "null", 10, t1, 5, 
                           null, 1500,"null", null, 0);
-        bag.setPriceCorrection(0.7);
+        bag.setConditionScore(0.3);
         var u1 = new User("test", "test", "t", 1, "test");
         order.addItem(bag,u1);
         t1.setTaxSmall(.25);
@@ -32,12 +32,12 @@ public class OrderTest{
 
         Bag bag = new Bag(null, null, 10, t1, 5, 
                           null, 1500,"null", null, 0);
-        bag.setPriceCorrection(0.7);
+        bag.setConditionScore(0.3);
 
         var sneak = new Sneaker(null, null, 20, t2, 1,
                                 null, 42, Util.toSneakerType("LACES"), "black",
                                 null, 0);
-        sneak.setPriceCorrection(.55);
+        sneak.setConditionScore(0.45);
         sneak.setPreviousOwners(pO);
 
         var camisa = new Tshirt("null", "null", 30, t1, 2.5,

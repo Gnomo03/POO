@@ -7,18 +7,16 @@ import java.time.format.DateTimeParseException;
 
 public class Util {
     
-    public static LocalDate toDate(String Value) {
+    public static LocalDate toDate(String Value) throws IllegalArgumentException,DateTimeParseException {
         // Define the expected format of the date string
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        try {
+
 
             LocalDate date = LocalDate.parse(Value, formatter);
             return date;
-        } catch (DateTimeParseException e) {
-
-            throw new IllegalArgumentException("Invalid date format. Expected format: yyyy-MM-dd");
-        }
+       
+        
     }
 
 
@@ -62,6 +60,29 @@ public class Util {
             list.add(value);
         }
         return list;
+    }
+    public static List<Integer> toLinkedListParser(String input) {
+        String[] parts = input.split(";");
+        List<Integer> list = new LinkedList<>();
+        for (String part : parts) {
+            Integer value = Integer.parseInt(part.trim());
+            list.add(value);
+        }
+        return list;
+    }
+
+    public static boolean checkIgnore(String str) {
+        if (str == null)
+            return false;
+
+        if (str.equals("")){
+            return false;
+        }
+        if (str.startsWith("//")){
+            return false;
+        }
+
+        return true;
     }
 
 

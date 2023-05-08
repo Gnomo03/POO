@@ -1,18 +1,15 @@
 package app;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+
+
+import java.io.*;
 
 /**
  * This class represents a module that manages items, users, orders, and
@@ -95,11 +92,11 @@ public class Model implements Serializable {
 
     return this.currentUser.clone();
 }
-    public String currentUserSystemItems() throws UserIsAdminException {// !!
+    public String currentUserSystemItems() throws UserIsAdminException {
 
         return getCurrentUser().getSystemItems().toString();
     }
-    public String currentUserListedItems()throws UserIsAdminException { // !!
+    public String currentUserListedItems()throws UserIsAdminException {
 
         return getCurrentUser().getSellingItems().toString();
     }
@@ -135,7 +132,7 @@ public class Model implements Serializable {
         }
 
     }
-    private String displayNormalCarriers(){ // !!
+    private String displayNormalCarriers(){ 
         String result = "\n";
         for (Carrier c : getCarrierManagerList()) {
             if (c instanceof Premium){
@@ -149,7 +146,7 @@ public class Model implements Serializable {
         return result;
 
     }
-    private String displayPremiumCarriers(){ // !!
+    private String displayPremiumCarriers(){ 
         String result = "\n"; 
         for (Carrier c : getCarrierManagerList()) {
             if (c instanceof Premium){
@@ -161,13 +158,13 @@ public class Model implements Serializable {
         return result;
 
     }
-    public String showCarriers(String premium) { // !!
+    public String showCarriers(String premium) {
         if (premium.equals("y"))
         return displayPremiumCarriers();
         else
         return displayNormalCarriers();
     }
-    public String displayListedItems() throws UserIsAdminException  { // !!
+    public String displayListedItems() throws UserIsAdminException  { 
         List <Item> items = getListedItemsManagerList();
         List <Item> ret = new LinkedList<Item>();
         for (Item item : items) {
@@ -177,7 +174,7 @@ public class Model implements Serializable {
         }
         return ret.toString();
     }
-    public String displayAllCarriers() { // !!
+    public String displayAllCarriers() { 
         String result = "\n";
         for (Carrier c : getCarrierManagerList()) {
             System.out.println(c instanceof Premium);
@@ -190,8 +187,10 @@ public class Model implements Serializable {
         }
         return result;
     }
-
-    public Order makeOrder(List<Integer> items_keys)throws InvalidId { // change
+    private void setCurrentDate(LocalDate dateNew){
+        this.date = dateNew;
+    }
+    public Order makeOrder(List<Integer> items_keys)throws InvalidId { 
 
 
         if (this.currentUser.oneOfHis(items_keys) || !this.itemManager.areAllThisForSale(items_keys) || items_keys.isEmpty())
@@ -233,22 +232,27 @@ public class Model implements Serializable {
 
     public void registBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
-            String material, LocalDate releaseDate,String premium) throws NullPointerException {
+            String material, LocalDate releaseDate,String premium) throws NullPointerException,IllegalArgumentException {
                 Stack<Integer> previousOwners = new Stack<Integer>();
         
                 if (currentUser == null)
                     throw new NullPointerException();
 
+
+                    if (conditionScore > 5)
+                    throw new IllegalArgumentException();
+        
+
         if (premium.equals("y")){
             PremiumBag bag = new PremiumBag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
+                conditionScore/5, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
             
                 registsItem(bag, this.currentUser.getId());
         }else{
             Bag bag = new Bag(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
+                conditionScore/5, previousOwners, dimension, material, releaseDate, this.currentUser.getId());
                 registsItem(bag, this.currentUser.getId());
         }
         
@@ -257,15 +261,19 @@ public class Model implements Serializable {
 
     public void registTshirt(String description, String brand, double basePrice,
             String carrier, double conditionScore, Tshirt.TshirtSize size,
-            Tshirt.TshirtPattern pattern) throws NullPointerException{
+            Tshirt.TshirtPattern pattern) throws NullPointerException,IllegalArgumentException{
 
                 if (currentUser == null)
                     throw new NullPointerException();
 
+                if (conditionScore > 5)
+                    throw new IllegalArgumentException();
+        
+
                 Stack<Integer> previousOwners = new Stack<Integer>();
         Tshirt tshirt = new Tshirt(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, size, pattern, this.currentUser.getId());
+                conditionScore/5, previousOwners, size, pattern, this.currentUser.getId());
                 
                 
 
@@ -274,18 +282,21 @@ public class Model implements Serializable {
 
     public void registSneaker(String description, String brand, double basePrice,
             String carrier, double conditionScore, double size,
-            Sneaker.SneakerType type, String color, LocalDate releaseDate, String premium) throws NullPointerException {
+            Sneaker.SneakerType type, String color, LocalDate releaseDate, String premium) throws NullPointerException,IllegalArgumentException {
 
                 if (currentUser == null)
                 throw new NullPointerException();
 
                 Stack<Integer> previousOwners = new Stack<Integer>();
 
-                
-        if(premium.equals(premium)){
+            if (conditionScore > 5)
+            throw new IllegalArgumentException();
+
+
+        if(premium.equals("y")){
             PremiumSneaker sneaker = new PremiumSneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
+                conditionScore/5, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
         
 
         registsItem(sneaker, this.currentUser.getId());
@@ -293,7 +304,7 @@ public class Model implements Serializable {
         }else{
             Sneaker sneaker = new Sneaker(description, brand, basePrice,
                 this.carrierManager.getCarrier(carrier),
-                conditionScore, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
+                conditionScore/5, previousOwners, size, type, color, releaseDate, this.currentUser.getId());
         
 
         registsItem(sneaker,this.currentUser.getId());
@@ -336,13 +347,17 @@ public class Model implements Serializable {
         }
 
     }
-    public void alterItemState(int item_id){  
+    public void alterItemState(int item_id) throws NullPointerException{  
         int user_id = currentUser.getId();
         User u = this.userManager.getUser(user_id);
         u.listASystemItem(item_id);
         this.itemManager.soldToListed(item_id);
     }
-    public void TimeSkip (LocalDate newDate){
+    public void TimeSkip (LocalDate newDate)throws IllegalArgumentException{ 
+        
+        if ( newDate.isBefore(this.date)){
+            throw new IllegalArgumentException();
+        }
 
             while (this.date.isBefore(newDate)){
                 
@@ -504,6 +519,169 @@ public class Model implements Serializable {
     public void nullCurrentUser() {
         this.currentUser = null;
     }
+
+
+    private void parserExecuter(String buffer,int line) throws InvalidCommand,IllegalArgumentException{
+        try {
+            String[] substrings = buffer.split(",");
+        if (substrings[0].equals("SetupDate")){
+           setCurrentDate(Util.toDate(substrings[1]));
+            return;
+        }
+       
+        
+        LocalDate dateParse = Util.toDate(substrings[0]);
+        if (dateParse.isBefore(this.date)){
+            TimeSkip(dateParse);
+        }
+    
+        switch (substrings[1]) {
+
+            case "RegistarUtilizador":
+            String[] arguments = substrings[2].split(";");
+            try {
+            registsUser(arguments[0],arguments[1], arguments[2],Integer.parseInt(arguments[3]), arguments[4]);
+            }catch(UserAlreadyExistsException e){
+                throw new InvalidCommand(substrings[1],line);
+            }
+            break;
+
+
+            case "Login":
+            String[] arguments1 = substrings[2].split(";");
+            try {
+                loginModel(arguments1[0], arguments1[1]); 
+            }catch(MissedIdException e){
+                throw new InvalidCommand(substrings[1],line);
+            }
+            catch(NullPointerException e){
+                throw new InvalidCommand(substrings[1],line);
+            }
+            break;
+
+            case "RegistarItem":
+            String[] arguments2 = substrings[2].split(";");
+            try {
+                switch (arguments2[0]) {
+                    case "Bag":
+                        
+                        if (arguments2[10].equals("No")){
+                            double dimension = Double.parseDouble(arguments2[5]) * Double.parseDouble(arguments2[6]) * Double.parseDouble(arguments2[7]);
+                            registBag(arguments2[1],arguments2[2], Double.parseDouble(arguments2[3]), arguments2[11], Double.parseDouble(arguments2[4])/5,
+                             dimension, arguments2[8], Util.toDate(arguments2[9]), "n");
+                        }
+                        else{
+                            double dimension = Double.parseDouble(arguments2[5]) * Double.parseDouble(arguments2[6]) * Double.parseDouble(arguments2[7]);
+                            registBag(arguments2[1],arguments2[2], Double.parseDouble(arguments2[3]), arguments2[10], Double.parseDouble(arguments2[4])/5,
+                             dimension, arguments2[8], Util.toDate(arguments2[9]), "y");
+                        }
+                        break;
+                    case "Sneaker":
+                        
+                        if (arguments2[9].equals("No")){
+                            registSneaker(arguments2[1],arguments2[2], Double.parseDouble(arguments2[3]), arguments2[10],  Double.parseDouble(arguments2[4])/5, 
+                            Double.parseDouble(arguments2[5]), Util.toSneakerType(arguments2[6]), arguments2[7], Util.toDate(arguments2[8]), "n");
+                        }
+                        else{
+                            registSneaker(arguments2[1],arguments2[2], Double.parseDouble(arguments2[3]), arguments2[10],  Double.parseDouble(arguments2[4])/5, 
+                            Double.parseDouble(arguments2[5]), Util.toSneakerType(arguments2[6]), arguments2[7], Util.toDate(arguments2[8]), "y");
+                        }
+                        
+                    break;
+                    case "Tshirt":
+                        
+                        registTshirt(arguments2[1],arguments2[2], Double.parseDouble(arguments2[3]), arguments2[7], Double.parseDouble(arguments2[4])/5,
+                        Util.toTshirtSize(arguments2[5]), Util.toTshirtPattern(arguments2[6]));
+                       
+                        break;
+                    
+                        
+                    default:
+                    throw new InvalidCommand(substrings[1],line);
+                    
+                }
+            }catch(NullPointerException e){
+                throw new InvalidCommand(substrings[1],line);
+            }
+            break;
+            case "RegistarTransportadora":
+            String[] arguments3 = substrings[2].split(";");
+            try{
+                if (arguments3[1].equals("No"))
+                addCarrier(arguments3[0], Double.parseDouble(arguments3[2]), Double.parseDouble(arguments3[3]), Double.parseDouble(arguments3[4]), "n");
+                else{
+                    addCarrier(arguments3[0], Double.parseDouble(arguments3[2]), Double.parseDouble(arguments3[3]), Double.parseDouble(arguments3[4]), "y");
+                }
+
+            }catch(CarrierAlreadyExistsException e){
+
+                throw new InvalidCommand(substrings[1],line);
+            }
+               
+            break;
+            case "FazerEncomenda":
+            try{
+                makeOrder(Util.toLinkedListParser(substrings[2]));  
+            }catch(InvalidId e){
+                throw new InvalidCommand(substrings[1],line);
+            }
+            break;
+            case "AlterarTransportadora":
+            String[] arguments4 = substrings[2].split(";");
+            try{
+
+                changeCarrier(arguments4[0], Double.parseDouble(arguments4[1]), Double.parseDouble(arguments4[2]), Double.parseDouble(arguments4[3]));
+
+            }catch(NullPointerException e){
+
+                throw new InvalidCommand(substrings[1],line);
+            }
+               
+            break;
+            case "TimeSkip":
+               
+            break;
+        
+            default:
+            throw new InvalidCommand(substrings[1],line);
+            
+        }
+    }
+    catch(IllegalArgumentException e){
+        throw new InvalidCommand("Unidentified",line);
+    }
+    catch(DateTimeParseException e){
+        throw new InvalidCommand("Unidentified",line);
+    }
+
+    }
+
+    public void Parser( String path) throws FileNotFoundException,IOException,InvalidCommand,IllegalArgumentException{
+        // File path is passed as parameter
+        File file = new File(path);
+ 
+        // Note:  Double backquote is to avoid compiler
+        // interpret words
+        // like \test as \t (ie. as a escape sequence)
+ 
+        // Creating an object of BufferedReader class
+        BufferedReader br  = new BufferedReader(new FileReader(file));
+ 
+        // Declaring a string variable
+        String st;
+        // Condition holds true till
+        // there is character in a string
+        int line = 1;
+        while ((st = br.readLine()) != null){
+            if (Util.checkIgnore(st)){
+             parserExecuter(st,line);
+            }
+            line++;
+        }
+        br.close();
+        
+    }
+    
 
     
 }

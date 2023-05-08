@@ -16,7 +16,6 @@ public abstract class Item implements Serializable {
     private String brand;
     private String reference;
     private double basePrice;
-    private double priceCorrection;
     private Carrier carrier;
     private double conditionScore;
     Stack<Integer> previousOwners;
@@ -36,7 +35,6 @@ public abstract class Item implements Serializable {
         this.brand = "n/d";
         this.reference = "n/d";
         this.basePrice = 0;
-        this.priceCorrection = 0;
         this.conditionScore = 0;
         this.previousOwners = new Stack<Integer>();
         this.id = currentID++;
@@ -63,7 +61,6 @@ public abstract class Item implements Serializable {
         this.basePrice = basePrice;
         this.carrier = carrier;
         this.conditionScore = conditionScore;
-        this.priceCorrection = 1-this.conditionScore;
         this.previousOwners = previousOwners;
         this.id = currentID++;
         this.userId = userId;
@@ -79,7 +76,6 @@ public abstract class Item implements Serializable {
         this.brand = oneItem.getBrand();
         this.reference = oneItem.getReference();
         this.basePrice = oneItem.getBasePrice();
-        this.priceCorrection = oneItem.getPriceCorrection();
         this.carrier = oneItem.getCarrier();
         this.conditionScore = oneItem.getConditionScore();
         this.previousOwners = oneItem.getPreviousOwners();
@@ -138,7 +134,7 @@ public abstract class Item implements Serializable {
      * @return the price correction of the item
      */
     public double getPriceCorrection() {
-        return this.priceCorrection;
+        return 1-this.conditionScore;
     }
 
     /**
@@ -229,15 +225,6 @@ public abstract class Item implements Serializable {
      */
     public void setBasePrice(double basePrice) {
         this.basePrice = basePrice;
-    }
-
-    /**
-     * Sets the price correction of the item.
-     *
-     * @param priceCorrection the new price correction of the item
-     */
-    public void setPriceCorrection(double priceCorrection) {
-        this.priceCorrection = priceCorrection;
     }
 
     /**

@@ -15,9 +15,8 @@ public class BillTest{
         var hm = new HashMap<Integer,Item>();
         var t1 = new Carrier();
         t1.setTaxSmall(.25);
-        Bag bag = new Bag("mala", "null", 10, t1, 5, 
+        Bag bag = new Bag("mala", "null", 10, t1, 3.5, 
                           null, 1500,"null", null, 0);
-        bag.setPriceCorrection(0.7);
         var u1 = new User("test", "test", "t", 1, "test");
         order.addItem(bag,u1);
 

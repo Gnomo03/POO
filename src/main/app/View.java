@@ -1,6 +1,7 @@
 package app;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -117,7 +118,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     _cont.registItemBag(des, brand, price,
-                            carrier,score/5,
+                            carrier,score,
                             dimension, material, Util.toDate(date),premium);
                     break;
                 // ------------------------------------------------------------------------------------------
@@ -142,7 +143,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     _cont.registItemTshirt(des, brand, price,
-                            carrier,score/5,
+                            carrier,score,
                             Util.toTshirtSize(Tsizes), Util.toTshirtPattern(pattern));
                     break;
                 // ------------------------------------------------------------------------------------------
@@ -173,7 +174,7 @@ public class View {
                     System.out.print("\n");
                     System.out.print("\n");
                     _cont.registItemSneaker(des, brand, price,
-                            carrier,score/5,
+                            carrier,score,
                             size, Util.toSneakerType(type), color, Util.toDate(date),premium);
                     break;
                     case "a":
@@ -200,6 +201,7 @@ public class View {
             scanner.nextLine();
         }
         catch (IllegalArgumentException e){
+            System.out.print("The input was not valid!\n");
             scanner.nextLine();
         }
     }
@@ -417,7 +419,10 @@ public class View {
         System.out.print("Date updated!\n");
         }
         catch (IllegalArgumentException e) {
-            
+            System.out.print("Invalid Date!\n");
+        }
+        catch (DateTimeParseException e) {
+            System.out.print("Invalid Date!\n");
         }
     }
     
@@ -441,6 +446,7 @@ public class View {
             System.out.print("t: To skip time:\n");
             System.out.print("b: To check bills:\n");
             System.out.print("m: To check my items:\n");
+            System.out.print("x: Logout:\n");
             System.out.print("\n");
             System.out.print("\n");
             System.out.print("Press 'q' to Quit\n");
@@ -492,6 +498,10 @@ public class View {
                 case "m":
                     checkMyItems();
                     break;
+                case "x":
+                    _cont.logout();
+                    
+                    break;
             }
             }catch(NullPointerException e){
             System.out.print("Welcome to Vintage!\n");
@@ -502,6 +512,7 @@ public class View {
             System.out.print("l: Login:\n");
             System.out.print("u: Register a User:\n");
             System.out.print("t: To skip time:\n");
+            System.out.print("s: To execute a simulation (will require a .txt file and a path):\n");
             System.out.print("\n");
             System.out.print("No user logged in.");
             System.out.print("\n");
@@ -532,6 +543,22 @@ public class View {
                 case "t":
                     skipTime();
                 break;
+                case "s":
+                try{
+                    System.out.print("Write the path for the simulation file: ");
+                    String path = scanner.nextLine();
+                    _cont.simulation(path);  
+                }catch(FileNotFoundException esc){
+                    System.out.println("Error reaching .txt File!");
+                }
+                catch(IOException esc){
+                    System.out.println("Error reading .txt File!");
+                }catch (InvalidCommand esc) {
+                    System.out.println(esc.getMessage()); // prints the custom error message
+                }catch (DateTimeParseException esc) {
+                    System.out.print("Invalid Date!\n");
+                }
+                break;
 
             }
             }
@@ -547,6 +574,7 @@ public class View {
             System.out.print("r: To add Carriers:\n");
             System.out.print("c: To change Carriers:\n");
             System.out.print("a: To access the system Queries:\n");
+            System.out.print("x: Logout:\n");
             System.out.print("\n");
             System.out.print("No user logged in.");
             System.out.print("\n");
@@ -592,6 +620,10 @@ public class View {
 
                     changeCarrierMenu();
 
+                    break;
+                    case "x":
+                    _cont.logout();
+                    
                     break;
                     case "a":
 
