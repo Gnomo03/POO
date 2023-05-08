@@ -13,7 +13,7 @@ public class CarrierTest{
         var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);
         var bag = new Bag(null, null, 10, carrier, 5, null,
                           1500, null, null, 0);
-        bag.setPriceCorrection(.5);
+        bag.setConditionScore(0.5);
         double final_price = bag.getPrice();
         assertEquals("", 3.5, final_price, 0);
         carrier.updateEarnings(1, final_price);
@@ -28,11 +28,11 @@ public class CarrierTest{
 
         var bag = new Bag(null, null, 10, carrier, 5, null,
                           1500, null, null, 0);
-        bag.setPriceCorrection(.5);
+        bag.setConditionScore(0.5);
 
         var sneak = new Sneaker(null, null, 20, carrier, 1, pO,
                                 41, Util.toSneakerType("LACES"), null, null, 0);
-        sneak.setPriceCorrection(.3);
+        sneak.setConditionScore(0.);
 
         assertEquals("", 3.5, bag.getPrice(), 0);
         assertEquals("", 17, sneak.getPrice(), 0);
@@ -51,15 +51,15 @@ public class CarrierTest{
 
         var bag = new Bag(null, null, 10, carrier, 5, null,
                           1500, null, LocalDate.of(2021, 1, 8), 0);
-        bag.setPriceCorrection(.5);
+        bag.setConditionScore(0.3);
 
         var sneak = new Sneaker(null, null, 20, carrier, 1, pO,
                                 41, Util.toSneakerType("LACES"), null, LocalDate.of(2005, 1, 8), 0);
-        sneak.setPriceCorrection(.3);
+        sneak.setConditionScore(0.7);
 
         var tshirt = new Tshirt(null, null, 30, carrier, 0, null,
                                null, Util.toTshirtPattern("Stripes"), 0);
-        tshirt.setPriceCorrection(.25);
+        tshirt.setConditionScore(0.75);
 
         var Pbag = new PremiumBag(bag);
 
@@ -67,7 +67,7 @@ public class CarrierTest{
 
         var ts = new Tshirt(null, null, 20, carrier, 1, null,
                      null, Util.toTshirtPattern("PalmTrees"), 0);
-        ts.setPriceCorrection(.69);
+        ts.setConditionScore(0.31);
 
         assertEquals("", 3.5, bag.getPrice(), 0);
         assertEquals("", 17, sneak.getPrice(), 0);
