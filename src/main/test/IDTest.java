@@ -1,12 +1,13 @@
 package test;
+
 import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import app.*;
 
-public class IDTest{
+public class IDTest {
     @Test
-    public void userID(){
+    public void userID() {
         var u1 = new User();
         var u2 = new User();
         var m = new UserManager();
@@ -21,7 +22,7 @@ public class IDTest{
     }
 
     @Test
-    public void itemID(){
+    public void itemID() {
         var a = new Bag();
         var b = new Sneaker();
         assertEquals("", 1, a.getID(), 0);

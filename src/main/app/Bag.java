@@ -1,4 +1,5 @@
 package app;
+
 import java.time.LocalDate;
 import java.util.Stack;
 
@@ -41,7 +42,7 @@ public class Bag extends Item {
     public Bag(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double dimension,
             String material, LocalDate releaseDate, int userId) {
-        super(description,brand,basePrice,carrier,conditionScore,userId,previousOwners);
+        super(description, brand, basePrice, carrier, conditionScore, userId, previousOwners);
         this.dimension = dimension;
         this.material = material;
         this.releaseDate = releaseDate;
@@ -93,7 +94,8 @@ public class Bag extends Item {
      * @return The price of the bag.
      */
     public double getPrice() {
-        return this.getBasePrice() - (this.getBasePrice() * (this.dimension/10000)) - (this.getBasePrice() * this.getPriceCorrection());
+        return this.getBasePrice() - (this.getBasePrice() * (this.dimension / 10000))
+                - (this.getBasePrice() * this.getPriceCorrection());
     }
 
     /**
@@ -119,7 +121,7 @@ public class Bag extends Item {
      * 
      * @param releaseDate The release date to set for the bag.
      */
-    public void setReleaseDate( LocalDate releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -130,20 +132,42 @@ public class Bag extends Item {
      */
     public String toString() {
         return "Bag{" +
-                "ID=" + this.getID() + '\'' + 
+                "ID=" + this.getID() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
                 ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", priceCorrection=" + getPriceCorrection() +
-                ", carrier='" + getCarrier() + '\'' +
+                ", carrier='" + getCarrier().getName() + '\'' +
                 ", conditionScore=" + getConditionScore() +
                 ", previousOwners=" + getPreviousOwners() +
                 ", dimension=" + this.dimension +
                 ", material=" + this.material +
-                ", releaseDate=" + this.releaseDate + '\''+
+                ", releaseDate=" + this.releaseDate + '\'' +
                 ", Price=" + getPrice() +
                 '}';
+    }
+
+    public String showItem() {
+
+        StringBuilder sb = new StringBuilder();
+        int boxWidth = 30;
+
+        // Create the top border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        // Append the student information
+        sb.append("|" + Util.formatCell("Description: " + getDescription(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Brand: " + getBrand(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Price: " + getPrice(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Material: " + getMaterial(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Dimension: " + getDimension(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Carrier: " + getCarrier().getName(), boxWidth) + "|\n");
+
+        // Create the bottom border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        return sb.toString();
     }
 
     /**
@@ -175,6 +199,5 @@ public class Bag extends Item {
     public Bag clone() {
         return new Bag(this);
     }
-
 
 }

@@ -1,4 +1,5 @@
 package test;
+
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
@@ -7,12 +8,12 @@ import java.util.Stack;
 import org.junit.jupiter.api.Test;
 import app.*;
 
-public class CarrierTest{
+public class CarrierTest {
     @Test
-    public void smallCarrier(){
+    public void smallCarrier() {
         var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);
         var bag = new Bag(null, null, 10, carrier, .5, null,
-                          1500, null, null, 0);
+                1500, null, null, 0);
         double final_price = bag.getPrice();
         assertEquals("", 3.5, final_price, 0);
         carrier.updateEarnings(1, final_price);
@@ -20,16 +21,16 @@ public class CarrierTest{
     }
 
     @Test
-    public void mediumCarrier(){
+    public void mediumCarrier() {
         var pO = new Stack<Integer>();
         pO.add(1);
         var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);
 
         var bag = new Bag(null, null, 10, carrier, 0.5, null,
-                          1500, null, null, 0);
+                1500, null, null, 0);
 
         var sneak = new Sneaker(null, null, 20, carrier, 0, pO,
-                                41, Util.toSneakerType("LACES"), null, null, 0);
+                41, Util.toSneakerType("LACES"), null, null, 0);
 
         assertEquals("", 3.5, bag.getPrice(), 0);
         assertEquals("", 10, sneak.getPrice(), 0);
@@ -41,26 +42,26 @@ public class CarrierTest{
     }
 
     @Test
-    public void BigCarrier(){
+    public void BigCarrier() {
         var pO = new Stack<Integer>();
         pO.add(1);
         var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);
 
         var bag = new Bag(null, null, 10, carrier, 0.5, null,
-                          1500, null, LocalDate.of(2021, 1, 8), 0);
+                1500, null, LocalDate.of(2021, 1, 8), 0);
 
         var sneak = new Sneaker(null, null, 20, carrier, 1, pO,
-                                41, Util.toSneakerType("LACES"), null, LocalDate.of(2005, 1, 8), 0);
+                41, Util.toSneakerType("LACES"), null, LocalDate.of(2005, 1, 8), 0);
 
         var tshirt = new Tshirt(null, null, 30, carrier, 0.7, null,
-                               null, Util.toTshirtPattern("Stripes"), 0);
+                null, Util.toTshirtPattern("Stripes"), 0);
 
         var Pbag = new PremiumBag(bag);
 
         var Psneak = new PremiumSneaker(sneak);
 
         var ts = new Tshirt(null, null, 20, carrier, 0.31, null,
-                     null, Util.toTshirtPattern("PalmTrees"), 0);
+                null, Util.toTshirtPattern("PalmTrees"), 0);
 
         assertEquals("", 3.5, bag.getPrice(), 0);
         assertEquals("", 20, sneak.getPrice(), 0);

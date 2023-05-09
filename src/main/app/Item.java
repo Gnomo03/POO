@@ -127,7 +127,6 @@ public abstract class Item implements Serializable {
     public double getBasePrice() {
         return this.basePrice;
     }
-
     /**
      * Returns the price correction of the item.
      *
@@ -282,6 +281,8 @@ public abstract class Item implements Serializable {
      * @return a copy of the current object
      */
     public abstract Item clone();
+
+    public abstract String showItem();
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject(); // default serialization
