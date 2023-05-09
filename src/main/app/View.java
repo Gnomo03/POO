@@ -179,6 +179,7 @@ public class View {
                     break;
                     case "a":
                     System.out.print("System Items:");
+                    System.out.print("\n");
                     System.out.print(this._cont.getCurrentUserSystemItems());
                     System.out.print("\n");
                     System.out.print("\n");
@@ -383,6 +384,7 @@ public class View {
         System.out.print("\n");
         System.out.print("\n");
         System.out.print(_cont.getCurrentUser().getName() + "'s System Items");
+        System.out.print("\n");
         System.out.print(this._cont.getCurrentUserSystemItems());
         System.out.print("\n");
         scanner.nextLine();
