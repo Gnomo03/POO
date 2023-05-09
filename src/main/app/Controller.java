@@ -102,6 +102,11 @@ public class Controller {
     public String accessDate(){ 
         return m.getDate();
     }
+
+    public String currentUserBills(){ 
+        return m.userBills();
+    }   
+
     public void returnOrderId(int orderId)throws UserIsAdminException,OrderNotReturnable { 
 
         m.deleteOrder(orderId);

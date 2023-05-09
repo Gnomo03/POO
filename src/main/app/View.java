@@ -376,14 +376,13 @@ public class View {
     }
     private void checkMyItems() {
         try {
-        System.out.print(_cont.getCurrentUser().getName() + "'s Items");
+        System.out.print(_cont.getCurrentUser().getName() + "'s Listed Items");
         System.out.print("\n");
-        System.out.print("Listed Items:");
         System.out.print(this._cont.getCurrentUserListedItems());
         System.out.print("\n");
         System.out.print("\n");
         System.out.print("\n");
-        System.out.print("System Items:");
+        System.out.print(_cont.getCurrentUser().getName() + "'s System Items");
         System.out.print(this._cont.getCurrentUserSystemItems());
         System.out.print("\n");
         scanner.nextLine();
@@ -396,7 +395,7 @@ public class View {
         System.out.print(_cont.getCurrentUser().getName() + "' current Bills");
         System.out.print("\n");
         System.out.print("\n");
-        System.out.print(this._cont.getCurrentUser().getBills());
+        System.out.print(this._cont.currentUserBills()); //
         System.out.print("\n");
         System.out.print("\n");
         scanner.nextLine();

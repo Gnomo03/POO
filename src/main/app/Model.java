@@ -3,7 +3,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -94,24 +93,40 @@ public class Model implements Serializable {
 }
     public String currentUserSystemItems() throws UserIsAdminException {
 
-        return getCurrentUser().getSystemItems().toString();
+        User u = getCurrentUser();
+        String ret = "";
+        for (Item i : u.getSystemItems()) {
+
+            ret+= i.showItem();
+
+        }
+        ret+='\n';
+        return ret;
     }
     public String currentUserListedItems()throws UserIsAdminException {
 
-        return getCurrentUser().getSellingItems().toString();
+        User u = getCurrentUser();
+        String ret = "";
+        for (Item i : u.getSellingItems()) {
+
+            ret+= i.showItem();
+
+        }
+        ret+='\n';
+        return ret;
     }
     public String checkThisUserOrders() {
 
         int userId = this.currentUser.getId();
         List<Order> pointers = this.orderManager.getThisUserOrders(userId);
 
-        List <Order> orders = new LinkedList<Order>();
+        String ret = "";
 
         for (Order order : pointers) {
 
-            orders.add(order.clone());
+            ret += order.showOrder();
         }
-        return orders.toString();
+        return ret;
     }
     private void setCurrentUser(int id) {
         this.currentUser = this.userManager.getUser(id);
@@ -138,7 +153,7 @@ public class Model implements Serializable {
             if (c instanceof Premium){
                 
             }else{
-                result += c.toString() + "\n";
+                result += c.showCarrier();
             }
 
             
@@ -147,11 +162,11 @@ public class Model implements Serializable {
 
     }
     private String displayPremiumCarriers(){ 
-        String result = "\n"; 
+        String result = ""; 
         for (Carrier c : getCarrierManagerList()) {
             if (c instanceof Premium){
                 PremiumCarrier c1 = (PremiumCarrier) c;
-                result += c1.toString() + "\n";
+                result += c1.showCarrier();
             }
                 
         }
@@ -166,13 +181,13 @@ public class Model implements Serializable {
     }
     public String displayListedItems() throws UserIsAdminException  { 
         List <Item> items = getListedItemsManagerList();
-        List <Item> ret = new LinkedList<Item>();
+        String ret = "";
         for (Item item : items) {
 
             if (item.getUserId() != getCurrentUser().getId())
-                    ret.add(item);                
+                    ret+=item.showItem();              
         }
-        return ret.toString();
+        return ret;
     }
     public String displayAllCarriers() { 
         String result = "\n";
@@ -531,7 +546,7 @@ public class Model implements Serializable {
        
         
         LocalDate dateParse = Util.toDate(substrings[0]);
-        if (dateParse.isBefore(this.date)){
+        if (dateParse.isAfter(this.date)){
             TimeSkip(dateParse);
         }
     
@@ -638,7 +653,7 @@ public class Model implements Serializable {
             }
                
             break;
-            case "TimeSkip":
+            case "PassarTempo":
                
             break;
         
@@ -680,6 +695,18 @@ public class Model implements Serializable {
         }
         br.close();
         
+    }
+
+
+    public String userBills() {
+    String ret = "";
+        for (int b_key: this.currentUser.getBills().keySet()){
+
+            Bill b = this.currentUser.getBills().get(b_key);
+            ret+=b.showBill();
+
+        }
+        return ret;
     }
     
 

@@ -131,12 +131,16 @@ public class Bill implements Serializable {
         sb.append("Type: ").append(type).append("\n");
         sb.append("Items:\n");
         for (Map.Entry<Integer, Item> entry : items.entrySet()) {
-            sb.append("  ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+            int itemId = entry.getKey();
+            Item item = entry.getValue();
+            sb.append("  Item ID: ").append(itemId).append("\n");
+            sb.append("    - Name: ").append(item.getDescription()).append("\n");
+            sb.append("    - Price: ").append(item.getPrice()).append("\n");
+            // Add other item details as needed
         }
         sb.append("Total Cost: ").append(totalCost).append("\n");
         sb.append("Ports Tax: ").append(portsTax).append("\n");
         sb.append("Order: ").append(order.getID()).append("\n");
-        sb.append("Amount: ").append(getAmount()).append("\n");
         return sb.toString();
     }
 

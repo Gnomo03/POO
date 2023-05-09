@@ -30,6 +30,27 @@ public class PremiumCarrier extends Carrier implements Premium{
                 ", Total Earning=" + getTotalEarning() +
                 ", Premium Status }";
     }
+    @Override
+    public String showCarrier() {
+
+        StringBuilder sb = new StringBuilder();
+        int boxWidth = 30;
+
+        // Create the top border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        // Append the student information
+        sb.append("|" + Util.formatCell("Name: " + getName(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Small tax value: " + getTaxSmall(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Medium tax value: " + getTaxMedium(), boxWidth) + "|\n");
+        sb.append("|" + Util.formatCell("Big tax value: " + getTaxBig(), boxWidth) + "|\n");
+        String Iva = String.format("%.2f", getIva());
+        sb.append("|" + Util.formatCell("Iva: " + Iva, boxWidth) + "|\n");
+        // Create the bottom border
+        sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
+
+        return sb.toString();
+    }
 
 
 }
