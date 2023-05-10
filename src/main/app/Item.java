@@ -1,10 +1,10 @@
 package app;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Stack;
-
 
 /**
  * Represents an item with a description, brand, reference, base price,
@@ -21,8 +21,6 @@ public abstract class Item implements Serializable {
     Stack<Integer> previousOwners;
     private int id;
     private int userId;
-
-
 
     private static int currentID = 1;
 
@@ -56,7 +54,7 @@ public abstract class Item implements Serializable {
      * @param premiumStat     whether or not the item has premium status
      */
     public Item(String description, String brand, double basePrice,
-            Carrier carrier, double conditionScore, int userId,Stack<Integer>previousOwners) {
+            Carrier carrier, double conditionScore, int userId, Stack<Integer> previousOwners) {
         this.description = description;
         this.brand = brand;
         this.basePrice = basePrice;
@@ -83,6 +81,7 @@ public abstract class Item implements Serializable {
         this.id = oneItem.getID();
         this.userId = oneItem.getUserId();
     }
+
     /**
      * Returns the id of the user listing the item.
      *
@@ -91,6 +90,7 @@ public abstract class Item implements Serializable {
     public int getUserId() {
         return this.userId;
     }
+
     /**
      * Returns the description of the item.
      *
@@ -99,9 +99,11 @@ public abstract class Item implements Serializable {
     public String getDescription() {
         return this.description;
     }
+
     public int getonePreviousOwners() {
         return this.previousOwners.peek();
     }
+
     /**
      * Returns the brand of the item.
      *
@@ -128,13 +130,14 @@ public abstract class Item implements Serializable {
     public double getBasePrice() {
         return this.basePrice;
     }
+
     /**
      * Returns the price correction of the item.
      *
      * @return the price correction of the item
      */
     public double getPriceCorrection() {
-        return 1-this.conditionScore;
+        return 1 - this.conditionScore;
     }
 
     /**
@@ -180,9 +183,6 @@ public abstract class Item implements Serializable {
         return this.id;
     }
 
-
-
-
     /**
      * Sets the description of the item.
      *
@@ -191,7 +191,8 @@ public abstract class Item implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-     /**
+
+    /**
      * Sets the description of the item.
      *
      * @param description the new description of the item
@@ -253,14 +254,16 @@ public abstract class Item implements Serializable {
     public void setPreviousOwners(Stack<Integer> previousOwners) {
         this.previousOwners = previousOwners;
     }
-    public void addPreviousOwner(int user_id2){
+
+    public void addPreviousOwner(int user_id2) {
         this.previousOwners.push(user_id2);
     }
-    public void returnOwnership(){
+
+    public void returnOwnership() {
         this.userId = this.previousOwners.pop();
-    
+
     }
-    
+
     /**
      * Returns a string representation of the item.
      *

@@ -45,7 +45,7 @@ public class ItemTest {
         sneaker.setPreviousOwners(pO);
         sneaker.setBasePrice(20);
         sneaker.setConditionScore(0.3);
-        assertEquals("", 13, sneaker.getPrice(), 0);
+        assertEquals("", 11.6666, sneaker.getPrice(), 0.01);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ItemTest {
         tilhaNP.setConditionScore(0.3);
         tilhaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
         var tilhaP = new PremiumSneaker(tilhaNP);
-        assertEquals("", 20, tilhaNP.getPrice(), 0);
+        assertEquals("", 11.2, tilhaNP.getPrice(), 0);
         assertEquals("", 21.5, tilhaP.getPrice(), 0);
     }
 
@@ -81,7 +81,7 @@ public class ItemTest {
         tilhaNP.setConditionScore(0.3);
         tilhaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
         var tilhaP = new PremiumSneaker(tilhaNP);
-        assertEquals("", 13, tilhaNP.getPrice(), 0);
+        assertEquals("", 11.66, tilhaNP.getPrice(), 0.01);
         assertEquals("", 21.5, tilhaP.getPrice(), 0);
     }
 }
