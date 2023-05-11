@@ -36,7 +36,7 @@ public class CarrierTest {
                 assertEquals("", 16.66, sneak.getPrice(), 0.1);
                 carrier.updateEarnings(2, bag.getPrice());
                 carrier.updateEarnings(2, sneak.getPrice());
-                assertEquals("", 10.1, carrier.getTotalEarning(), 0.1);
+                assertEquals("", 10.08, carrier.getTotalEarning(), 0.01);
                 carrier.revertProfit(sneak.getPrice(), 2);
                 assertEquals("", 0.875, carrier.getTotalEarning(), 0);
         }

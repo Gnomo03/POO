@@ -54,6 +54,7 @@ public class OrderTest {
                 assertEquals("", 20, sneak.getPrice(), 0);
                 assertEquals("", 30, camisa.getPrice(), 0);
                 assertEquals("", 53.5, order.getItemPrice(), 0);
+                assertEquals("", 1, order.getSatisfactionPrice(), 0);
                 // ----------------------------------------------------
                 assertEquals("", 84.205, order.calculateFinalPrice(), 0.001);
                 assertEquals("", 1, order.getSatisfactionPrice(), 0.01);

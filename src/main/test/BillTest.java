@@ -94,6 +94,7 @@ public class BillTest {
         bill.addItem(bag, 1);
         bill.addItem(camisa, 1);
         bill.calculateTotalCostItems();
+       
         assertEquals("", 33.5, bill.gettotalCost(), 0.02);
         assertEquals("", 56.2, bill.getAmount(), 0.02);
     }
