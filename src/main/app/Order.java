@@ -212,7 +212,9 @@ public class Order implements Serializable, Comparable<Order> {
     }
 
     public String showOrder() {
-        String ret = "";
+
+        String ret = "Items= \n";
+
         for (Item i : this.collection) {
             ret += i.showItem();
         }

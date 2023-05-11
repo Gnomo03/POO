@@ -118,11 +118,11 @@ public class Sneaker extends Item {
      * @return The price of the sneaker.
      */
     public double getPrice() {
-        if (getPreviousOwners().size() == 0) {
+        if (getConditionScore() == 1 && getSize() < 45) {
             return this.getBasePrice();
         }
-        return (this.getBasePrice()
-                - (this.getBasePrice() / (this.getPreviousOwners().size() + 1)) * this.getPriceCorrection());
+        return (this.getBasePrice() * this.getPriceCorrection()
+                - (this.getBasePrice() * this.getPriceCorrection() / (this.getPreviousOwners().size() + 5)));
     } // Seria 1 / this.getConditionScore, caso conditionScore seja pior à medida que
       // aumenta.
 
@@ -195,6 +195,7 @@ public class Sneaker extends Item {
         sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
 
         // Append the student information
+        sb.append("|" + Util.formatCell("Id: " + getID(), boxWidth) + "|\n");
         sb.append("|" + Util.formatCell("Description: " + getDescription(), boxWidth) + "|\n");
         sb.append("|" + Util.formatCell("Brand: " + getBrand(), boxWidth) + "|\n");
         sb.append("|" + Util.formatCell("Price: " + getPrice(), boxWidth) + "|\n");

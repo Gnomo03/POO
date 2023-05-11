@@ -96,6 +96,10 @@ public class Carrier implements Serializable, Comparable<Carrier> {
         return this.taxBig + iva;
     }
 
+    public double getIva() {
+        return iva;
+    }
+
     /**
      * Returns the small tax value of the carrier.
      * 
