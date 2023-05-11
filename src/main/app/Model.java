@@ -1,7 +1,6 @@
 package app;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
@@ -36,24 +35,12 @@ public class Model implements Serializable {
         this.vintageProfit = 0;
     }
 
-    public UserManager getUserManager() {
-        return this.userManager;
-    }
-
     public Map<Integer, User> getUserManagerCopy() {
         return this.userManager.getUserMapCopy();
     }
 
     public String getDate() {
         return this.date.toString();
-    }
-
-    public ItemManager getItemManager() {
-        return itemManager;
-    }
-
-    public CarrierManager getCarrierManager() {
-        return carrierManager;
     }
 
     public List<Carrier> getCarrierManagerList() {
@@ -211,7 +198,7 @@ public class Model implements Serializable {
         return result;
     }
 
-    private void setCurrentDate(LocalDate dateNew) {
+    public void setCurrentDate(LocalDate dateNew) {
         this.date = dateNew;
     }
 
@@ -546,173 +533,6 @@ public class Model implements Serializable {
 
     public void nullCurrentUser() {
         this.currentUser = null;
-    }
-
-    private void parserExecuter(String buffer, int line) throws InvalidCommand, IllegalArgumentException {
-        try {
-            String[] substrings = buffer.split(",");
-            if (substrings[0].equals("SetupDate")) {
-                setCurrentDate(Util.toDate(substrings[1]));
-                return;
-            }
-
-            LocalDate dateParse = Util.toDate(substrings[0]);
-            if (dateParse.isAfter(this.date)) {
-                TimeSkip(dateParse);
-            }
-
-            switch (substrings[1]) {
-
-                case "RegistarUtilizador":
-                    String[] arguments = substrings[2].split(";");
-                    try {
-                        registsUser(arguments[0], arguments[1], arguments[2], Integer.parseInt(arguments[3]),
-                                arguments[4]);
-                    } catch (UserAlreadyExistsException e) {
-                        throw new InvalidCommand(substrings[1], line);
-                    }
-                    break;
-
-                case "Login":
-                    String[] arguments1 = substrings[2].split(";");
-                    try {
-                        loginModel(arguments1[0], arguments1[1]);
-                    } catch (MissedIdException e) {
-                        throw new InvalidCommand(substrings[1], line);
-                    } catch (NullPointerException e) {
-                        throw new InvalidCommand(substrings[1], line);
-                    }
-                    break;
-
-                case "RegistarItem":
-                    String[] arguments2 = substrings[2].split(";");
-                    try {
-                        switch (arguments2[0]) {
-                            case "Bag":
-
-                                if (arguments2[10].equals("No")) {
-                                    double dimension = Double.parseDouble(arguments2[5])
-                                            * Double.parseDouble(arguments2[6]) * Double.parseDouble(arguments2[7]);
-                                    registBag(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
-                                            arguments2[11], Double.parseDouble(arguments2[4]) / 5,
-                                            dimension, arguments2[8], Util.toDate(arguments2[9]), "n");
-                                } else {
-                                    double dimension = Double.parseDouble(arguments2[5])
-                                            * Double.parseDouble(arguments2[6]) * Double.parseDouble(arguments2[7]);
-                                    registBag(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
-                                            arguments2[10], Double.parseDouble(arguments2[4]) / 5,
-                                            dimension, arguments2[8], Util.toDate(arguments2[9]), "y");
-                                }
-                                break;
-                            case "Sneaker":
-
-                                if (arguments2[9].equals("No")) {
-                                    registSneaker(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
-                                            arguments2[10], Double.parseDouble(arguments2[4]) / 5,
-                                            Double.parseDouble(arguments2[5]), Util.toSneakerType(arguments2[6]),
-                                            arguments2[7], Util.toDate(arguments2[8]), "n");
-                                } else {
-                                    registSneaker(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
-                                            arguments2[10], Double.parseDouble(arguments2[4]) / 5,
-                                            Double.parseDouble(arguments2[5]), Util.toSneakerType(arguments2[6]),
-                                            arguments2[7], Util.toDate(arguments2[8]), "y");
-                                }
-
-                                break;
-                            case "Tshirt":
-
-                                registTshirt(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
-                                        arguments2[7], Double.parseDouble(arguments2[4]) / 5,
-                                        Util.toTshirtSize(arguments2[5]), Util.toTshirtPattern(arguments2[6]));
-
-                                break;
-
-                            default:
-                                throw new InvalidCommand(substrings[1], line);
-
-                        }
-                    } catch (NullPointerException e) {
-                        throw new InvalidCommand(substrings[1], line);
-                    }
-                    break;
-                case "RegistarTransportadora":
-                    String[] arguments3 = substrings[2].split(";");
-                    try {
-                        if (arguments3[1].equals("No"))
-                            addCarrier(arguments3[0], Double.parseDouble(arguments3[2]),
-                                    Double.parseDouble(arguments3[3]), Double.parseDouble(arguments3[4]), "n");
-                        else {
-                            addCarrier(arguments3[0], Double.parseDouble(arguments3[2]),
-                                    Double.parseDouble(arguments3[3]), Double.parseDouble(arguments3[4]), "y");
-                        }
-
-                    } catch (CarrierAlreadyExistsException e) {
-
-                        throw new InvalidCommand(substrings[1], line);
-                    }
-
-                    break;
-                case "FazerEncomenda":
-                    try {
-                        makeOrder(Util.toLinkedListParser(substrings[2]));
-                    } catch (InvalidId e) {
-                        throw new InvalidCommand(substrings[1], line);
-                    }
-                    break;
-                case "AlterarTransportadora":
-                    String[] arguments4 = substrings[2].split(";");
-                    try {
-
-                        changeCarrier(arguments4[0], Double.parseDouble(arguments4[1]),
-                                Double.parseDouble(arguments4[2]), Double.parseDouble(arguments4[3]));
-
-                    } catch (NullPointerException e) {
-
-                        throw new InvalidCommand(substrings[1], line);
-                    }
-
-                    break;
-                case "PassarTempo":
-
-                    break;
-
-                default:
-                    throw new InvalidCommand(substrings[1], line);
-
-            }
-        } catch (IllegalArgumentException e) {
-            throw new InvalidCommand("Unidentified", line);
-        } catch (DateTimeParseException e) {
-            throw new InvalidCommand("Unidentified", line);
-        }
-
-    }
-
-    public void Parser(String path)
-            throws FileNotFoundException, IOException, InvalidCommand, IllegalArgumentException {
-        // File path is passed as parameter
-        File file = new File(path);
-
-        // Note: Double backquote is to avoid compiler
-        // interpret words
-        // like \test as \t (ie. as a escape sequence)
-
-        // Creating an object of BufferedReader class
-        BufferedReader br = new BufferedReader(new FileReader(file));
-
-        // Declaring a string variable
-        String st;
-        // Condition holds true till
-        // there is character in a string
-        int line = 1;
-        while ((st = br.readLine()) != null) {
-            if (Util.checkIgnore(st)) {
-                parserExecuter(st, line);
-            }
-            line++;
-        }
-        br.close();
-
     }
 
     public String userBills() {

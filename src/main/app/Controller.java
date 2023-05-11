@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.*;
+import java.time.format.DateTimeParseException;
 
 public class Controller {
 
@@ -26,9 +28,164 @@ public class Controller {
     public void logout() {
         m.nullCurrentUser();
     }
-    public void simulation(String path) throws FileNotFoundException,IOException,InvalidCommand{
-        this.m.Parser(path);
+    private void parserExecuter(String buffer, int line) throws InvalidCommand, IllegalArgumentException {
+        try {
+            String[] substrings = buffer.split(",");
+            if (substrings[0].equals("SetupDate")) {
+                m.setCurrentDate(Util.toDate(substrings[1]));
+                return;
+            }
+
+            LocalDate dateParse = Util.toDate(substrings[0]);
+            if (dateParse.isAfter(Util.toDate(m.getDate()))) {
+                m.TimeSkip(dateParse);
+            }
+
+            switch (substrings[1]) {
+
+                case "RegistarUtilizador":
+                    String[] arguments = substrings[2].split(";");
+                    try {
+                        m.registsUser(arguments[0], arguments[1], arguments[2], Integer.parseInt(arguments[3]),
+                                arguments[4]);
+                    } catch (UserAlreadyExistsException e) {
+                        throw new InvalidCommand(substrings[1], line);
+                    }
+                    break;
+
+                case "Login":
+                    String[] arguments1 = substrings[2].split(";");
+                    try {
+                        m.loginModel(arguments1[0], arguments1[1]);
+                    } catch (MissedIdException e) {
+                        throw new InvalidCommand(substrings[1], line);
+                    } catch (NullPointerException e) {
+                        throw new InvalidCommand(substrings[1], line);
+                    }
+                    break;
+
+                case "RegistarItem":
+                    String[] arguments2 = substrings[2].split(";");
+                    try {
+                        switch (arguments2[0]) {
+                            case "Bag":
+
+                                if (arguments2[10].equals("No")) {
+                                    double dimension = Double.parseDouble(arguments2[5])
+                                            * Double.parseDouble(arguments2[6]) * Double.parseDouble(arguments2[7]);
+                                    m.registBag(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
+                                            arguments2[11], Double.parseDouble(arguments2[4]) / 5,
+                                            dimension, arguments2[8], Util.toDate(arguments2[9]), "n");
+                                } else {
+                                    double dimension = Double.parseDouble(arguments2[5])
+                                            * Double.parseDouble(arguments2[6]) * Double.parseDouble(arguments2[7]);
+                                    m.registBag(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
+                                            arguments2[10], Double.parseDouble(arguments2[4]) / 5,
+                                            dimension, arguments2[8], Util.toDate(arguments2[9]), "y");
+                                }
+                                break;
+                            case "Sneaker":
+
+                                if (arguments2[9].equals("No")) {
+                                    m.registSneaker(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
+                                            arguments2[10], Double.parseDouble(arguments2[4]) / 5,
+                                            Double.parseDouble(arguments2[5]), Util.toSneakerType(arguments2[6]),
+                                            arguments2[7], Util.toDate(arguments2[8]), "n");
+                                } else {
+                                    m.registSneaker(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
+                                            arguments2[10], Double.parseDouble(arguments2[4]) / 5,
+                                            Double.parseDouble(arguments2[5]), Util.toSneakerType(arguments2[6]),
+                                            arguments2[7], Util.toDate(arguments2[8]), "y");
+                                }
+
+                                break;
+                            case "Tshirt":
+
+                                m.registTshirt(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
+                                        arguments2[7], Double.parseDouble(arguments2[4]) / 5,
+                                        Util.toTshirtSize(arguments2[5]), Util.toTshirtPattern(arguments2[6]));
+
+                                break;
+
+                            default:
+                                throw new InvalidCommand(substrings[1], line);
+
+                        }
+                    } catch (NullPointerException e) {
+                        throw new InvalidCommand(substrings[1], line);
+                    }
+                    break;
+                case "RegistarTransportadora":
+                    String[] arguments3 = substrings[2].split(";");
+                    try {
+                        if (arguments3[1].equals("No"))
+                            m.addCarrier(arguments3[0], Double.parseDouble(arguments3[2]),
+                                    Double.parseDouble(arguments3[3]), Double.parseDouble(arguments3[4]), "n");
+                        else {
+                            m.addCarrier(arguments3[0], Double.parseDouble(arguments3[2]),
+                                    Double.parseDouble(arguments3[3]), Double.parseDouble(arguments3[4]), "y");
+                        }
+
+                    } catch (CarrierAlreadyExistsException e) {
+
+                        throw new InvalidCommand(substrings[1], line);
+                    }
+
+                    break;
+                case "FazerEncomenda":
+                    try {
+                        m.makeOrder(Util.toLinkedListParser(substrings[2]));
+                    } catch (InvalidId e) {
+                        throw new InvalidCommand(substrings[1], line);
+                    }
+                    break;
+                case "AlterarTransportadora":
+                    String[] arguments4 = substrings[2].split(";");
+                    try {
+
+                        changeCarrier(arguments4[0], Double.parseDouble(arguments4[1]),
+                                Double.parseDouble(arguments4[2]), Double.parseDouble(arguments4[3]));
+
+                    } catch (NullPointerException e) {
+
+                        throw new InvalidCommand(substrings[1], line);
+                    }
+
+                    break;
+                case "PassarTempo":
+
+                    break;
+
+                default:
+                    throw new InvalidCommand(substrings[1], line);
+
+            }
+        } catch (IllegalArgumentException e) {
+            throw new InvalidCommand("Unidentified", line);
+        } catch (DateTimeParseException e) {
+            throw new InvalidCommand("Unidentified", line);
+        }
+
     }
+
+    public void simulation(String path) throws FileNotFoundException, IOException, InvalidCommand, IllegalArgumentException {
+        File file = new File(path);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+
+        String st;
+        int line = 1;
+        while ((st = br.readLine()) != null) {
+            if (Util.checkIgnore(st)) {
+                parserExecuter(st, line);
+            }
+            line++;
+        }
+        br.close();
+
+    }
+
+    
 
     public void registItemBag(String description, String brand, double basePrice,
             String carrier, double conditionScore, double dimension,
