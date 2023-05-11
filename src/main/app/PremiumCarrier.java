@@ -1,27 +1,31 @@
 package app;
-public class PremiumCarrier extends Carrier implements Premium{
+
+public class PremiumCarrier extends Carrier implements Premium {
 
     public PremiumCarrier(String name, double taxSmall, double taxMedium, double taxBig, int profit) {
 
-        super(name,taxSmall,taxMedium,taxBig,profit);
+        super(name, taxSmall, taxMedium, taxBig, profit);
     }
+
     public PremiumCarrier(PremiumCarrier oneCarrier) {
 
         super(oneCarrier);
     }
+
     public PremiumCarrier() {
 
         super();
     }
+
     @Override
-    public PremiumCarrier clone(){
+    public PremiumCarrier clone() {
 
         return new PremiumCarrier(this);
     }
 
     @Override
     public String toString() {
-        
+
         return "Carrier{" +
                 "name='" + getName() + '\'' +
                 ", Small tax value='" + getTaxSmall() + '\'' +
@@ -30,6 +34,7 @@ public class PremiumCarrier extends Carrier implements Premium{
                 ", Total Earning=" + getTotalEarning() +
                 ", Premium Status }";
     }
+
     @Override
     public String showCarrier() {
 
@@ -51,6 +56,5 @@ public class PremiumCarrier extends Carrier implements Premium{
 
         return sb.toString();
     }
-
 
 }

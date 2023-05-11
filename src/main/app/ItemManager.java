@@ -1,18 +1,18 @@
 package app;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.io.Serializable;
 
-public class ItemManager implements Serializable{
+public class ItemManager implements Serializable {
     private HashMap<Integer, Item> soldItemsMap;
     private HashMap<Integer, Item> listedItemsMap;
-    
 
     public ItemManager() {
         this.soldItemsMap = new HashMap<Integer, Item>();
         this.listedItemsMap = new HashMap<Integer, Item>();
-        
+
     }
 
     public Item getItem(int id) {
@@ -79,21 +79,22 @@ public class ItemManager implements Serializable{
         }
         return null;
     }
+
     public void soldToListed(int id) {
 
         Item i = this.soldItemsMap.get(id);
         this.soldItemsMap.remove(i.getID());
-        this.listedItemsMap.put(i.getID(),i);
+        this.listedItemsMap.put(i.getID(), i);
 
     }
 
     public boolean areAllThisForSale(List<Integer> items_keys) {
 
-        for (int i : items_keys){
+        for (int i : items_keys) {
 
             Item oneItem = this.listedItemsMap.get(i);
             if (oneItem == null)
-                    return false;
+                return false;
         }
 
         return true;
