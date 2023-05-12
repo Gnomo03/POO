@@ -53,6 +53,15 @@ public class Controller {
         m.nullCurrentUser();
     }
 
+    /**
+     * Executes the parsing of a command and performs the corresponding actions
+     * based on the input.
+     *
+     * @param buffer the command to parse
+     * @param line   the line number of the command in the input file
+     * @throws InvalidCommand           if the command is invalid or malformed
+     * @throws IllegalArgumentException if an argument is invalid
+     */
     private void parserExecuter(String buffer, int line) throws InvalidCommand, IllegalArgumentException {
         try {
             String[] substrings = buffer.split(",");
@@ -112,6 +121,7 @@ public class Controller {
                             case "Sneaker":
 
                                 if (arguments2[9].equals("No")) {
+                                    
                                     m.registSneaker(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
                                             arguments2[10], Double.parseDouble(arguments2[4]) / 5,
                                             Double.parseDouble(arguments2[5]), Util.toSneakerType(arguments2[6]),
@@ -188,6 +198,9 @@ public class Controller {
         } catch (IllegalArgumentException e) {
             throw new InvalidCommand("Unidentified", line);
         } catch (DateTimeParseException e) {
+            throw new InvalidCommand("Unidentified", line);
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
             throw new InvalidCommand("Unidentified", line);
         }
 

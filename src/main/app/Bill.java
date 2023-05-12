@@ -21,7 +21,7 @@ public class Bill implements Serializable {
         SOLD
     }
 
-    private final int billNumber;
+    private int billNumber;
     private TypeBill type;
     private Map<Integer, Item> items;
     private double totalCost;

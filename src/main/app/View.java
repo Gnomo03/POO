@@ -543,7 +543,7 @@ public class View {
 
                 switch (option) {
                     case "q":
-                        System.out.print(_cont.toString());
+                        
                         try {
                             _cont.save();
                         } catch (FileNotFoundException e) {
@@ -607,7 +607,7 @@ public class View {
 
                 switch (option) {
                     case "q":
-                        System.out.print(_cont.toString());
+         
                         try {
                             _cont.save();
                         } catch (FileNotFoundException esc) {
@@ -666,7 +666,7 @@ public class View {
                 String option = scanner.nextLine();
                 switch (option) {
                     case "q":
-                        System.out.print(_cont.toString());
+                        
                         try {
                             _cont.save();
                         } catch (FileNotFoundException esc) {
