@@ -526,6 +526,14 @@ public class Order implements Serializable, Comparable<Order> {
         return this.itemPrice + this.satisfactionPrice + tax;
     }
 
+    /**
+     * Compares this order with the specified order based on their dates.
+     *
+     * @param o the order to compare
+     * @return a negative integer if this order is earlier, zero if they have the
+     *         same date,
+     *         or a positive integer if this order is later
+     */
     @Override
     public int compareTo(Order o) {
         LocalDate date1 = this.getDate();
@@ -533,16 +541,36 @@ public class Order implements Serializable, Comparable<Order> {
         return date1.compareTo(date2);
     }
 
+    /**
+     * Custom serialization write method to save the object's state.
+     *
+     * @param out the output stream
+     * @throws IOException if an I/O error occurs
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject(); // default serialization
         out.writeInt(currentID); // save static variable
     }
 
+    /**
+     * Custom serialization read method to restore the object's state.
+     *
+     * @param in the input stream
+     * @throws IOException            if an I/O error occurs
+     * @throws ClassNotFoundException if the class of a serialized object cannot be
+     *                                found
+     */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject(); // default deserialization
         currentID = in.readInt(); // load static variable
     }
 
+    /**
+     * Calculates the total price of items per carrier in the order.
+     *
+     * @param carrier_name the name of the carrier
+     * @return the total price of items for the specified carrier
+     */
     public double getItemPricePerCarrier(String carrier_name) {
 
         double total = 0;
