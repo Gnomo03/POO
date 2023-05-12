@@ -186,6 +186,11 @@ public class Sneaker extends Item {
                 '}';
     }
 
+    /**
+     * Returns a string representation of the Sneaker.
+     *
+     * @return a string representation of the Sneaker
+     */
     public String showItem() {
 
         StringBuilder sb = new StringBuilder();

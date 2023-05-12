@@ -286,13 +286,26 @@ public abstract class Item implements Serializable {
      */
     public abstract Item clone();
 
+    /**
+     * Returns a string representation of the item.
+     *
+     * @return a string representation of the item
+     */
     public abstract String showItem();
 
+    /**
+     * Writes the static variable
+     *
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject(); // default serialization
         out.writeInt(currentID); // save static variable
     }
 
+    /**
+     * Reads the static variable
+     *
+     */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject(); // default deserialization
         currentID = in.readInt(); // load static variable

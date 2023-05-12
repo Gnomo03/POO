@@ -152,6 +152,11 @@ public class Tshirt extends Item {
                 '}';
     }
 
+    /**
+     * Returns a string representation of the Tshirt.
+     *
+     * @return a string representation of the Tshirt
+     */
     public String showItem() {
 
         StringBuilder sb = new StringBuilder();

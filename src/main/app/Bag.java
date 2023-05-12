@@ -148,6 +148,11 @@ public class Bag extends Item {
                 '}';
     }
 
+    /**
+     * Returns a limited string representation of the Bag.
+     *
+     * @return a string representation of the Bag
+     */
     public String showItem() {
 
         StringBuilder sb = new StringBuilder();

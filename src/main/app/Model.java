@@ -35,14 +35,29 @@ public class Model implements Serializable {
         this.vintageProfit = 0;
     }
 
+    /**
+     * Copy of the User Manager
+     * 
+     * @return Map<Integer, User>
+     */
     public Map<Integer, User> getUserManagerCopy() {
         return this.userManager.getUserMapCopy();
     }
 
+    /**
+     * Current Date
+     * 
+     * @return String
+     */
     public String getDate() {
         return this.date.toString();
     }
 
+    /**
+     * Copy of the Carrier Manager
+     * 
+     * @return List<Carrier>
+     */
     public List<Carrier> getCarrierManagerList() {
         return carrierManager.getCarriers();
     }

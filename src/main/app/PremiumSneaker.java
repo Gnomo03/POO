@@ -4,31 +4,68 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Stack;
 
+/**
+ * A class representing a premium sneaker that extends the Sneaker class and
+ * implements the Premium interface.
+ */
 public class PremiumSneaker extends Sneaker implements Premium {
 
+  /**
+   * Constructs a new PremiumSneaker with default values.
+   */
   public PremiumSneaker() {
     super();
   }
 
+  /**
+   * Constructs a new PremiumSneaker with the specified properties.
+   *
+   * @param description    the description of the sneaker
+   * @param brand          the brand of the sneaker
+   * @param basePrice      the base price of the sneaker
+   * @param carrier        the carrier of the sneaker
+   * @param conditionScore the condition score of the sneaker
+   * @param previousOwners the stack of previous owners of the sneaker
+   * @param size           the size of the sneaker
+   * @param type           the type of the sneaker
+   * @param color          the color of the sneaker
+   * @param releaseDate    the release date of the sneaker
+   * @param userId         the ID of the user associated with the sneaker
+   */
   public PremiumSneaker(String description, String brand, double basePrice,
       Carrier carrier, double conditionScore, Stack<Integer> previousOwners, double size,
       SneakerType type, String color, LocalDate releaseDate, int userId) {
     super(description, brand, basePrice,
         carrier, conditionScore, previousOwners, size,
         type, color, releaseDate, userId);
-
   }
 
+  /**
+   * Constructs a new PremiumSneaker from an existing Sneaker object.
+   *
+   * @param oneSneaker the existing Sneaker object to be used
+   */
   public PremiumSneaker(Sneaker oneSneaker) {
     super(oneSneaker);
   }
 
+  /**
+   * Creates a clone of the PremiumSneaker.
+   *
+   * @return a clone of the PremiumSneaker
+   */
   @Override
   public PremiumSneaker clone() {
-
     return new PremiumSneaker(this);
   }
 
+  /**
+   * Calculates and returns the price of the premium sneaker.
+   * The price is based on the base price and the number of years since the
+   * release date.
+   *
+   * @return the price of the premium sneaker
+   */
   @Override
   public double getPrice() {
     LocalDate now = LocalDate.now();
@@ -37,6 +74,11 @@ public class PremiumSneaker extends Sneaker implements Premium {
     return this.getBasePrice() * (1 + (yearDiff * 0.025));
   }
 
+  /**
+   * Returns a string representation of the PremiumSneaker object.
+   *
+   * @return a string representation of the PremiumSneaker
+   */
   @Override
   public String toString() {
     return "Sneaker{" +
@@ -58,6 +100,11 @@ public class PremiumSneaker extends Sneaker implements Premium {
         '}';
   }
 
+  /**
+   * Returns a string representation of the PremiumSneaker object.
+   *
+   * @return a string representation of the PremiumSneaker
+   */
   @Override
   public String showItem() {
 
