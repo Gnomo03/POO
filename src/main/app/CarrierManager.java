@@ -1,4 +1,5 @@
 package app;
+
 import java.util.TreeMap;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -15,7 +16,7 @@ public class CarrierManager implements Serializable {
     public Carrier getCarrier(String carrierName) throws NullPointerException {
         if (this.carrierMap.containsKey(carrierName)) {
             return this.carrierMap.get(carrierName);
-        }  else {
+        } else {
             return null;
         }
     }
@@ -35,13 +36,12 @@ public class CarrierManager implements Serializable {
      *
      * @param carrier
      */
-    public void addCarrier(Carrier carrier) throws CarrierAlreadyExistsException{
+    public void addCarrier(Carrier carrier) throws CarrierAlreadyExistsException {
         if (this.carrierMap.containsKey(carrier.getName()))
             throw new CarrierAlreadyExistsException();
 
         this.carrierMap.put(carrier.getName(), carrier.clone());
     }
-
 
     public List<Carrier> getCarriers() {
         List<Carrier> carriers = new LinkedList<Carrier>();

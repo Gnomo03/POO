@@ -1,4 +1,5 @@
 package app;
-public interface Premium{
-   
+
+public interface Premium {
+
 }

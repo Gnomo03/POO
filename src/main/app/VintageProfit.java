@@ -1,4 +1,5 @@
 package app;
+
 public class VintageProfit implements Querier {
 
     private double vp;

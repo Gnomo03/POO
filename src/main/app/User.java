@@ -1,4 +1,5 @@
 package app;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,7 +11,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-
 /**
  * The User class represents a user of an online marketplace. It stores
  * information
@@ -18,7 +18,7 @@ import java.time.LocalDate;
  * of orders
  * and items associated with the user.
  */
-public class User implements Serializable,Comparable<User> {
+public class User implements Serializable, Comparable<User> {
 
     private int id;
     private String email;
@@ -27,7 +27,7 @@ public class User implements Serializable,Comparable<User> {
     private int nif;
     private String password;
 
-    private Map <Integer, Bill> bills;
+    private Map<Integer, Bill> bills;
     private List<Item> systemItems;
     private List<Item> sellingItems;
     //TODO: To Review
@@ -35,7 +35,7 @@ public class User implements Serializable,Comparable<User> {
 
     //private static int currentID = 0;
 
-   private static int currentID = 1;
+    private static int currentID = 1;
 
     /**
      * Constructs a new user with default values for all fields.
@@ -48,7 +48,7 @@ public class User implements Serializable,Comparable<User> {
         this.address = "n/d";
         this.nif = 0;
         this.password = "n/d";
-        this.bills = new HashMap<Integer,Bill>();
+        this.bills = new HashMap<Integer, Bill>();
         this.systemItems = new ArrayList<Item>();
         this.sellingItems = new ArrayList<Item>();
 
@@ -63,11 +63,12 @@ public class User implements Serializable,Comparable<User> {
      * @param nif            the user's tax identification number
      * @param soldItemsValue the total value of items sold by the user
      * @param password       the user's password
-     * @param bills  the orders acquired by the user
+     * @param bills          the orders acquired by the user
      * @param emittedOrder   the orders emitted by the user
      * @param sellingItems   the items being sold by the user
      */
-    public User(String email, String name, String address, int nif,HashMap <Integer, Bill> bills, String password, ArrayList<Item> systemItems, ArrayList<Item> sellingItems) {
+    public User(String email, String name, String address, int nif, HashMap<Integer, Bill> bills, String password,
+            ArrayList<Item> systemItems, ArrayList<Item> sellingItems) {
 
         this.id = currentID++;
         this.email = email;
@@ -160,6 +161,7 @@ public class User implements Serializable,Comparable<User> {
     public String getAddress() {
         return address;
     }
+
     public List<Order> getEmmitedOrder() {
         List<Order> orders = new LinkedList<Order>();
         for (Integer b_id : this.bills.keySet()) {
@@ -185,13 +187,14 @@ public class User implements Serializable,Comparable<User> {
      *
      * @return the user's soldItemsValue
      */
-    public Map <Integer, Bill> getBills() {
+    public Map<Integer, Bill> getBills() {
         return this.bills;
     }
+
     public void addBills(Bill bill) {
-        
+
         this.bills.put(bill.getbillNumber(), bill);
-        
+
     }
 
     /**
@@ -202,26 +205,28 @@ public class User implements Serializable,Comparable<User> {
     public String getPassword() {
         return password;
     }
+
     public List<Order> getAcquiredOrder() {
 
         List<Order> orders = new LinkedList<Order>();
-            for (Integer b_id : this.bills.keySet()) {
-                Bill b = this.bills.get(b_id);
-                if (!b.isSold()){
-                    orders.add(b.getOrder().clone());
-                }
+        for (Integer b_id : this.bills.keySet()) {
+            Bill b = this.bills.get(b_id);
+            if (!b.isSold()) {
+                orders.add(b.getOrder().clone());
             }
+        }
         return orders;
     }
+
     /**
      * Returns the user's emitted orders.
      *
      * @return the user's emitted orders
      */
-    public List<Item> getSystemItems () {
-        return new ArrayList<>(this.systemItems );
+    public List<Item> getSystemItems() {
+        return new ArrayList<>(this.systemItems);
     }
-    
+
     /**
      * Returns the user's items.
      *
@@ -268,26 +273,26 @@ public class User implements Serializable,Comparable<User> {
      * @param soldItemsValue
      *                       Set the user's total sold items value.
      */
-    
+
     public double soldItemsValueFrame(LocalDate date1, LocalDate date2) {
         double sum = 0;
         for (Integer i : bills.keySet()) {
             Bill b = this.bills.get(i);
-            if ( b.isSold() && b.getOrder().getDate().isAfter(date1) && b.getOrder().getDate().isBefore(date2))
-            sum += b.gettotalCost();
-        }
-        return sum;
-    }
-    public double boughtValueFrame(LocalDate date1, LocalDate date2) {
-        double sum = 0;
-        for (Integer i : bills.keySet()) {
-            Bill b = this.bills.get(i);
-            if ( !b.isSold() && b.getOrder().getDate().isAfter(date1) && b.getOrder().getDate().isBefore(date2))
-            sum += b.getAmount();
+            if (b.isSold() && b.getOrder().getDate().isAfter(date1) && b.getOrder().getDate().isBefore(date2))
+                sum += b.gettotalCost();
         }
         return sum;
     }
 
+    public double boughtValueFrame(LocalDate date1, LocalDate date2) {
+        double sum = 0;
+        for (Integer i : bills.keySet()) {
+            Bill b = this.bills.get(i);
+            if (!b.isSold() && b.getOrder().getDate().isAfter(date1) && b.getOrder().getDate().isBefore(date2))
+                sum += b.getAmount();
+        }
+        return sum;
+    }
 
     /**
      * @param password
@@ -296,13 +301,14 @@ public class User implements Serializable,Comparable<User> {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public void listASystemItem(int item_id) {
 
-      Item i =  this.searchItem(item_id);
-      if ( i == null)
-        throw new NullPointerException();
-      this.systemItems.remove(i);
-      this.sellingItems.add(i);
+        Item i = this.searchItem(item_id);
+        if (i == null)
+            throw new NullPointerException();
+        this.systemItems.remove(i);
+        this.sellingItems.add(i);
 
     }
 
@@ -397,7 +403,8 @@ public class User implements Serializable,Comparable<User> {
     public void addItem(Item oneItem) {
         this.sellingItems.add(oneItem);
     }
-    public void addSystemItem (Item oneItem){
+
+    public void addSystemItem(Item oneItem) {
         this.systemItems.add(oneItem);
     }
 
@@ -408,10 +415,12 @@ public class User implements Serializable,Comparable<User> {
     public void removeItem(Item oneItem) {
         this.sellingItems.remove(oneItem);
         oneItem.addPreviousOwner(this.id);
-     }
-     public void removeSystemItem(Item oneItem) {
+    }
+
+    public void removeSystemItem(Item oneItem) {
         this.systemItems.remove(oneItem);
-     }
+    }
+
     /**
      * Check´s if user has the item
      * 
@@ -424,10 +433,10 @@ public class User implements Serializable,Comparable<User> {
 
     public boolean hasItem(int item_id) {
 
-        for (Item oneItem : this.systemItems){
-                if (oneItem.getID() == item_id){
-                    return true;
-                }
+        for (Item oneItem : this.systemItems) {
+            if (oneItem.getID() == item_id) {
+                return true;
+            }
         }
         return false;
 
@@ -446,23 +455,25 @@ public class User implements Serializable,Comparable<User> {
     }
 
     public double soldItemsValue() {
-        double ret =0;
-        for (int b_key : bills.keySet()){
+        double ret = 0;
+        for (int b_key : bills.keySet()) {
             Bill b = bills.get(b_key);
-            if ( b.isSold())
-                ret+=b.getAmount();
+            if (b.isSold())
+                ret += b.getAmount();
         }
         return ret;
     }
+
     public double spendValue() {
-        double ret =0;
-        for (int b_key : bills.keySet()){
+        double ret = 0;
+        for (int b_key : bills.keySet()) {
             Bill b = bills.get(b_key);
-            if ( !b.isSold())
-                ret+=b.getAmount();
+            if (!b.isSold())
+                ret += b.getAmount();
         }
         return ret;
     }
+
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject(); // default serialization
         out.writeInt(currentID); // save static variable
@@ -475,11 +486,11 @@ public class User implements Serializable,Comparable<User> {
 
     public boolean oneOfHis(List<Integer> items_keys) {
 
-        for (Item i : this.sellingItems){
+        for (Item i : this.sellingItems) {
 
             int id = i.getID();
 
-            for (int buyId:items_keys){
+            for (int buyId : items_keys) {
 
                 if (id == buyId)
                     return true;
@@ -489,6 +500,5 @@ public class User implements Serializable,Comparable<User> {
 
         return false;
     }
-
 
 }
