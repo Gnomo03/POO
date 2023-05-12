@@ -10,11 +10,24 @@ public class View {
     private Controller _cont = null;
     Scanner scanner = null;
 
+    /**
+     * Constructs a View object with the specified controller.
+     *
+     * @param c The controller associated with the view.
+     */
     public View(Controller c) {
         _cont = c;
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * Registers a new user by taking input from the user.
+     * The user is prompted to enter their name, email, password, address, and NIF.
+     * The entered information is then passed to the controller for user
+     * registration.
+     * If the email is already in use, an error message is displayed.
+     * If there is an input mismatch exception, it is caught and not handled.
+     */
     private void registerUser() {
 
         try {
@@ -40,6 +53,17 @@ public class View {
 
     }
 
+    /**
+     * Performs the login process by taking input from the user.
+     * The user is prompted to enter their email and password.
+     * The entered information is then passed to the controller for login
+     * authentication.
+     * If the user's password is incorrect, a corresponding error message is
+     * displayed.
+     * If no user with the provided credentials is found, an error message is
+     * displayed.
+     * Exceptions related to login authentication are caught and handled.
+     */
     public void doLogin() {
         System.out.flush();
         System.out.print("Login page\n");
@@ -62,6 +86,17 @@ public class View {
         }
 
     }
+
+    /**
+     * Performs the registration of an item by taking input from the user.
+     * The user is prompted to choose the type of item they want to register (bag,
+     * t-shirt, sneaker, or store-purchased item).
+     * Based on the user's choice, specific information related to the chosen item
+     * type is requested.
+     * The entered information is then passed to the controller for item
+     * registration.
+     * Exceptions related to item registration are caught and handled.
+     */
 
     private void registerItem() {
         String des, brand, carrier, date, type, color, Tsizes, pattern, material, premium;
@@ -91,7 +126,8 @@ public class View {
                     brand = scanner.nextLine();
                     System.out.print("Enter Bag Base Price:");
                     price = scanner.nextDouble();
-                    System.out.print("Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
+                    System.out.print(
+                            "Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
                     score = scanner.nextDouble();
                     System.out.print("Enter Bag dimension:");
                     System.out.print("Width in cm:");
@@ -126,7 +162,8 @@ public class View {
                     brand = scanner.nextLine();
                     System.out.print("Enter Tshirt Base Price:");
                     price = scanner.nextInt();
-                    System.out.print("Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
+                    System.out.print(
+                            "Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
                     score = scanner.nextInt();
                     scanner.nextLine();
                     System.out.print("Enter Tshirt Size(S, M, L, XL):");
@@ -151,7 +188,8 @@ public class View {
                     brand = scanner.nextLine();
                     System.out.print("Enter Sneaker Base Price:");
                     price = scanner.nextDouble();
-                    System.out.print("Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
+                    System.out.print(
+                            "Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
                     score = scanner.nextDouble();
                     System.out.print("Enter Sneaker Size (Eur):");
                     size = scanner.nextInt();
@@ -200,6 +238,13 @@ public class View {
         }
     }
 
+    /**
+     * Performs the registration of an order by taking input from the user.
+     * The user is prompted to choose the items they want to order by entering their
+     * IDs.
+     * The entered item IDs are then passed to the controller for order placement.
+     * Exceptions related to order registration are caught and handled.
+     */
     private void registerOrder() {
         try {
             System.out.print("Choose the Item you want to register.\n");
@@ -226,6 +271,13 @@ public class View {
 
     }
 
+    /**
+     * Displays a menu to change an existing carrier's information.
+     * Prompts the user to enter the carrier name, commission for small, medium, and
+     * big orders,
+     * and passes the values to the controller to update the carrier.
+     * Handles exceptions related to carrier changes.
+     */
     private void changeCarrierMenu() {
         try {
             System.out.print("Let´s change an existing carrier!\n");
@@ -255,6 +307,13 @@ public class View {
 
     }
 
+    /**
+     * Displays a menu to add a new carrier to the system.
+     * Prompts the user to enter the carrier name, whether it is a premium carrier,
+     * and commission for small, medium, and big orders.
+     * Passes the entered values to the controller to register the new carrier.
+     * Handles exceptions related to carrier registration.
+     */
     private void addCarrierMenu() {
         try {
             System.out.print("Let´s add a carrier to the system!\n");
@@ -285,6 +344,12 @@ public class View {
 
     }
 
+    /**
+     * Displays a menu for executing queries.
+     * Prompts the user to choose a query option and input any required parameters.
+     * Passes the query and parameters to the controller for execution.
+     * Displays the query results.
+     */
     private void querierMenu() {
         try {
             System.out.print("Querier Menu! Type one of the following numbers to execute a query!\n");
@@ -338,6 +403,12 @@ public class View {
         }
     }
 
+    /**
+     * Displays the current orders of the logged-in user.
+     * Prompts the user if they wish to return an order.
+     * Takes the order ID as input and passes it to the controller to process the
+     * return.
+     */
     private void checkOrder() {
         try {
             System.out.print(_cont.getCurrentUser().getName() + "'s current Orders");
@@ -367,6 +438,11 @@ public class View {
         }
     }
 
+    /**
+     * Displays the listed and system items of the logged-in user.
+     * Note: This method assumes the existence of a `getCurrentUser()` method in the
+     * controller.
+     */
     private void checkMyItems() {
         try {
             System.out.print(_cont.getCurrentUser().getName() + "'s Listed Items");
@@ -385,6 +461,12 @@ public class View {
         }
     }
 
+    /**
+     * Displays the current bills of the logged-in user.
+     * Prints the user's name followed by their current bills.
+     * If the logged-in user is an admin, it displays a message indicating that
+     * admins don't have bills.
+     */
     private void checkBills() {
         try {
             System.out.print(_cont.getCurrentUser().getName() + "' current Bills");
@@ -399,6 +481,12 @@ public class View {
         }
     }
 
+    /**
+     * Allows the user to skip time in the simulation by advancing the date to a
+     * future date.
+     * Prompts the user to enter a date in the format yyyy-mm-dd.
+     * Passes the date to the controller to update the simulation date.
+     */
     private void skipTime() {
         try {
             System.out.print("This is the current date of the Simulation:" + _cont.accessDate() + "\n");
@@ -418,6 +506,12 @@ public class View {
         }
     }
 
+    /**
+     * Displays the main menu and handles user input and navigation through the
+     * Vintage system.
+     * The behavior of the menu depends on whether a user is logged in or not, and
+     * whether the logged-in user is an admin or not.
+     */
     public void mainMenu() {
         boolean quit = false;
 
