@@ -13,7 +13,7 @@
 // RegistarTransportadora:Nome,PremiumStatus,TaxaPequena,TaxaMédia,TaxaGrande --> Regista uma Transportadora
 // RegistarItem:Tipo(Bag,Tshirt,Sneaker);*resto dos argumentos
 // FazerEncomenda,Lista;
-// AlterarTransportadora
+// AlterarTransportadora,Nome;Status;TaxaPequena;TaxaMédia;TaxaGrande
 
 
 
