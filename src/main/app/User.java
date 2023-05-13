@@ -158,6 +158,11 @@ public class User implements Serializable, Comparable<User> {
         return address;
     }
 
+    /**
+     * Returns copy of the users Emmited Orders
+     *
+     * @return copy of the users Emmited Orders
+     */
     public List<Order> getEmmitedOrder() {
         List<Order> orders = new LinkedList<Order>();
         for (Integer b_id : this.bills.keySet()) {
@@ -204,6 +209,12 @@ public class User implements Serializable, Comparable<User> {
         return copiedBills;
     }
 
+    /**
+     * Add's a bill to the User
+     * 
+     * @param bill the bill to add
+     */
+
     public void addBills(Bill bill) {
 
         this.bills.put(bill.getbillNumber(), bill.clone());
@@ -217,18 +228,6 @@ public class User implements Serializable, Comparable<User> {
      */
     public String getPassword() {
         return password;
-    }
-
-    public List<Order> getAcquiredOrder() {
-
-        List<Order> orders = new LinkedList<Order>();
-        for (Integer b_id : this.bills.keySet()) {
-            Bill b = this.bills.get(b_id);
-            if (!b.isSold()) {
-                orders.add(b.getOrder().clone());
-            }
-        }
-        return orders;
     }
 
     /**
@@ -297,6 +296,11 @@ public class User implements Serializable, Comparable<User> {
         return sum;
     }
 
+    /**
+     * Returns the amount spend on a time frame
+     * 
+     * @return the amount spent on a time frame
+     */
     public double boughtValueFrame(LocalDate date1, LocalDate date2) {
         double sum = 0;
         for (Integer i : bills.keySet()) {
@@ -315,6 +319,10 @@ public class User implements Serializable, Comparable<User> {
         this.password = password;
     }
 
+    /**
+     * @param item_id
+     *                change item to a system item
+     */
     public void listASystemItem(int item_id) {
 
         Item i = this.searchItem(item_id);
@@ -549,7 +557,8 @@ public class User implements Serializable, Comparable<User> {
      * Checks if the YourClass object contains any of the given item keys.
      *
      * @param items_keys List of item keys to check
-     * @return true if at least one item key is found in the sellingItems list, false otherwise
+     * @return true if at least one item key is found in the sellingItems list,
+     *         false otherwise
      */
     public boolean oneOfHis(List<Integer> items_keys) {
 
