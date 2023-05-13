@@ -36,16 +36,6 @@ public class CarrierManager implements Serializable {
     }
 
     /**
-     * Searches for a carrier with the specified ID.
-     *
-     * @param id the ID of the carrier
-     * @return a copy of the carrier object, or null if not found
-     */
-    public Carrier searchCarrier(String id) {
-        return this.carrierMap.get(id);
-    }
-
-    /**
      * Adds a carrier to the carrier map.
      *
      * @param carrier the carrier object to add
