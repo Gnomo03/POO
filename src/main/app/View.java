@@ -238,6 +238,10 @@ public class View {
             System.out.print("The input was not valid!\n");
             scanner.nextLine();
         }
+        catch (DateTimeParseException e) {
+            System.out.print("invalid Date Format!\n");
+            scanner.nextLine();
+        }
     }
 
     /**
