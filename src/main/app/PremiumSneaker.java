@@ -122,12 +122,11 @@ public class PremiumSneaker extends Sneaker implements Premium {
     sb.append("|" + Util.formatCell("Size: " + getSize(), boxWidth) + "|\n");
     sb.append("|" + Util.formatCell("Color: " + getColor(), boxWidth) + "|\n");
     sb.append("|" + Util.formatCell("Carrier: " + getCarrier().getName(), boxWidth) + "|\n");
-    sb.append("|" + Util.formatCell("This is a Premium Item ", boxWidth) + "|\n");
+    sb.append("|" + Util.formatCell("This is a Premium Item", boxWidth) + "|\n");
 
     // Create the bottom border
     sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
 
     return sb.toString();
-  }
-
+}
 }
