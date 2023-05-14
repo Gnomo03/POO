@@ -52,7 +52,7 @@ public class Model implements Serializable {
         return SystemDate.getDate().toString();
     }
 
-     /**
+    /**
      * Current Date
      * 
      * @return String
@@ -652,7 +652,7 @@ public class Model implements Serializable {
                 }
 
             }
-            
+
             setCurrentDate(getSystemDate().plusDays(1));
         }
         setCurrentDate(newDate);
