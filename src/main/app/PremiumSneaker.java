@@ -68,7 +68,7 @@ public class PremiumSneaker extends Sneaker implements Premium {
    */
   @Override
   public double getPrice() {
-    LocalDate now = LocalDate.now();
+    LocalDate now = SystemDate.getDate();
     int yearDiff = Period.between(this.getReleaseDate(), now).getYears();
 
     return this.getBasePrice() * (1 + (yearDiff * 0.025));
