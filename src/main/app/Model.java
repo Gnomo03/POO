@@ -701,12 +701,13 @@ public class Model implements Serializable {
             }
 
         }
-        if (daysBetween <= 5 && daysBetween >= 16 || !o.isDispatched())
+        if (daysBetween <= 5 && daysBetween >= 16 || !o.isDispatched()) {
             throw new OrderNotReturnable();
-
-        this.orderManager.removeOrder(orderId);
-        this.userManager.deleteBills(o);
-        this.undoItem(o);
+        } else {
+            this.orderManager.removeOrder(orderId);
+            this.userManager.deleteBills(o);
+            this.undoItem(o);
+        }
 
     }
 
