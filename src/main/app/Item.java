@@ -14,7 +14,6 @@ import java.util.Stack;
 public abstract class Item implements Serializable {
     private String description;
     private String brand;
-    private String reference;
     private double basePrice;
     private Carrier carrier;
     private double conditionScore;
@@ -31,7 +30,6 @@ public abstract class Item implements Serializable {
     public Item() {
         this.description = "n/d";
         this.brand = "n/d";
-        this.reference = "n/d";
         this.basePrice = 0;
         this.conditionScore = 0;
         this.previousOwners = new Stack<Integer>();
@@ -44,13 +42,11 @@ public abstract class Item implements Serializable {
      *
      * @param description     the description of the item
      * @param brand           the brand of the item
-     * @param reference       the reference of the item
      * @param basePrice       the base price of the item
-     * @param priceCorrection the price correction of the item
-     * @param carrier         the carrier of the item
      * @param conditionScore  the condition score of the item
+     * @param carrier         the carrier of the item
+     * @param userId          the id of the owner
      * @param previousOwners  the number of previous owners of the item
-     * @param premiumStat     whether or not the item has premium status
      */
     public Item(String description, String brand, double basePrice,
             Carrier carrier, double conditionScore, int userId, Stack<Integer> previousOwners) {
@@ -72,7 +68,6 @@ public abstract class Item implements Serializable {
     public Item(Item oneItem) {
         this.description = oneItem.getDescription();
         this.brand = oneItem.getBrand();
-        this.reference = oneItem.getReference();
         this.basePrice = oneItem.getBasePrice();
         this.carrier = oneItem.getCarrier();
         this.conditionScore = oneItem.getConditionScore();
@@ -112,14 +107,6 @@ public abstract class Item implements Serializable {
         return this.brand;
     }
 
-    /**
-     * Returns the reference of the item.
-     *
-     * @return the reference of the item
-     */
-    public String getReference() {
-        return this.reference;
-    }
 
     /**
      * Returns the base price of the item.
@@ -209,14 +196,6 @@ public abstract class Item implements Serializable {
         this.brand = brand;
     }
 
-    /**
-     * Sets the reference of the item.
-     *
-     * @param reference the new reference of the item
-     */
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
 
     /**
      * Sets the base price of the item.
@@ -285,13 +264,26 @@ public abstract class Item implements Serializable {
      */
     public abstract Item clone();
 
+    /**
+     * Returns a string representation of the item.
+     *
+     * @return a string representation of the item
+     */
     public abstract String showItem();
 
+    /**
+     * Writes the static variable
+     *
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject(); // default serialization
         out.writeInt(currentID); // save static variable
     }
 
+    /**
+     * Reads the static variable
+     *
+     */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject(); // default deserialization
         currentID = in.readInt(); // load static variable

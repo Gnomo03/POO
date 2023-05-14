@@ -10,11 +10,24 @@ public class View {
     private Controller _cont = null;
     Scanner scanner = null;
 
+    /**
+     * Constructs a View object with the specified controller.
+     *
+     * @param c The controller associated with the view.
+     */
     public View(Controller c) {
         _cont = c;
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * Registers a new user by taking input from the user.
+     * The user is prompted to enter their name, email, password, address, and NIF.
+     * The entered information is then passed to the controller for user
+     * registration.
+     * If the email is already in use, an error message is displayed.
+     * If there is an input mismatch exception, it is caught and not handled.
+     */
     private void registerUser() {
 
         try {
@@ -32,14 +45,26 @@ public class View {
             _cont.registerUser(email, name, address, nif, password);
 
         } catch (UserAlreadyExistsException e) {
-            System.out.print("Email already taken!\n");
+            System.out.print("Email already in use.\n");
             scanner.nextLine(); // consume the newline character
         } catch (InputMismatchException e) {
-
+            System.out.print("Wrong Input.\n");
+            scanner.nextLine(); // consume the newline character
         }
 
     }
 
+    /**
+     * Performs the login process by taking input from the user.
+     * The user is prompted to enter their email and password.
+     * The entered information is then passed to the controller for login
+     * authentication.
+     * If the user's password is incorrect, a corresponding error message is
+     * displayed.
+     * If no user with the provided credentials is found, an error message is
+     * displayed.
+     * Exceptions related to login authentication are caught and handled.
+     */
     public void doLogin() {
         System.out.flush();
         System.out.print("Login page\n");
@@ -54,7 +79,7 @@ public class View {
             _cont.login(email_login, password_login);
 
         } catch (MissedIdException e) {
-            System.out.print("Wrong password for the user!\n");
+            System.out.print("This User's password is incorrect.\n");
             scanner.nextLine();
         } catch (NullPointerException e) {
             System.out.print("No user with those credentials!\n");
@@ -63,25 +88,35 @@ public class View {
 
     }
 
+    /**
+     * Performs the registration of an item by taking input from the user.
+     * The user is prompted to choose the type of item they want to register (bag,
+     * t-shirt, sneaker, or store-purchased item).
+     * Based on the user's choice, specific information related to the chosen item
+     * type is requested.
+     * The entered information is then passed to the controller for item
+     * registration.
+     * Exceptions related to item registration are caught and handled.
+     */
+
     private void registerItem() {
         String des, brand, carrier, date, type, color, Tsizes, pattern, material, premium;
         double price, score;
         int size, itemId, width, height, depth, dimension;
-        // User cUser = _cont.getCurrentUser();
-        // int cID = cUser.getId();
+       
         try {
             _cont.getCurrentUser();
 
             // ....
             System.out.flush();
-            System.out.print("Select the Item you wish to register\n");
+            System.out.print("Choose the Item you want to register.\n");
             System.out.print("\n");
             System.out.print("\n");
             System.out.print("\n");
             System.out.print("b: Bag:\n");
             System.out.print("t: Tshirt:\n");
             System.out.print("s: Sneaker:\n");
-            System.out.print("a: In case the item was bought in the store:\n");
+            System.out.print("a: If the item was purchased at the store:\n");
             String item_regist = scanner.nextLine();
             switch (item_regist) {
                 case "b":
@@ -92,7 +127,7 @@ public class View {
                     System.out.print("Enter Bag Base Price:");
                     price = scanner.nextDouble();
                     System.out.print(
-                            "On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
+                            "Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
                     score = scanner.nextDouble();
                     System.out.print("Enter Bag dimension:");
                     System.out.print("Width in cm:");
@@ -109,6 +144,7 @@ public class View {
                     System.out.print("Is this a Premium Item ? ('y' for yes or 'n' for no)");
                     premium = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
+                    System.out.print("\n");
                     System.out.print(_cont.displayCarriers(premium));
                     System.out.print("\n");
                     carrier = scanner.nextLine();
@@ -128,7 +164,7 @@ public class View {
                     System.out.print("Enter Tshirt Base Price:");
                     price = scanner.nextInt();
                     System.out.print(
-                            "On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
+                            "Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
                     score = scanner.nextInt();
                     scanner.nextLine();
                     System.out.print("Enter Tshirt Size(S, M, L, XL):");
@@ -154,7 +190,7 @@ public class View {
                     System.out.print("Enter Sneaker Base Price:");
                     price = scanner.nextDouble();
                     System.out.print(
-                            "On a scale of 1 to 5, how good is the condition of the item. Consider 5 to be still on the container bag:");
+                            "Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
                     score = scanner.nextDouble();
                     System.out.print("Enter Sneaker Size (Eur):");
                     size = scanner.nextInt();
@@ -168,6 +204,7 @@ public class View {
                     System.out.print("Is this a Premium Item ? ('y' for yes or 'n' for no)");
                     premium = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
+                    System.out.print("\n");
                     System.out.print(_cont.displayCarriers(premium));
                     carrier = scanner.nextLine();
                     System.out.print("\n");
@@ -203,15 +240,22 @@ public class View {
         }
     }
 
+    /**
+     * Performs the registration of an order by taking input from the user.
+     * The user is prompted to choose the items they want to order by entering their
+     * IDs.
+     * The entered item IDs are then passed to the controller for order placement.
+     * Exceptions related to order registration are caught and handled.
+     */
     private void registerOrder() {
         try {
-            System.out.print("Select the Item you wish to register\n");
+            System.out.print("Choose the Item you want to register.\n");
             System.out.print("\n");
             System.out.print("\n");
             System.out.print("\n");
             System.out.print(this._cont.showListedItems());
             System.out.print("\n");
-            System.out.print("Type the id´s of the item you wish to order seperated by a ','\n");
+            System.out.print("Type the ID's of the items you wish to order separated by a comma\n");
             System.out.print("\n");
             System.out.print("\n");
             String items_list = scanner.nextLine();
@@ -229,22 +273,29 @@ public class View {
 
     }
 
+    /**
+     * Displays a menu to change an existing carrier's information.
+     * Prompts the user to enter the carrier name, commission for small, medium, and
+     * big orders,
+     * and passes the values to the controller to update the carrier.
+     * Handles exceptions related to carrier changes.
+     */
     private void changeCarrierMenu() {
         try {
-            System.out.print("Let´s change a carrier to the system!\n");
+            System.out.print("Let´s change an existing carrier!\n");
             System.out.print("\n");
             System.out.print("\n");
             System.out.print(_cont.showAllCarriers());
             System.out.print("Insert the carrier Name: ");
             String name = scanner.nextLine();
             System.out.print("\n");
-            System.out.print("Insert the carrier comission for small orders:");
+            System.out.print("Insert the carrier commission for small orders:");
             double taxSmall = scanner.nextDouble();
             System.out.print("\n");
-            System.out.print("Insert the carrier comission for medium orders:");
+            System.out.print("Insert the carrier commission for medium orders:");
             double taxMedium = scanner.nextDouble();
             System.out.print("\n");
-            System.out.print("Insert the carrier comission for big orders:");
+            System.out.print("Insert the carrier commission for big orders:");
             double taxBig = scanner.nextDouble();
 
             _cont.changeCarrier(name, taxSmall, taxMedium, taxBig);
@@ -258,6 +309,13 @@ public class View {
 
     }
 
+    /**
+     * Displays a menu to add a new carrier to the system.
+     * Prompts the user to enter the carrier name, whether it is a premium carrier,
+     * and commission for small, medium, and big orders.
+     * Passes the entered values to the controller to register the new carrier.
+     * Handles exceptions related to carrier registration.
+     */
     private void addCarrierMenu() {
         try {
             System.out.print("Let´s add a carrier to the system!\n");
@@ -268,13 +326,13 @@ public class View {
             System.out.print("Is it a premium Carrier ? ('y' for yes): ");
             String premium = scanner.nextLine();
             System.out.print("\n");
-            System.out.print("Insert the carrier comission for small orders:");
+            System.out.print("Insert the carrier commission for small orders:");
             double taxSmall = scanner.nextDouble();
             System.out.print("\n");
-            System.out.print("Insert the carrier comission for medium orders:");
+            System.out.print("Insert the carrier commission for medium orders:");
             double taxMedium = scanner.nextDouble();
             System.out.print("\n");
-            System.out.print("Insert the carrier comission for big orders:");
+            System.out.print("Insert the carrier commission for big orders:");
             double taxBig = scanner.nextDouble();
             _cont.registCarrier(name, taxSmall, taxMedium, taxBig, premium);
 
@@ -288,30 +346,36 @@ public class View {
 
     }
 
+    /**
+     * Displays a menu for executing queries.
+     * Prompts the user to choose a query option and input any required parameters.
+     * Passes the query and parameters to the controller for execution.
+     * Displays the query results.
+     */
     private void querierMenu() {
         try {
             System.out.print("Querier Menu! Type one of the following numbers to execute a query!\n");
             System.out.print("\n");
             System.out.print("\n");
-            System.out.print("1.Check the User that made the most amount of Money all time!\n");
-            System.out.print("2.Check the User that made the most amount of Money in a time frame!\n");
-            System.out.print("3.Check the Carrier that made the most amount of Money!\n");
-            System.out.print("4.Check User Emitted Orders!\n");
-            System.out.print("5.Check the list of Sellers in a time frame!\n");
-            System.out.print("6.Check the list of Spenders in a time frame!\n");
-            System.out.print("7.Check Vintage Profit!\n");
+            System.out.print("1.Check which user has made the highest amount of money of all time\n");
+            System.out.print("2.Check which user made the highest amount of money within a specific time frame\n");
+            System.out.print("3.Check which carrier has made the highest amount of money\n");
+            System.out.print("4.Check a User's Emitted Orders\n");
+            System.out.print("5.Check the list of Sellers in a time frame\n");
+            System.out.print("6.Check the list of Spenders in a time frame\n");
+            System.out.print("7.Check Vintage's Profit\n");
             int query = scanner.nextInt();
             scanner.nextLine();
             int id = 0;
             String date1, date2;
             date1 = date2 = "1999-01-01";
             if (query == 4) {
-                System.out.print("User you which to see id: ");
+                System.out.print("Insert User's ID: ");
                 id = scanner.nextInt();
                 scanner.nextLine();
             }
             if (query == 2) {
-                System.out.print("Choose the Time frame\n");
+                System.out.print("Choose a Time Frame\n");
                 System.out.print("First date:");
                 date1 = scanner.nextLine();
                 System.out.print("\n");
@@ -319,7 +383,7 @@ public class View {
                 date2 = scanner.nextLine();
             }
             if (query == 5) {
-                System.out.print("Choose the Time frame\n");
+                System.out.print("Choose a Time Frame\n");
                 System.out.print("First date:");
                 date1 = scanner.nextLine();
                 System.out.print("\n");
@@ -327,7 +391,7 @@ public class View {
                 date2 = scanner.nextLine();
             }
             if (query == 6) {
-                System.out.print("Choose the Time frame\n");
+                System.out.print("Choose a Time Frame\n");
                 System.out.print("First date:");
                 date1 = scanner.nextLine();
                 System.out.print("\n");
@@ -341,6 +405,12 @@ public class View {
         }
     }
 
+    /**
+     * Displays the current orders of the logged-in user.
+     * Prompts the user if they wish to return an order.
+     * Takes the order ID as input and passes it to the controller to process the
+     * return.
+     */
     private void checkOrder() {
         try {
             System.out.print(_cont.getCurrentUser().getName() + "'s current Orders");
@@ -349,11 +419,11 @@ public class View {
             System.out.print(this._cont.getCurrentUserAllOrders());
             System.out.print("\n");
             System.out.print("\n");
-            System.out.print("Do you wich to return an order ? ('y' for yes or 'n' for no)\n");
+            System.out.print("Do you wish to return an order? (y for yes)\n");
             String option = scanner.nextLine();
             if (option.equals("y")) {
 
-                System.out.print("Type the id of the order:");
+                System.out.print("Enter the Order's ID:");
                 int orderId = scanner.nextInt();
                 _cont.returnOrderId(orderId);
                 scanner.nextLine();
@@ -365,11 +435,16 @@ public class View {
             System.out.print("This Order cannot be returned!\n");
             scanner.nextLine();
         } catch (InputMismatchException e) {
-            System.out.print("Type the id of the order!\n");
+            System.out.print("Enter the Order's ID!\n");
             scanner.nextLine();
         }
     }
 
+    /**
+     * Displays the listed and system items of the logged-in user.
+     * Note: This method assumes the existence of a `getCurrentUser()` method in the
+     * controller.
+     */
     private void checkMyItems() {
         try {
             System.out.print(_cont.getCurrentUser().getName() + "'s Listed Items");
@@ -384,10 +459,16 @@ public class View {
             System.out.print("\n");
             scanner.nextLine();
         } catch (UserIsAdminException e) {
-            System.out.println("Admin dont have items!\n");
+            System.out.println("Admin doesn't have items\n");
         }
     }
 
+    /**
+     * Displays the current bills of the logged-in user.
+     * Prints the user's name followed by their current bills.
+     * If the logged-in user is an admin, it displays a message indicating that
+     * admins don't have bills.
+     */
     private void checkBills() {
         try {
             System.out.print(_cont.getCurrentUser().getName() + "' current Bills");
@@ -398,10 +479,16 @@ public class View {
             System.out.print("\n");
             scanner.nextLine();
         } catch (UserIsAdminException e) {
-            System.out.println("Admin dont have bills!\n");
+            System.out.println("Admin doesn't have bills!\n");
         }
     }
 
+    /**
+     * Allows the user to skip time in the simulation by advancing the date to a
+     * future date.
+     * Prompts the user to enter a date in the format yyyy-mm-dd.
+     * Passes the date to the controller to update the simulation date.
+     */
     private void skipTime() {
         try {
             System.out.print("This is the current date of the Simulation:" + _cont.accessDate() + "\n");
@@ -421,6 +508,12 @@ public class View {
         }
     }
 
+    /**
+     * Displays the main menu and handles user input and navigation through the
+     * Vintage system.
+     * The behavior of the menu depends on whether a user is logged in or not, and
+     * whether the logged-in user is an admin or not.
+     */
     public void mainMenu() {
         boolean quit = false;
 
@@ -452,13 +545,13 @@ public class View {
 
                 switch (option) {
                     case "q":
-                        System.out.print(_cont.toString());
+                        
                         try {
                             _cont.save();
                         } catch (FileNotFoundException e) {
-                            System.out.println("Save File not Found!");
+                            System.out.println("Save File not Found");
                         } catch (IOException e) {
-                            System.out.println("Error Acessing File!");
+                            System.out.println("Error Accessing File");
                         }
 
                         quit = true;
@@ -516,7 +609,7 @@ public class View {
 
                 switch (option) {
                     case "q":
-                        System.out.print(_cont.toString());
+         
                         try {
                             _cont.save();
                         } catch (FileNotFoundException esc) {
@@ -575,7 +668,7 @@ public class View {
                 String option = scanner.nextLine();
                 switch (option) {
                     case "q":
-                        System.out.print(_cont.toString());
+                        
                         try {
                             _cont.save();
                         } catch (FileNotFoundException esc) {

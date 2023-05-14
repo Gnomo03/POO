@@ -206,6 +206,11 @@ public class Carrier implements Serializable, Comparable<Carrier> {
                 '}';
     }
 
+    /**
+     * Returns a string representation of the Carrier.
+     *
+     * @return a string representation of the Carrier
+     */
     public String showCarrier() {
 
         StringBuilder sb = new StringBuilder();
@@ -252,6 +257,11 @@ public class Carrier implements Serializable, Comparable<Carrier> {
         return new Carrier(this);
     }
 
+    /**
+     * This method add's to the earnigs of the Carrier
+     * 
+     * @param number of items and the price of the items
+     */
     public void updateEarnings(int total_items, double final_price) {
 
         if (total_items == 1)
@@ -263,6 +273,11 @@ public class Carrier implements Serializable, Comparable<Carrier> {
 
     }
 
+    /**
+     * This method removes the earnigs of the Carrier
+     * 
+     * @param number of items and the price of the items
+     */
     public void revertProfit(double final_price, int total_items) {
 
         if (total_items == 1)

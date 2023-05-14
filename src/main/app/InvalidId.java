@@ -1,11 +1,17 @@
 package app;
-public class InvalidId extends Exception{
-    // to be defined em casos onde aquele id não é suposto dar coiso e tal
 
-    public InvalidId(){
+/**
+ * The InvalidId class is an exception that is thrown when an invalid ID
+ * is encountered.
+ * It indicates that the ID provided is not valid or does not exist.
+ */
+public class InvalidId extends Exception {
 
+    /**
+     * Constructs a new InvalidId object with no detail message.
+     */
+    public InvalidId() {
         super();
-
     }
 
 }

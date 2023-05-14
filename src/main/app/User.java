@@ -120,7 +120,7 @@ public class User implements Serializable, Comparable<User> {
         this.address = oneUser.getAddress();
         this.nif = oneUser.getNif();
         this.password = oneUser.getPassword();
-        this.bills = oneUser.getBills();
+        this.bills = oneUser.getBillsCopy();
         this.systemItems = oneUser.getSystemItems();
         this.sellingItems = oneUser.getSellingItems();
 
@@ -162,6 +162,11 @@ public class User implements Serializable, Comparable<User> {
         return address;
     }
 
+    /**
+     * Returns copy of the users Emmited Orders
+     *
+     * @return copy of the users Emmited Orders
+     */
     public List<Order> getEmmitedOrder() {
         List<Order> orders = new LinkedList<Order>();
         for (Integer b_id : this.bills.keySet()) {
@@ -183,17 +188,40 @@ public class User implements Serializable, Comparable<User> {
     }
 
     /**
-     * Returns the user's total sold item's value.
+     * Returns the user's bills
      *
-     * @return the user's soldItemsValue
+     * @return the user's bills
      */
     public Map<Integer, Bill> getBills() {
         return this.bills;
     }
 
+    /**
+     * Returns the copy of user's bills
+     *
+     * @return the copy of the user's bills
+     */
+    public Map<Integer, Bill> getBillsCopy() {
+        Map<Integer, Bill> copiedBills = new HashMap<>();
+
+        for (Map.Entry<Integer, Bill> entry : this.bills.entrySet()) {
+
+            copiedBills.put(entry.getKey(), (Bill) entry.getValue().clone());
+
+        }
+
+        return copiedBills;
+    }
+
+    /**
+     * Add's a bill to the User
+     * 
+     * @param bill the bill to add
+     */
+
     public void addBills(Bill bill) {
 
-        this.bills.put(bill.getbillNumber(), bill);
+        this.bills.put(bill.getbillNumber(), bill.clone());
 
     }
 
@@ -206,31 +234,19 @@ public class User implements Serializable, Comparable<User> {
         return password;
     }
 
-    public List<Order> getAcquiredOrder() {
-
-        List<Order> orders = new LinkedList<Order>();
-        for (Integer b_id : this.bills.keySet()) {
-            Bill b = this.bills.get(b_id);
-            if (!b.isSold()) {
-                orders.add(b.getOrder().clone());
-            }
-        }
-        return orders;
-    }
-
     /**
-     * Returns the user's emitted orders.
+     * Returns the user's system items
      *
-     * @return the user's emitted orders
+     * @return the user's system items
      */
     public List<Item> getSystemItems() {
         return new ArrayList<>(this.systemItems);
     }
 
     /**
-     * Returns the user's items.
+     * Returns the user's listed items.
      *
-     * @return the user's items
+     * @return the user's listed items
      */
     public List<Item> getSellingItems() {
 
@@ -284,6 +300,11 @@ public class User implements Serializable, Comparable<User> {
         return sum;
     }
 
+    /**
+     * Returns the amount spend on a time frame
+     * 
+     * @return the amount spent on a time frame
+     */
     public double boughtValueFrame(LocalDate date1, LocalDate date2) {
         double sum = 0;
         for (Integer i : bills.keySet()) {
@@ -302,6 +323,10 @@ public class User implements Serializable, Comparable<User> {
         this.password = password;
     }
 
+    /**
+     * @param item_id
+     *                change item to a system item
+     */
     public void listASystemItem(int item_id) {
 
         Item i = this.searchItem(item_id);
@@ -398,24 +423,33 @@ public class User implements Serializable, Comparable<User> {
 
     /**
      * @param oneItem
-     *                Add an item to the user
+     *                Add a listed item to the user
      */
     public void addItem(Item oneItem) {
         this.sellingItems.add(oneItem);
     }
 
+    /**
+     * @param oneItem
+     *                Add a system item to the user
+     */
     public void addSystemItem(Item oneItem) {
         this.systemItems.add(oneItem);
     }
 
     /**
      * @param oneItem
-     *                Removes an item order to the user
+     *                Removes an item from the user
      */
     public void removeItem(Item oneItem) {
         this.sellingItems.remove(oneItem);
         oneItem.addPreviousOwner(this.id);
     }
+
+    /**
+     * @param oneItem
+     *                Removes a system item from the user
+     */
 
     public void removeSystemItem(Item oneItem) {
         this.systemItems.remove(oneItem);
@@ -431,6 +465,12 @@ public class User implements Serializable, Comparable<User> {
         return this.sellingItems.contains(oneItem);
     }
 
+    /**
+     * Check´s if user has the item
+     * 
+     * @param oneItem
+     * @return returns true if it has the item
+     */
     public boolean hasItem(int item_id) {
 
         for (Item oneItem : this.systemItems) {
@@ -442,6 +482,12 @@ public class User implements Serializable, Comparable<User> {
 
     }
 
+    /**
+     * Looks for the Item
+     * 
+     * @param item_id id of the item
+     * @return returns the Item or Null
+     */
     public Item searchItem(int item_id) throws NullPointerException {
         for (Item i : this.sellingItems) {
             if (i.getID() == item_id)
@@ -454,6 +500,11 @@ public class User implements Serializable, Comparable<User> {
         return null;
     }
 
+    /**
+     * Calculates the amount earned
+     * 
+     * @return returns the amount earned
+     */
     public double soldItemsValue() {
         double ret = 0;
         for (int b_key : bills.keySet()) {
@@ -464,6 +515,11 @@ public class User implements Serializable, Comparable<User> {
         return ret;
     }
 
+    /**
+     * Calculates the amount spend
+     * 
+     * @return returns the amount spend
+     */
     public double spendValue() {
         double ret = 0;
         for (int b_key : bills.keySet()) {
@@ -474,16 +530,40 @@ public class User implements Serializable, Comparable<User> {
         return ret;
     }
 
+    /**
+     * Custom serialization method to write the object's state to the
+     * ObjectOutputStream.
+     *
+     * @param out ObjectOutputStream to write the object's state to
+     * @throws IOException If an I/O error occurs while writing the object
+     */
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject(); // default serialization
         out.writeInt(currentID); // save static variable
     }
 
+    /**
+     * Custom deserialization method to read the object's state from the
+     * ObjectInputStream.
+     *
+     * @param in ObjectInputStream to read the object's state from
+     * @throws IOException            If an I/O error occurs while reading the
+     *                                object
+     * @throws ClassNotFoundException If the class of a serialized object could not
+     *                                be found
+     */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject(); // default deserialization
         currentID = in.readInt(); // load static variable
     }
 
+    /**
+     * Checks if the YourClass object contains any of the given item keys.
+     *
+     * @param items_keys List of item keys to check
+     * @return true if at least one item key is found in the sellingItems list,
+     *         false otherwise
+     */
     public boolean oneOfHis(List<Integer> items_keys) {
 
         for (Item i : this.sellingItems) {

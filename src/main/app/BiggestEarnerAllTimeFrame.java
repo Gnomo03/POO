@@ -3,12 +3,24 @@ package app;
 import java.time.LocalDate;
 import java.util.Map;
 
+/**
+ * Query that returns the User that has profited the most within a specified
+ * time frame.
+ * It implements the Querier interface.
+ */
 public class BiggestEarnerAllTimeFrame implements Querier {
 
     private Map<Integer, User> hm;
     private LocalDate date1;
     private LocalDate date2;
 
+    /**
+     * Constructs a BiggestEarnerAllTimeFrame object.
+     *
+     * @param mapcopy a copy of the user map
+     * @param date1   the start date of the time frame
+     * @param date2   the end date of the time frame
+     */
     public BiggestEarnerAllTimeFrame(Map<Integer, User> mapcopy, LocalDate date1, LocalDate date2) {
 
         hm = mapcopy;
@@ -20,9 +32,15 @@ public class BiggestEarnerAllTimeFrame implements Querier {
             this.date1 = date2;
             this.date2 = date1;
         }
-
     }
 
+    /**
+     * Executes the query to find the user that has profited the most within the
+     * specified time frame.
+     *
+     * @return the user object who has profited the most
+     * @throws NullPointerException if the user map is empty
+     */
     @Override
     public User execute() throws NullPointerException {
 
@@ -45,5 +63,4 @@ public class BiggestEarnerAllTimeFrame implements Querier {
         }
         return biggestEarner;
     }
-
 }
