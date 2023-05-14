@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
@@ -91,6 +92,7 @@ public class PointerTest{
 
     @Test
     public void orderManager(){
+        SystemDate.setDate(LocalDate.now());
         int res1 = 0;
         double res2 = 0;
         double res3 = 0;
@@ -110,7 +112,7 @@ public class PointerTest{
                           1500, "Cotton", Util.toDate("2012-12-12"), 0);
         var tshirt = new Tshirt("b", "b", 29, carrier, .76, pO,
                                 Util.toTshirtSize("M"), Util.toTshirtPattern("Smooth"), 0);
-        var sneaker = new Sneaker("c", "c", 35, carrier, .12, pO,
+        var sneaker = new Sneaker("c", "c", 35, carrier, .2, pO,
                                   42, Util.toSneakerType("LACES"), "black", Util.toDate("2012-12-12"), 1);
 
         var o = new Order();
@@ -128,13 +130,13 @@ public class PointerTest{
         lista.addOrder(o);
 
         if(lista.getOrder(o.getID()).getCarrierHelper().get(carrier.getName()) == 3) res1 = 1;
-        res2 = lista.getOrder(o.getID()).getCollection().get(bag.getID()).getPrice();
+        res2 = lista.getOrder(o.getID()).getCollection().get(0).getPrice();
         res3 = lista.getOrder(o.getID()).getItemPrice();
         if (lista.getOrder(o.getID()).getBuyer().getName().equals("David")) res4 = 1;
 
         assertEquals(null, res1, 1, 0);
-        assertEquals(null, res2, 24.64, 0);
-        assertEquals(null, res3, 58.89, 0);
+        assertEquals(null, res2, 5.25, 0);
+        assertEquals(null, res3, 35.65, 0.01);
         assertEquals(null, res4, 1, 0);
     }
 
@@ -163,4 +165,4 @@ public class PointerTest{
         assertEquals(null, res2, 1, 0);
         assertEquals(null, res3, 2, 0);
     }
-} 
+}

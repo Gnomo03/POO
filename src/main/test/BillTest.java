@@ -94,12 +94,14 @@ public class BillTest {
         bill.addItem(bag, 1);
         bill.addItem(camisa, 1);
         bill.calculateTotalCostItems();
+       
         assertEquals("", 33.5, bill.gettotalCost(), 0.02);
         assertEquals("", 56.2, bill.getAmount(), 0.02);
     }
 
     @Test
     public void BigBillBought() {
+        SystemDate.setDate(LocalDate.now());
         var hm = new HashMap<Integer, Item>();
         var order = new Order();
         var t1 = new Carrier();
@@ -230,6 +232,7 @@ public class BillTest {
 
     @Test
     public void getAmountBigSold() {
+        SystemDate.setDate(LocalDate.now());
         var hm = new HashMap<Integer, Item>();
         var order = new Order();
         var t1 = new Carrier();
