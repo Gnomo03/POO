@@ -708,7 +708,7 @@ public class Model implements Serializable {
 
         }
 
-        if (daysBetween <= 5 || daysBetween >= 16) {
+        if (daysBetween >= 16) {
             throw new OrderNotReturnable();
         }
 
