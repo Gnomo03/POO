@@ -136,6 +136,7 @@ public class View {
                     height = scanner.nextInt();
                     System.out.print("Depth in cm:");
                     depth = scanner.nextInt();
+                    material = scanner.nextLine();
                     dimension = width * height * depth;
                     System.out.print("Enter Bag material:");
                     material = scanner.nextLine();
