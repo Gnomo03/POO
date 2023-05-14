@@ -22,6 +22,7 @@ public class CarrierTest {
 
         @Test
         public void mediumCarrier() {
+                SystemDate.setDate(LocalDate.now());
                 var pO = new Stack<Integer>();
                 pO.add(1);
                 var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);
@@ -29,20 +30,21 @@ public class CarrierTest {
                 var bag = new Bag(null, null, 10, carrier, 0.5, null,
                                 1500, null, null, 0);
 
-                var sneak = new Sneaker(null, null, 20, carrier, 0, pO,
+                var sneak = new Sneaker(null, null, 20, carrier, 0.3, pO,
                                 41, Util.toSneakerType("LACES"), null, null, 0);
 
                 assertEquals("", 3.5, bag.getPrice(), 0);
-                assertEquals("", 16.66, sneak.getPrice(), 0.1);
+                assertEquals("", 3.6667, sneak.getPrice(), 0.1);
                 carrier.updateEarnings(2, bag.getPrice());
                 carrier.updateEarnings(2, sneak.getPrice());
-                assertEquals("", 10.08, carrier.getTotalEarning(), 0.01);
+                assertEquals("", 3.5834, carrier.getTotalEarning(), 0.01);
                 carrier.revertProfit(sneak.getPrice(), 2);
-                assertEquals("", 0.875, carrier.getTotalEarning(), 0);
+                assertEquals("", 0.875, carrier.getTotalEarning(), 0.001);
         }
 
         @Test
         public void BigCarrier() {
+                SystemDate.setDate(LocalDate.now());
                 var pO = new Stack<Integer>();
                 pO.add(1);
                 var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);

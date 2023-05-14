@@ -101,6 +101,7 @@ public class BillTest {
 
     @Test
     public void BigBillBought() {
+        SystemDate.setDate(LocalDate.now());
         var hm = new HashMap<Integer, Item>();
         var order = new Order();
         var t1 = new Carrier();
@@ -231,6 +232,7 @@ public class BillTest {
 
     @Test
     public void getAmountBigSold() {
+        SystemDate.setDate(LocalDate.now());
         var hm = new HashMap<Integer, Item>();
         var order = new Order();
         var t1 = new Carrier();

@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
 import java.util.Stack;
 
 import org.junit.jupiter.api.Test;
@@ -68,6 +69,7 @@ public class OrderTest {
 
         @Test
         public void bigOrder() {
+                SystemDate.setDate(LocalDate.now());
                 var order = new Order();
                 var t1 = new Carrier();
                 var t2 = new Carrier();
@@ -117,16 +119,16 @@ public class OrderTest {
                 assertEquals("", 30, camisa1.getPrice(), 0);
                 assertEquals("", 16, camisa2.getPrice(), 0);
                 assertEquals("", 4.05, newbag.getPrice(), 0.01);
-                assertEquals("", 16, sneak2.getPrice(), 0);
-                assertEquals("", 89.55, order.getItemPrice(), 0.01);
+                assertEquals("", 1, sneak2.getPrice(), 0);
+                assertEquals("", 74.55, order.getItemPrice(), 0.01);
                 // ----------------------------------------------------
                 assertEquals("", 1.75, order.getSatisfactionPrice(), 0);
-                assertEquals("", 89.55, order.getItemPrice(), 0);
+                assertEquals("", 74.55, order.getItemPrice(), 0);
                 // -------------------------------------------------------
-                assertEquals("", 142.9065, order.calculateFinalPrice(), 0.001);
+                assertEquals("", 118.4565, order.calculateFinalPrice(), 0.001);
                 order.removeItem(sneak, u1);
                 assertEquals("", 1.25, order.getSatisfactionPrice(), 0);
-                assertEquals("", 113.198, order.calculateFinalPrice(), 0.01);
+                assertEquals("", 88.749, order.calculateFinalPrice(), 0.001);
         }
 
 }

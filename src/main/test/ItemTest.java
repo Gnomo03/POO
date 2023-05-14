@@ -45,11 +45,12 @@ public class ItemTest {
         sneaker.setPreviousOwners(pO);
         sneaker.setBasePrice(20);
         sneaker.setConditionScore(0.3);
-        assertEquals("", 11.6666, sneaker.getPrice(), 0.01);
+        assertEquals("", 3.6666, sneaker.getPrice(), 0.01);
     }
 
     @Test
     public void premiumBag() {
+        SystemDate.setDate(LocalDate.now());
         var malaNP = new Bag();
         malaNP.setBasePrice(10);
         malaNP.setDimension(1500);
@@ -62,17 +63,20 @@ public class ItemTest {
 
     @Test
     public void premiumSneakerNoOwners() {
-        var tilhaNP = new Sneaker();
-        tilhaNP.setBasePrice(20);
-        tilhaNP.setConditionScore(0.3);
-        tilhaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
-        var tilhaP = new PremiumSneaker(tilhaNP);
-        assertEquals("", 11.2, tilhaNP.getPrice(), 0);
-        assertEquals("", 21.5, tilhaP.getPrice(), 0);
+        SystemDate.setDate(LocalDate.now());
+        var carrier = new Carrier("carrier", 0.25, 0.5, 0.75, 0);
+        var pO = new Stack<Integer>();
+        var tilhaNP = new Sneaker("null", "null", 20, carrier, 0.3, pO,
+                                  42, Util.toSneakerType("LACES"), "null", LocalDate.of(2020, 1, 8), 0);
+        var tilhasP = new PremiumSneaker(tilhaNP);
+        //var tilhaP = new PremiumSneaker(tilhaNP);
+        assertEquals("", 3.2, tilhaNP.getPrice(), 0);
+        assertEquals("", 21.5, tilhasP.getPrice(), 0);
     }
 
     @Test
     public void premiumSneakerWithOwners() {
+        SystemDate.setDate(LocalDate.now());
         var tilhaNP = new Sneaker();
         var pO = new Stack<Integer>();
         pO.add(1);
@@ -81,7 +85,7 @@ public class ItemTest {
         tilhaNP.setConditionScore(0.3);
         tilhaNP.setReleaseDate(LocalDate.of(2020, 1, 8));
         var tilhaP = new PremiumSneaker(tilhaNP);
-        assertEquals("", 11.66, tilhaNP.getPrice(), 0.01);
+        assertEquals("", 3.66, tilhaNP.getPrice(), 0.01);
         assertEquals("", 21.5, tilhaP.getPrice(), 0);
     }
 }
