@@ -48,7 +48,8 @@ public class View {
             System.out.print("Email already in use.\n");
             scanner.nextLine(); // consume the newline character
         } catch (InputMismatchException e) {
-
+            System.out.print("Wrong Input.\n");
+            scanner.nextLine(); // consume the newline character
         }
 
     }
@@ -144,6 +145,7 @@ public class View {
                     System.out.print("Is this a Premium Item ? ('y' for yes or 'n' for no)");
                     premium = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
+                    System.out.print("\n");
                     System.out.print(_cont.displayCarriers(premium));
                     System.out.print("\n");
                     carrier = scanner.nextLine();
@@ -203,6 +205,7 @@ public class View {
                     System.out.print("Is this a Premium Item ? ('y' for yes or 'n' for no)");
                     premium = scanner.nextLine();
                     System.out.print("Choose one of the following Carrier's:");
+                    System.out.print("\n");
                     System.out.print(_cont.displayCarriers(premium));
                     carrier = scanner.nextLine();
                     System.out.print("\n");

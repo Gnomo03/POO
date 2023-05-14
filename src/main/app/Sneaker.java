@@ -121,7 +121,7 @@ public class Sneaker extends Item {
         if (getConditionScore() == 1 && getSize() < 45) {
             return this.getBasePrice();
         }
-        return (this.getBasePrice() * this.getPriceCorrection()
+        return (this.getBasePrice() * this.getConditionScore()
                 - (this.getBasePrice() * this.getPriceCorrection() / (this.getPreviousOwners().size() + 5)));
     } // Seria 1 / this.getConditionScore, caso conditionScore seja pior à medida que
       // aumenta.
