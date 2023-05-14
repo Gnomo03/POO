@@ -410,7 +410,7 @@ public class Model implements Serializable {
 
         this.carrierManager.getCarrier(carrier);
 
-        if (conditionScore > 5)
+        if (conditionScore > 5 || releaseDate.isAfter(getSystemDate()))
             throw new IllegalArgumentException();
 
         if (premium.equals("y")) {
@@ -485,7 +485,7 @@ public class Model implements Serializable {
 
         Stack<Integer> previousOwners = new Stack<Integer>();
 
-        if (conditionScore > 5)
+        if (conditionScore > 5 || releaseDate.isAfter(getSystemDate()))
             throw new IllegalArgumentException();
 
         if (premium.equals("y")) {
