@@ -709,11 +709,10 @@ public class Model implements Serializable {
         }
         if (daysBetween <= 5 && daysBetween >= 16 || !o.isDispatched()) {
             throw new OrderNotReturnable();
-        } else {
-            this.orderManager.removeOrder(orderId);
-            this.userManager.deleteBills(o);
-            this.undoItem(o);
         }
+        this.orderManager.removeOrder(orderId);
+        this.userManager.deleteBills(o);
+        this.undoItem(o);
 
     }
 
