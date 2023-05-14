@@ -108,7 +108,7 @@ public class PremiumSneaker extends Sneaker implements Premium {
   public String showItem() {
 
     StringBuilder sb = new StringBuilder();
-    int boxWidth = 30;
+    int boxWidth = 50;
 
     // Create the top border
     sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
