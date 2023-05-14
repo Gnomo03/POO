@@ -103,7 +103,7 @@ public class View {
         String des, brand, carrier, date, type, color, Tsizes, pattern, material, premium;
         double price, score;
         int size, itemId, width, height, depth, dimension;
-       
+
         try {
             _cont.getCurrentUser();
 
@@ -162,7 +162,7 @@ public class View {
                     System.out.print("Enter Tshirt brand:");
                     brand = scanner.nextLine();
                     System.out.print("Enter Tshirt Base Price:");
-                    price = scanner.nextInt();
+                    price = scanner.nextDouble();
                     System.out.print(
                             "Please rate the condition of the item on a scale of 1 to 5, where 5 means the item is still in its original packaging:");
                     score = scanner.nextInt();
@@ -237,8 +237,7 @@ public class View {
         } catch (IllegalArgumentException e) {
             System.out.print("The input was not valid!\n");
             scanner.nextLine();
-        }
-        catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             System.out.print("invalid Date Format!\n");
             scanner.nextLine();
         }
@@ -549,7 +548,7 @@ public class View {
 
                 switch (option) {
                     case "q":
-                        
+
                         try {
                             _cont.save();
                         } catch (FileNotFoundException e) {
@@ -613,7 +612,7 @@ public class View {
 
                 switch (option) {
                     case "q":
-         
+
                         try {
                             _cont.save();
                         } catch (FileNotFoundException esc) {
@@ -672,7 +671,7 @@ public class View {
                 String option = scanner.nextLine();
                 switch (option) {
                     case "q":
-                        
+
                         try {
                             _cont.save();
                         } catch (FileNotFoundException esc) {
