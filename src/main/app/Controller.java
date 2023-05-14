@@ -121,7 +121,7 @@ public class Controller {
                             case "Sneaker":
 
                                 if (arguments2[9].equals("No")) {
-                                    
+
                                     m.registSneaker(arguments2[1], arguments2[2], Double.parseDouble(arguments2[3]),
                                             arguments2[10], Double.parseDouble(arguments2[4]) / 5,
                                             Double.parseDouble(arguments2[5]), Util.toSneakerType(arguments2[6]),
@@ -199,8 +199,7 @@ public class Controller {
             throw new InvalidCommand("Unidentified", line);
         } catch (DateTimeParseException e) {
             throw new InvalidCommand("Unidentified", line);
-        }
-        catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             throw new InvalidCommand("Unidentified", line);
         }
 
@@ -464,6 +463,7 @@ public class Controller {
      */
     public void save() throws FileNotFoundException, IOException {
         this.m.save("data.ser");
+        SystemDate.save("date.ser");
     }
 
     /**
@@ -476,6 +476,7 @@ public class Controller {
      */
     public void load() throws FileNotFoundException, IOException, ClassNotFoundException {
         this.m = Model.load("data.ser");
+        SystemDate.load("date.ser");
     }
 
     /**

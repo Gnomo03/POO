@@ -214,7 +214,7 @@ public class Carrier implements Serializable, Comparable<Carrier> {
     public String showCarrier() {
 
         StringBuilder sb = new StringBuilder();
-        int boxWidth = 30;
+        int boxWidth = 50;
 
         // Create the top border
         sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");

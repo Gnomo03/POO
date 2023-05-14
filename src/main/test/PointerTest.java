@@ -165,4 +165,4 @@ public class PointerTest{
         assertEquals(null, res2, 1, 0);
         assertEquals(null, res3, 2, 0);
     }
-} 
+}

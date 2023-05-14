@@ -108,7 +108,7 @@ public class PremiumSneaker extends Sneaker implements Premium {
   public String showItem() {
 
     StringBuilder sb = new StringBuilder();
-    int boxWidth = 30;
+    int boxWidth = 50;
 
     // Create the top border
     sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
@@ -122,12 +122,11 @@ public class PremiumSneaker extends Sneaker implements Premium {
     sb.append("|" + Util.formatCell("Size: " + getSize(), boxWidth) + "|\n");
     sb.append("|" + Util.formatCell("Color: " + getColor(), boxWidth) + "|\n");
     sb.append("|" + Util.formatCell("Carrier: " + getCarrier().getName(), boxWidth) + "|\n");
-    sb.append("|" + Util.formatCell("This is a Premium Item ", boxWidth) + "|\n");
+    sb.append("|" + Util.formatCell("This is a Premium Item", boxWidth) + "|\n");
 
     // Create the bottom border
     sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
 
     return sb.toString();
-  }
-
+}
 }
