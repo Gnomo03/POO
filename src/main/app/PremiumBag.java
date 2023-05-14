@@ -97,6 +97,7 @@ public class PremiumBag extends Bag implements Premium {
         sb.append("+" + "-".repeat(boxWidth - 2) + "+\n");
 
         // Append the student information
+        sb.append("|" + Util.formatCell("Id: " + getID(), boxWidth) + "|\n");
         sb.append("|" + Util.formatCell("Description: " + getDescription(), boxWidth) + "|\n");
         sb.append("|" + Util.formatCell("Brand: " + getBrand(), boxWidth) + "|\n");
         sb.append("|" + Util.formatCell("Price: " + getPrice(), boxWidth) + "|\n");
