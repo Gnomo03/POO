@@ -1,8 +1,9 @@
 package app;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class SystemDate {
+public class SystemDate implements Serializable  {
     private static LocalDate date;
 
     public static LocalDate getDate() {
