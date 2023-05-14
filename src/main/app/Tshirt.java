@@ -46,7 +46,6 @@ public class Tshirt extends Item {
      *
      * @param description     The description of the tshirt.
      * @param brand           The brand of the tshirt.
-     * @param reference       The reference of the tshirt.
      * @param basePrice       The base price of the tshirt.
      * @param priceCorrection The price correction of the tshirt.
      * @param carrier         The carrier of the tshirt.
@@ -140,7 +139,6 @@ public class Tshirt extends Item {
                 "ID=" + this.getID() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
-                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier().getName() + '\'' +
@@ -194,7 +192,7 @@ public class Tshirt extends Item {
             return false;
         Tshirt s = (Tshirt) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
-                && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
+                && this.getBasePrice() == s.getBasePrice()
                 && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
                 && this.getPreviousOwners() == s.getPreviousOwners()

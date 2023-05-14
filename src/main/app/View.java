@@ -103,8 +103,7 @@ public class View {
         String des, brand, carrier, date, type, color, Tsizes, pattern, material, premium;
         double price, score;
         int size, itemId, width, height, depth, dimension;
-        // User cUser = _cont.getCurrentUser();
-        // int cID = cUser.getId();
+       
         try {
             _cont.getCurrentUser();
 

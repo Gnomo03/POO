@@ -69,7 +69,6 @@ public class PremiumBag extends Bag implements Premium {
                 "ID=" + this.getID() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
-                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier().getName() + '\'' +

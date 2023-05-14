@@ -40,7 +40,6 @@ public class Sneaker extends Item {
      *
      * @param description     The description of the sneaker.
      * @param brand           The brand of the sneaker.
-     * @param reference       The reference of the sneaker.
      * @param basePrice       The base price of the sneaker.
      * @param priceCorrection The price correction of the sneaker.
      * @param carrier         The carrier of the sneaker.
@@ -123,8 +122,7 @@ public class Sneaker extends Item {
         }
         return (this.getBasePrice() * this.getConditionScore()
                 - (this.getBasePrice() * this.getPriceCorrection() / (this.getPreviousOwners().size() + 5)));
-    } // Seria 1 / this.getConditionScore, caso conditionScore seja pior à medida que
-      // aumenta.
+    }
 
     /**
      * Sets the size of the sneaker.
@@ -172,7 +170,6 @@ public class Sneaker extends Item {
                 "ID=" + this.getID() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
-                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier().getName() + '\'' +
@@ -228,7 +225,7 @@ public class Sneaker extends Item {
             return false;
         Sneaker s = (Sneaker) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
-                && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
+                && this.getBasePrice() == s.getBasePrice()
                 && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
                 && this.getPreviousOwners() == s.getPreviousOwners()

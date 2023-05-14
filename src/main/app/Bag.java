@@ -28,7 +28,6 @@ public class Bag extends Item {
      *
      * @param description     The description of the bag.
      * @param brand           The brand of the bag.
-     * @param reference       The reference of the bag.
      * @param basePrice       The base price of the bag.
      * @param priceCorrection The price correction of the bag.
      * @param carrier         The carrier of the bag.
@@ -88,8 +87,7 @@ public class Bag extends Item {
     }
 
     /**
-     * Returns the price of the bag based on its value (premium or not) and on the
-     * release date.
+     * Returns the price of the bag
      * 
      * @return The price of the bag.
      */
@@ -135,7 +133,6 @@ public class Bag extends Item {
                 "ID=" + this.getID() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", brand='" + getBrand() + '\'' +
-                ", reference='" + getReference() + '\'' +
                 ", basePrice=" + getBasePrice() +
                 ", priceCorrection=" + getPriceCorrection() +
                 ", carrier='" + getCarrier().getName() + '\'' +
@@ -189,7 +186,7 @@ public class Bag extends Item {
             return false;
         Bag s = (Bag) o;
         return this.getDescription().equals(s.getDescription()) && this.getBrand().equals(s.getBrand())
-                && this.getReference().equals(s.getReference()) && this.getBasePrice() == s.getBasePrice()
+                && this.getBasePrice() == s.getBasePrice()
                 && this.getPriceCorrection() == s.getPriceCorrection() && this.getCarrier().equals(s.getCarrier())
                 && this.getConditionScore() == s.getConditionScore()
                 && this.getPreviousOwners() == s.getPreviousOwners()
