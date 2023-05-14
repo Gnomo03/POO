@@ -19,7 +19,6 @@ public class Model implements Serializable {
     private UserManager userManager;
     private OrderManager orderManager;
     private CarrierManager carrierManager;
-    private LocalDate date;
     private double vintageProfit;
     private User currentUser;
 
@@ -31,7 +30,7 @@ public class Model implements Serializable {
         this.userManager = new UserManager();
         this.orderManager = new OrderManager();
         this.carrierManager = new CarrierManager();
-        this.date = LocalDate.now();
+        SystemDate.setDate(LocalDate.now());
         this.vintageProfit = 0;
     }
 
@@ -50,7 +49,16 @@ public class Model implements Serializable {
      * @return String
      */
     public String getDate() {
-        return this.date.toString();
+        return SystemDate.getDate().toString();
+    }
+
+     /**
+     * Current Date
+     * 
+     * @return String
+     */
+    private LocalDate getSystemDate() {
+        return SystemDate.getDate();
     }
 
     /**
@@ -301,7 +309,7 @@ public class Model implements Serializable {
      * @param dateNew The new current date.
      */
     public void setCurrentDate(LocalDate dateNew) {
-        this.date = dateNew;
+        SystemDate.setDate(dateNew);
     }
 
     /**
@@ -326,7 +334,7 @@ public class Model implements Serializable {
         }
         User buyer = this.userManager.getUser(this.currentUser.getId());
         order.setBuyer(buyer);
-        order.setDate(date);
+        order.setDate(this.getSystemDate());
         this.orderManager.addOrder(order);
         return order.clone();
     }
@@ -505,7 +513,7 @@ public class Model implements Serializable {
                 ", userMap=" + this.userManager.getUsers() +
                 ", orderMap=" + this.orderManager.getOrders() +
                 ", carrierMap=" + this.carrierManager.getCarriers() +
-                ", date=" + date +
+                ", date=" + getDate() +
                 ", vintageProfit=" + vintageProfit +
                 '}';
     }
@@ -582,11 +590,11 @@ public class Model implements Serializable {
 
     public void TimeSkip(LocalDate newDate) throws IllegalArgumentException {
 
-        if (newDate.isBefore(this.date)) {
+        if (newDate.isBefore(getSystemDate())) {
             throw new IllegalArgumentException();
         }
 
-        while (this.date.isBefore(newDate)) {
+        while (getSystemDate().isBefore(newDate)) {
 
             List<Order> orders = this.orderManager.getOrders();
             for (Order o : orders) {
@@ -605,7 +613,7 @@ public class Model implements Serializable {
                     }
                     o.setFinished();
                 }
-                long daysBetween = ChronoUnit.DAYS.between(this.date, newDate);
+                long daysBetween = ChronoUnit.DAYS.between(getSystemDate(), newDate);
                 if (o.isFinished() && daysBetween >= 3) {
 
                     HashMap<String, Integer> carrierHelper = o.getCarrierHelper();
@@ -644,9 +652,10 @@ public class Model implements Serializable {
                 }
 
             }
-            this.date = this.date.plusDays(1);
+            
+            setCurrentDate(getSystemDate().plusDays(1));
         }
-        this.date = newDate;
+        setCurrentDate(newDate);
     }
 
     /**
@@ -684,7 +693,7 @@ public class Model implements Serializable {
                                                                      // que foram comprados podem estar listados!
 
         Order o = this.orderManager.getOrder(orderId);
-        long daysBetween = ChronoUnit.DAYS.between(o.getDate(), this.date);
+        long daysBetween = ChronoUnit.DAYS.between(o.getDate(), getSystemDate());
         User u = o.getBuyer();
         for (Item i : o.getCollection()) {
             if (u.hasItem(i.getID()) == false) {
