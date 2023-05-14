@@ -31,7 +31,7 @@ public class CarrierManager implements Serializable {
         if (this.carrierMap.containsKey(carrierName)) {
             return this.carrierMap.get(carrierName);
         } else {
-            return null;
+            throw new NullPointerException();
         }
     }
 

@@ -346,13 +346,17 @@ public class Model implements Serializable {
      * @param id_user The ID of the user.
      * @throws NullPointerException if the user is not found.
      */
-    private void registsItem(Item item, int id_user) throws NullPointerException {
-
-        User u = this.userManager.getUser(id_user);
-        this.itemManager.addListedItem(item); // clone no manager
-        Item i = this.itemManager.searchItem(item.getID());
-        u.addItem(i);
-        i.setUserId(u.getId());
+    private void registsItem(Item item, int id_user) throws NullPointerException, IllegalArgumentException {
+        if (item instanceof Premium && !(item.getCarrier() instanceof Premium)
+                || !(item instanceof Premium) && (item.getCarrier() instanceof Premium)) {
+            throw new IllegalArgumentException();
+        } else {
+            User u = this.userManager.getUser(id_user);
+            this.itemManager.addListedItem(item); // clone no manager
+            Item i = this.itemManager.searchItem(item.getID());
+            u.addItem(i);
+            i.setUserId(u.getId());
+        }
 
     }
 
@@ -403,6 +407,8 @@ public class Model implements Serializable {
 
         if (currentUser == null)
             throw new NullPointerException();
+
+        this.carrierManager.getCarrier(carrier);
 
         if (conditionScore > 5)
             throw new IllegalArgumentException();

@@ -226,7 +226,7 @@ public class View {
                     break;
             }
         } catch (NullPointerException e) {
-            System.out.print("No user is Logged in!\n");
+            System.out.print("No such Carrier!\n");
             scanner.nextLine();
         } catch (UserIsAdminException e) {
             System.out.print("Admin cannot register a item!\n");
@@ -434,12 +434,15 @@ public class View {
         } catch (UserIsAdminException e) {
             System.out.println("Admin dont have orders!\n");
             scanner.nextLine();
+
         } catch (OrderNotReturnable e) {
             System.out.print("This Order cannot be returned!\n");
             scanner.nextLine();
+
         } catch (InputMismatchException e) {
             System.out.print("Enter the Order's ID!\n");
             scanner.nextLine();
+
         }
     }
 
