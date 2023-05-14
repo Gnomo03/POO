@@ -410,7 +410,7 @@ public class Model implements Serializable {
 
         this.carrierManager.getCarrier(carrier);
 
-        if (conditionScore > 5)
+        if (conditionScore > 5 || releaseDate.isAfter(getSystemDate()))
             throw new IllegalArgumentException();
 
         if (premium.equals("y")) {
@@ -485,7 +485,7 @@ public class Model implements Serializable {
 
         Stack<Integer> previousOwners = new Stack<Integer>();
 
-        if (conditionScore > 5)
+        if (conditionScore > 5 || releaseDate.isAfter(getSystemDate()))
             throw new IllegalArgumentException();
 
         if (premium.equals("y")) {
@@ -707,9 +707,11 @@ public class Model implements Serializable {
             }
 
         }
-        if (daysBetween <= 5 && daysBetween >= 16 || !o.isDispatched()) {
+
+        if (daysBetween >= 16) {
             throw new OrderNotReturnable();
         }
+
         this.orderManager.removeOrder(orderId);
         this.userManager.deleteBills(o);
         this.undoItem(o);
